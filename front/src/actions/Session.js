@@ -46,10 +46,6 @@ class Session {
           }
         })
       );
-      this.ws.onmessage = e => {
-        const { data } = e;
-        const { type, payload } = JSON.parse(data);
-      };
     };
     this.ws.onerror = e => {
       console.log('Error', e);

@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const mongoose = require("mongoose"); 
+const path = require('path')
 
 //On définit notre objet express nommé app
 const app = express();
