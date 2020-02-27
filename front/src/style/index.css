@@ -1,0 +1,123 @@
+@media screen and (min-width: 700px) {
+  .s1_container{
+    display: flex;
+  }
+  .s1_col{
+    margin: 2%;
+    width: 50%;
+  }
+  .displayClass{
+    display: flex;
+  }
+  .responsive-svg{
+    display: none;
+  }
+  .responsive-ul{
+    margin: 3rem 10rem;
+  }
+  label.responsive-register{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .navbar-right-text{
+    display: flex;
+    flex-direction: column;
+  }
+  .responsive-ul{
+    margin: -2rem 1rem;
+  }
+  form.responsive-register{
+    display: none;
+  }
+}
+
+.navbar-right-text a{
+  color: white!important;
+  text-decoration: none!important;
+}
+
+.login-component input{
+  outline: none;
+  border: 0;
+  border-bottom: 1px solid #dee2e6;
+  margin: 1rem;
+}
+
+.add-icon img{
+  transition: all 0.5s ease;
+}
+
+.add-icon img:hover{
+  transform: rotate(90deg);
+}
+
+.login-component{
+  width: 30rem
+}
+
+.navbar{
+  position: absolute!important;
+  width: 100%;
+  z-index: 100;
+}
+
+#root > div{
+  padding-top: 5rem;
+  margin-top: 0!important;
+}
+
+.fixed-center{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+
+
+
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.rainbow {
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rainbow::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  left: -100%;
+  top: -50%;
+  width: 300%;
+  height: 200%;
+  background-repeat: no-repeat;
+  background-size: 50% 50%, 50% 50%;
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  background-image: linear-gradient(#399953, #399953), linear-gradient(#fbb300, #fbb300), linear-gradient(#d53e33, #d53e33), linear-gradient(#377af5, #377af5);
+  animation: rotate 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.rainbow:hover::before{
+  opacity: 1;
+}
+
+.rainbow::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 6px;
+  top: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  background: white;
+  border-radius: 5px;
+}

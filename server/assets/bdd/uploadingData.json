@@ -1,0 +1,61 @@
+{
+   "FDO": [
+      {
+         "id": 1,
+         "creator": "Agathe LOESEL",
+         "title": "Chapitre 1",
+         "type": "Cours",
+         "description": "Voici le chapitre 1, entièrement rédige.",
+         "release_date": "15/12/2019, 19:53:16"
+      },
+      {
+         "id": 2,
+         "creator": "Lucas VEYNAND",
+         "title": "Chapitre 2 / Le circuit économique et ses acteurs",
+         "type": "Cours",
+         "description": "Chapitre 2 economie",
+         "release_date": "15/12/2019, 21:19:51"
+      },
+      {
+         "id": 3,
+         "creator": "Lucas VEYNAND",
+         "title": "Chapitre 3 / Revenus, consommation et épargne",
+         "type": "Cours",
+         "description": "Chapitre 3 economie",
+         "release_date": "15/12/2019, 21:20:22"
+      },
+      {
+         "id": 5,
+         "creator": "Andréa CRIVELLI",
+         "title": "TD5 Le financement de l'économie",
+         "type": "Exercice",
+         "description": "TD5 Le financement de l'économie",
+         "release_date": "04/01/2020, 18:17:21"
+      },
+      {
+         "id": 6,
+         "creator": "Matis CHASTIN",
+         "title": "Ancien examen Programmation Objet",
+         "type": "Corrigé",
+         "description": "Correction du sujet d'examen posté sur Arche Contenant :\n- DVD.java \n- Film.java \n- SerieTv.java \n- Dvdtheque.java \n- Readme",
+         "release_date": "04/01/2020, 18:17:21"
+      },
+      {
+         "id": 4,
+         "creator": "Lucas VEYNAND",
+         "title": "Chapitre 4 / La production et l'investissment",
+         "type": "Cours",
+         "description": "Chapitre 4 economie",
+         "release_date": "15/12/2019, 21:20:47"
+      },
+      {
+         "id": 7,
+         "creator": "Lucas VEYNAND",
+         "title": "Réviseur",
+         "type": "Aide",
+         "description": "Programme Python pour réviser l'économie \nContient les chapitres 1, 2, 3, 4 et 5 \nContient 195 questions",
+         "release_date": "05/01/2020, 15:01:05"
+      }
+   ]
+}
+

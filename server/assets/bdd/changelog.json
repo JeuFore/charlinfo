@@ -1,0 +1,54 @@
+[
+    {
+        "title": "Beta 1.3.0 (13/02/2020)",
+        "description": [
+            "Dissociation de la base de données dans un autre repo",
+            "Fix de tous les liens relatifs à la base de données",
+            "Déploiement du site simplifié",
+            "Possibilité de sauvegarder la base de données",
+            "Ajout du logo du site sur la page principale"
+        ]
+    },
+    {
+        "title": "Beta 1.3 (19/12/2019)",
+        "description": [
+            "Correction des fautes dans la charte",
+            "Crédit de Tristan pour le logo",
+            "Les dates pour les logs sont affichées de façon plus lisibles",
+            "[CONTRIB] Ajout d'un message si on tente d'afficher les logs de quelqu'un qui a un grade supérieur",
+            "[MOD] Ajout d'une décoration pour certains boutons",
+            "[MOD] Ajout d'un bouton sur la page des utilisateurs qui mène vers le profil de ceux-ci",
+            "[ADMIN] Possibilité de supprimer définitivement un utilisateur de la base de données",
+            "[ADMIN] Ajout d'une page pour définir le changelog d'une mise à jour depuis le site",
+            "[DEV] Ajout d'un bouton permettant de supprimer un log d'un utilisateur de grade inférieur ou égal"
+        ]
+    },
+    {
+        "title": "Beta 1.2 (18/12/2019)",
+        "description": [
+            "Ajout de fonctions de simplifications côté serveur",
+            "Ajout des LOGS, disponibles pour chaque utilisateur sur son profil",
+            "Sont enregistrés : inscription, ajout de fichiers, suppression de fichier, bannissements, débanissements, promotions, rétrogradations, ajout de cours et suppression de cours",
+            "Ajout de fonctions pour gérer les logs côté serveur"
+        ]
+    },
+    {
+        "title": "Beta 1.1 (16/12/2019)",
+        "description": [
+            "Ajout de la Charte",
+            "Redirection de l'inscription vers la Charte",
+            "Ajout du Changelog",
+            "Ajout d'un indicateur de version",
+            "Suppression du menu déroulant pour 'Utilisateurs' (à partir du grade modérateur)",
+            "Ajout d'un box pour accéder à son profil",
+            "Ajout d'ombres autour des box d'envoi de fichier et d'inscription"
+        ]
+    },
+    {
+        "title": "Beta 1.0 (15/12/2019)",
+        "description": [
+            "Passage en ligne",
+            "Obtention du certificat https"
+        ]
+    }
+]
