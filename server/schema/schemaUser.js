@@ -1,32 +1,52 @@
-const mongoose = require("mongoose");
-const passwordHash = require("password-hash");
-const jwt = require("jwt-simple");
-const config = require("../config/config");
+const config = require('../../config');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
+const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema(
-  {
-    email: {
-      type: String,
-      lowercase: true,
-      trim: true,
-      unique: true,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    }
+//simple schema
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50
   },
-  { timestamps: { createdAt: "created_at" } }
-);
-
-userSchema.methods = {
-  authenticate: function(password) {
-    return passwordHash.verify(password, this.password);
+  email: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+    unique: true
   },
-  getToken: function() {
-    return jwt.encode(this, config.secret);
-  }
-};
+  password: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 255
+  },
+  //give different access rights if admin or not 
+  isAdmin: Boolean
+});
 
-module.exports = mongoose.model("User", userSchema);
+
+//custom method to generate authToken 
+UserSchema.methods.generateAuthToken = function() { 
+  const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('myprivatekey')); //get the private key from the config file -> environment variable
+  return token;
+}
+
+const User = mongoose.model('User', UserSchema);
+
+//function to validate user 
+function validateUser(user) {
+  const schema = {
+    name: Joi.string().min(3).max(50).required(),
+    email: Joi.string().min(5).max(255).required().email(),
+    password: Joi.string().min(3).max(255).required()
+  };
+
+  return Joi.validate(user, schema);
+}
+
+exports.User = User; 
+exports.validate = validateUser;

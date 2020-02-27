@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
+import user from '../actions/user'
 
 import Home from './router/Home'
 import Navigation from './navigation/Navigation'
@@ -24,28 +26,37 @@ class App extends Component {
         <Navigation />
 
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/connexion" component={() => <Connection register="responsive-register" />} />
-          <Route path="/register" component={Connection} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/:semester/:class/add" component={Profile} />
-          {dataClass.S1.map((data) => (
-            <Route path={`/S1/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-          ))}
-          {dataClass.S2.map((data) => (
-            <Route path={`/S2/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-          ))}
-          {dataClass.S3.map((data) => (
-            <Route path={`/S3/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-          ))}
-          {dataClass.S4.map((data) => (
-            <Route path={`/S4/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-          ))}
-          <Route path="/S1" component={() => <Semester dataClass={dataClass.S1} title="S1" />} />
-          <Route path="/S2" component={() => <Semester dataClass={dataClass.S2} title="S2" />} />
-          <Route path="/S3" component={() => <Semester dataClass={dataClass.S3} title="S3" />} />
-          <Route path="/S4" component={() => <Semester dataClass={dataClass.S4} title="S4" />} />
-          <Route path="/" component={NoJSXPage} />
+          <Route path='/connexion' component={() => <Connection register="responsive-register" />} />
+          <Route path='/register' component={() => <Connection />} />
+
+          {user.isConnected ? (
+            <React.Fragment>
+              <Route path='/home' component={Home} />
+              <Redirect path='/disconnect' to='/home' />
+              <Route path='/profile/:user' component={Profile} />
+              <Route path='/:semester/:class/add' component={Profile} />
+              {dataClass.S1.map((data) => (
+                <Route path={`/S1/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
+              ))}
+              {dataClass.S2.map((data) => (
+                <Route path={`/S2/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
+              ))}
+              {dataClass.S3.map((data) => (
+                <Route path={`/S3/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
+              ))}
+              {dataClass.S4.map((data) => (
+                <Route path={`/S4/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
+              ))}
+              <Route path='/S1' component={() => <Semester dataClass={dataClass.S1} title='S1' />} />
+              <Route path='/S2' component={() => <Semester dataClass={dataClass.S2} title='S2' />} />
+              <Route path='/S3' component={() => <Semester dataClass={dataClass.S3} title='S3' />} />
+              <Route path='/S4' component={() => <Semester dataClass={dataClass.S4} title='S4' />} />
+            </React.Fragment>
+          )
+            : <Redirect path='/' to='/connexion' />
+          }
+
+          <Route path='/' component={NoJSXPage} />
         </Switch>
       </Router>
     );

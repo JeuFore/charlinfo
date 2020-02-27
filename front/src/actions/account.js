@@ -8,5 +8,8 @@ export default {
     signup: async function (store) {
         await httpRequest('/account/signup', 'post', store);
         return store
+    },
+    token: function (user) {
+        localStorage.setItem('eK#*iZ#Am5nqfo@Xk36&2', user);
     }
 }

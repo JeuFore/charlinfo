@@ -16,6 +16,7 @@
     "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
     "jwt-simple": "^0.5.1",
     "mogoose": "0.0.1-security",
     "mongoose": "^5.0.7",

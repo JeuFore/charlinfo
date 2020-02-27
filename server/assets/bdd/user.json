@@ -1,14 +1,26 @@
 {
     "jeufore": {
-        "type": "admin",
-        "password": "test"
+        "password": "test",
+        "information" : {
+            "first_name": "Matis",
+            "name": "CHASTIN",
+            "type": "Admininstrateur"
+        }
     },
     "taupe": {
-        "type": "developpeur",
-        "password": "porte"
+        "password": "porte",
+        "information" : {
+            "first_name": "Taupinette",
+            "name": "GIGI",
+            "type": "Développeur"
+        }
     },
     "visiteur" : {
-        "type" : "visiteur",
-        "password": null
+        "password": null,
+        "information" : {
+            "first_name": "Lambda",
+            "name": "CHEP",
+            "type": "Visiteur"
+        }
     }
 }

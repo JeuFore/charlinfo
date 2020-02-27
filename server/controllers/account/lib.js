@@ -38,9 +38,7 @@ async function signup(req, res) {
     return res.status(500).json({ error });
   }
   */
-  return res.status(200).json({
-    text: null
-  });
+  return null
 }
 
 async function login(req, res) {
@@ -67,7 +65,7 @@ async function login(req, res) {
         text: "Mot de passe incorrect"
       });
     return res.status(200).json({
-      token: null,
+      token: username,
       text: "Authentification réussi"
     });
   }

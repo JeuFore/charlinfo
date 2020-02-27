@@ -50,8 +50,11 @@ class Connection extends React.Component {
             document.title = `Charlinfo | Inscription`;
     }
     render() {
-        if (this.state.requestStatus == RequestStatus.Success)
-            window.location.replace("/profile")
+        if (this.state.requestStatus === RequestStatus.Success) {
+            account.token(this.state.username);
+            window.location.replace('/home');
+        }
+
         return (
             <div className="d-flex justify-content-center mt-5">
                 {this.props.register && (
