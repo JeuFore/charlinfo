@@ -1,78 +1,83 @@
 import React from 'react'
-import axios from 'axios'
+import account from '../../actions/account'
+import { RequestStatus } from '../../utils/consts'
 
 class Connection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            register: "responsive-register",
             username: "",
+            name: "",
+            first_name: "",
             password: "",
-            userError: ""
+            userError: "",
+            requestStatus: RequestStatus.Getting
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.callAPI = this.callAPI.bind(this)
+        this.inputChange = this.inputChange.bind(this);
+        this.loginSubmit = this.loginSubmit.bind(this);
+        this.signupSubmit = this.signupSubmit.bind(this);
     }
 
-    handleInputChange(event) {
+    inputChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
 
-    handleSubmit(event) {
+    loginSubmit(event) {
         event.preventDefault();
-        this.callAPI();
+        account.login(this.state, {
+            username: this.state.username,
+            password: this.state.password
+        }).then((data) => this.setState(data))
     }
 
-    async callAPI() {
-
-        try {
-            const { data } = await axios.post('http://localhost:1443/api/account/login', {
-                username: this.state.username,
-                password: this.state.password
-            })
-            console.log(data)
-            window.location.replace("/profile")
-        } catch (error) {
-            this.setState({
-                userError: error.response.data.text
-            })
-        }
+    signupSubmit(event) {
+        event.preventDefault();
+        account.signup(this.state, {
+            username: this.state.username,
+            name: this.state.name,
+            first_name: this.state.first_name,
+            password: this.state.password,
+        }).then((data) => this.setState(data))
     }
 
     componentDidMount() {
-        document.title = `Charlinfo | Connexion`;
+        if (this.props.register)
+            document.title = `Charlinfo | Connexion`;
+        else
+            document.title = `Charlinfo | Inscription`;
     }
     render() {
+        if (this.state.requestStatus == RequestStatus.Success)
+            window.location.replace("/profile")
         return (
             <div className="d-flex justify-content-center mt-5">
-                {this.state.register === "responsive-register" && (
-                    <form className="p-4 m-5 login-component rainbow bg-success d-flex flex-column justify-content-center" onSubmit={this.handleSubmit}>
-                        <h1 className="mb-3 text-center">Connexion</h1>
+                {this.props.register && (
+                    <form className="p-4 m-5 login-component rainbow bg-success d-flex flex-column justify-content-center" onSubmit={this.loginSubmit}>
+                        <h1 className="m-3 text-center">Connexion</h1>
                         <div className="d-flex flex-column">
-                            <input type="username" placeholder="Nom d'utilisateur" onChange={this.handleInputChange} name="username" />
-                            <input type="password" placeholder="Mot de passe" onChange={this.handleInputChange} name="password" />
+                            <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} name="username" />
+                            <input type="password" placeholder="Mot de passe" onChange={this.inputChange} name="password" />
                         </div>
                         <input type="submit" className="btn btn-primary" value="Se connecter" />
-                        <label className="responsive-register">Pas encore inscrit, <a href="#register" >Go s'inscrire sur Charlinfo</a></label>
+                        <label className="responsive-register p-3">Pas encore inscrit, <a href="/register">Go s'inscrire sur Charlinfo</a></label>
                     </form>
                 )}
 
                 <h1>{this.state.userError}</h1>
 
-                <form className={`p-4 m-5 login-component rainbow bg-success ${this.state.register}`}>
-                    <h1 className="mb-3 text-center">Inscription</h1>
+                <form className={`p-4 m-5 login-component rainbow bg-success text-center ${this.props.register}`} onSubmit={this.signupSubmit}>
+                    <h1 className="m-3 text-center">Inscription</h1>
                     <div className="d-flex flex-column">
-                        <input type="username" placeholder="Nom d'utilisateur" />
-                        <input type="name" placeholder="Nom" />
-                        <input type="name" placeholder="Prénom" />
+                        <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} />
+                        <input type="name" placeholder="Nom" onChange={this.InputChange} />
+                        <input type="first_name" placeholder="Prénom" onChange={this.inputChange} />
                         <select className="form-control m-3 w-auto">
                             <option>DUT Informatique</option>
                         </select>
-                        <input type="password" placeholder="Mot de passe" />
+                        <input type="password" placeholder="Mot de passe" onChange={this.inputChange} />
                     </div>
                     <input type="submit" className="btn btn-primary" value="Se connecter" />
                 </form>

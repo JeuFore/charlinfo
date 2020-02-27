@@ -1,72 +1,27 @@
-import axios from 'axios';
-import config from '../config';
+import axios from 'axios'
+import config from '../utils/config'
+import { RequestStatus } from '../utils/consts'
 
 const MAX_RETRY = 3;
 
-export class httpRequest {
-  constructor(session) {
-    this.session = session;
-    this.localApiUrl = config.localApiUrl || window.location.origin;
+export async function httpRequest(url, method, store, params, retry) {
+  retry = retry || 0
+  if (retry > MAX_RETRY){
+    store.requestStatus = RequestStatus.Error
+    return store
   }
-
-  getAxiosHeaders() {
-    const headers = {};
-    if (this.session.getAccessToken()) {
-      headers.authorization = `Bearer ${this.session.getAccessToken()}`;
-    }
-    return headers;
-  }
-
-  async refreshAccessToken() {
+  try {
     const { data } = await axios({
-      baseURL: this.localApiUrl,
-      url: '/api/v1/access_token',
-      method: 'post',
-      data: {
-        refresh_token: this.session.getRefreshToken()
-      }
+      baseURL: config.localApiUrl,
+      url,
+      method,
+      data: params
     });
-    this.session.setAccessToken(data.access_token);
+    store.requestStatus = RequestStatus.Success;
+    store.data = data
+    return store
   }
-
-  async executeQuery(method, url, query, body, retryCount = 0) {
-    if (retryCount > MAX_RETRY) {
-      this.session.reset();
-      throw new Error('MAX_RETRY_EXCEEDED');
-    }
-    try {
-      const { data } = await axios({
-        baseURL: this.localApiUrl,
-        url,
-        method,
-        params: query,
-        data: body,
-        headers: this.getAxiosHeaders()
-      });
-      console.log(data)
-      return data;
-    } catch (e) {
-      if (e.response && e.response.status === 401) {
-        await this.refreshAccessToken();
-        return this.executeQuery(method, url, query, body, retryCount + 1);
-      }
-      throw e;
-    }
-  }
-
-  async get(url, query) {
-    return this.executeQuery('get', url, query);
-  }
-
-  async post(url, body) {
-    return this.executeQuery('post', url, {}, body);
-  }
-
-  async patch(url, body) {
-    return this.executeQuery('patch', url, {}, body);
-  }
-
-  async delete(url, body) {
-    return this.executeQuery('delete', url);
+  catch (error) {
+    return httpRequest(url, method, store, params, retry + 1)
   }
 }

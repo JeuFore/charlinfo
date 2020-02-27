@@ -25,7 +25,8 @@ class App extends Component {
 
         <Switch>
           <Route path="/home" component={Home} />
-          <Route path="/connection" component={Connection} />
+          <Route path="/connexion" component={() => <Connection register="responsive-register" />} />
+          <Route path="/register" component={Connection} />
           <Route path="/profile" component={Profile} />
           <Route path="/:semester/:class/add" component={Profile} />
           {dataClass.S1.map((data) => (

@@ -3,9 +3,7 @@ const Changelog = require('../../assets/bdd/changelog.json')
 async function getChangelog(req, res) {
     try {
         if (Changelog[0])
-            return res.status(200).json({
-                data: Changelog, status: "Success"
-            })
+            return res.status(200).json(Changelog)
             return res.status(400).json({
                 status: "Aucun changelog"
             })

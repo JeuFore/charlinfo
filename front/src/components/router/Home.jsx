@@ -1,45 +1,37 @@
 import React from 'react'
-import { httpRequest } from '../../actions/httpRequest';
-import { Session } from '../../actions/Session';
+import changelog from '../../actions/changelog'
+import { RequestStatus } from '../../utils/consts'
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            changelog: [],
-            requestStatusDataPage: "Unknown",
-            httpRequest
+        this.state = { 
+            requestStatus: RequestStatus.Getting
         }
     }
 
-
     componentDidMount() {
-        const httpClient = new httpRequest(new Session())
         document.title = 'Charlinfo | Home';
-        httpClient.get("/api/changelog/get")
-            .then(({ data, status }) => {
-                this.setState({
-                    changelog: data,
-                    requestStatusDataPage: status
-                })
-            })
+        changelog.get(this.state).then((data) => this.setState(data))
     }
 
     render() {
         return (
             <div className="m-5">
                 <h1 className="text-center m-4">Accueil</h1>
-                {this.state.requestStatusDataPage === "Unknown" && (
+                {this.state.requestStatus === RequestStatus.Getting && (
                     <div className="text-center fixed-center">
                         <div className="spinner-border" role="status">
                         </div>
                     </div>
                 )}
-                {this.state.requestStatusDataPage === 404 && (
+
+                {this.state.requestStatus === RequestStatus.Error && (
                     <h3 className="text-center">Erreur de chargement</h3>
                 )}
-                {this.state.requestStatusDataPage === "Success" && (
-                    this.state.changelog.map((data) => (
+
+                {this.state.requestStatus === "Success" && this.state.data.length > 0 && (
+                    this.state.data.map((data) => (
                         <div key={data.title}>
                             <h4>{data.title}</h4>
                             <ul className="list-group list-group-flush mb-4">
