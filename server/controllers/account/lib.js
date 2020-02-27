@@ -53,12 +53,16 @@ async function login(req, res) {
   }
   try {
     // On check si l'utilisateur existe en base
-    const findUser = Users[req.body.username];
+    const findUser = Users[username];
     if (!findUser)
       return res.status(401).json({
         text: "L'utilisateur n'existe pas"
       });
-    if (Users[req.body.username].password !== password)
+    if (findUser.password === null)
+      return res.status(401).json({
+        text: "Le compte n'a pas été crée"
+      });
+    if (findUser.password !== password)
       return res.status(401).json({
         text: "Mot de passe incorrect"
       });

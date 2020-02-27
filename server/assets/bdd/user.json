@@ -1,12 +1,14 @@
 {
-    "jeufore": 
-        {
-            "type" : "null",
-            "password" : "test"
-        },
-    "taupe": 
-        {
-            "type" : "le boss",
-            "password" : "porte"
-        }
- }
+    "jeufore": {
+        "type": "admin",
+        "password": "test"
+    },
+    "taupe": {
+        "type": "developpeur",
+        "password": "porte"
+    },
+    "visiteur" : {
+        "type" : "visiteur",
+        "password": null
+    }
+}

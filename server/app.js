@@ -2,8 +2,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
-const mongoose = require("mongoose"); 
-const path = require('path')
 
 //On définit notre objet express nommé app
 const app = express();
@@ -21,6 +19,7 @@ app.use(bodyParser.json());
 const router = express.Router();
 app.use("/api", router);
 require(__dirname + "/controllers/userController")(router);
+require(__dirname + "/controllers/accountController")(router);
 require(__dirname + "/controllers/fileClassController")(router);
 require(__dirname + "/controllers/changelogController")(router);
 
