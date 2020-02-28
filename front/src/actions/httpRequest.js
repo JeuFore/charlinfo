@@ -2,6 +2,7 @@ import axios from 'axios'
 import config from '../utils/config'
 import { RequestStatus } from '../utils/consts'
 
+
 const MAX_RETRY = 3;
 
 export async function httpRequest(url, method, store, params, retry) {
@@ -15,7 +16,8 @@ export async function httpRequest(url, method, store, params, retry) {
       baseURL: config.localApiUrl,
       url,
       method,
-      data: params
+      data: params,
+      withCredentials: true
     });
     store.requestStatus = RequestStatus.Success;
     store.data = data

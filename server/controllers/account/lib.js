@@ -1,4 +1,4 @@
-const Users = require('../../assets/bdd/user.json')
+const Users = require('../../assets/bdd/user.json');
 
 async function signup(req, res) {
   /**const { password, email } = req.body;
@@ -44,13 +44,11 @@ async function signup(req, res) {
 async function login(req, res) {
   const { username, password } = req.body;
   if (!username || !password) {
-    //Le cas où l'email ou bien le password ne serait pas soumit ou nul
     return res.status(400).json({
       text: "Requête invalide"
     });
   }
   try {
-    // On check si l'utilisateur existe en base
     const findUser = Users[username];
     if (!findUser)
       return res.status(401).json({
@@ -64,6 +62,7 @@ async function login(req, res) {
       return res.status(401).json({
         text: "Mot de passe incorrect"
       });
+      req.session.user = username
     return res.status(200).json({
       token: username,
       text: "Authentification réussi"
@@ -75,8 +74,6 @@ async function login(req, res) {
     });
   }
 }
-
-//On exporte nos deux fonctions
 
 exports.login = login;
 exports.signup = signup;

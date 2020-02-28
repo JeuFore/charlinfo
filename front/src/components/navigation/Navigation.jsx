@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import user from '../../actions/user'
+
 import logo from "../../assets/icons/home-icon.png"
 import profile from "../../assets/icons/user-icon.png"
-
-import user from '../../actions/user'
 
 class Navigation extends Component {
     constructor(props) {
@@ -26,12 +26,6 @@ class Navigation extends Component {
         }
     }
 
-    disconnect(e) {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.replace('/home');
-    }
-
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-info">
@@ -47,7 +41,7 @@ class Navigation extends Component {
                         <NavLink to='/S4' className="nav-link">S4</NavLink>
                     </div>
                     <div className="navbar-right-text py-2">
-                        <Link to='/disconnect' className="mb-3 mr-3" onClick={this.disconnect}>Deconnexion</Link>
+                        <Link to='/disconnect' className="mb-3 mr-3">Deconnexion</Link>
                         <Link to={`/profile/${user.isConnected}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
                     </div>
                 </div>

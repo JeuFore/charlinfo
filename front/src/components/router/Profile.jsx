@@ -37,6 +37,10 @@ class Profile extends React.Component {
                     </div>
                 )}
 
+                {this.state.test && (
+                    <h1>{this.state.test}</h1>
+                )}
+
                 {this.state.requestStatus === RequestStatus.Success && (
                     <div>
                         <img className="mb-3" src={profile} alt="Profile icon" width={100} />
@@ -67,7 +71,7 @@ class Profile extends React.Component {
                                 <h5 className="m-0 ml-5">Support</h5>
                             </a>
 
-                            <a className="text-body list-group-item d-flex align-items-center" href="/">
+                            <a className="text-body list-group-item d-flex align-items-center" href="/disconnect">
                                 <img src={logout_icon} alt="profil icon" style={styles.size_icon} />
                                 <h5 className="m-0 ml-5">Déconnexion</h5>
                             </a>

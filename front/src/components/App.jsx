@@ -32,7 +32,7 @@ class App extends Component {
           {user.isConnected ? (
             <React.Fragment>
               <Route path='/home' component={Home} />
-              <Redirect path='/disconnect' to='/home' />
+              <Route path='/disconnect' component={user.disconnect} />
               <Route path='/profile/:user' component={Profile} />
               <Route path='/:semester/:class/add' component={Profile} />
               {dataClass.S1.map((data) => (

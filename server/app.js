@@ -2,10 +2,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
+var session = require('express-session')
 
 //On définit notre objet express nommé app
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin:['http://localhost:3000', 'http://192.168.1.14:3000'],
+  credentials: true // enable set cookie
+}));
 
 //Body Parser
 const urlencodedParser = bodyParser.urlencoded({
@@ -14,6 +18,12 @@ const urlencodedParser = bodyParser.urlencoded({
 app.use(urlencodedParser);
 
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'quiela',
+  resave: false,
+  saveUninitialized: true
+}))
 
 //Définition du routeur
 const router = express.Router();

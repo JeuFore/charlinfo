@@ -4,7 +4,8 @@
         "information" : {
             "first_name": "Matis",
             "name": "CHASTIN",
-            "type": "Admininstrateur"
+            "type": "Admininstrateur",
+            "grade": 4
         }
     },
     "taupe": {
@@ -12,7 +13,8 @@
         "information" : {
             "first_name": "Taupinette",
             "name": "GIGI",
-            "type": "Développeur"
+            "type": "Développeur",
+            "grade": 3
         }
     },
     "visiteur" : {
@@ -20,7 +22,8 @@
         "information" : {
             "first_name": "Lambda",
             "name": "CHEP",
-            "type": "Visiteur"
+            "type": "Visiteur",
+            "grade": 1
         }
     }
 }

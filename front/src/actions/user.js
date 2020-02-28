@@ -6,12 +6,16 @@ export default {
         return store
     },
     ban: async function (store, user) {
-        await httpRequest(`/user/ban/${user}`, 'post', store);
+        await httpRequest(`/user/ban/${user}`, 'get', store);
         return store
     },
     unban: async function (store, user) {
-        await httpRequest(`/user/unban/${user}`, 'post', store);
+        await httpRequest(`/user/unban/${user}`, 'get', store);
         return store
+    },
+    disconnect: function () {
+        localStorage.clear();
+        window.location.replace('/home');
     },
     isConnected: localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
 }
