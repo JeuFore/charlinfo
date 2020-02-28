@@ -41,7 +41,7 @@ class Navigation extends Component {
                         <NavLink to='/S4' className="nav-link">S4</NavLink>
                     </div>
                     <div className="navbar-right-text py-2">
-                        <Link to='/disconnect' className="mb-3 mr-3">Deconnexion</Link>
+                        <a href='/disconnect' className="mb-3 mr-3">Deconnexion</a>
                         <Link to={`/profile/${user.isConnected}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
                     </div>
                 </div>

@@ -1,13 +1,11 @@
-const dataClass = require('../../assets/bdd/uploadingData.json')
+const uploadingData = require('../../assets/bdd/uploadingData.json')
 
 async function getClass(req, res) {
-    let Class = dataClass[req.params.class];
-    if (Class)
-        return res.status(200).json(Class);
-    return res.status(200).json({
-        request: null,
-        text: "Aucun cours, exercices, corrigés, aides n'est répertoriés"
-    });
+    const { semester, class_e } = req.params;
+    let dataSemester = uploadingData[semester][class_e];
+    if (!dataSemester)
+        return res.status(200).send("Aucun cours, exercices, corrigés, aides n'est répertoriés")
+    return res.status(200).json(dataSemester);
 }
 
 async function addClass(req, res) {

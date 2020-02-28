@@ -13,10 +13,12 @@ export default {
         await httpRequest(`/user/unban/${user}`, 'post', store);
         return store
     },
-    disconnect: function () {
+    disconnect: async function (store) {
         localStorage.clear();
-        httpRequest('/user/disconnect/', 'post', {});
-        window.location.replace('/home');
+        const data = await httpRequest('/user/disconnect/', 'post', store);
+        window.location.replace('/connexion');
+        return data
+         
     },
     isConnected: localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
 }

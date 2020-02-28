@@ -18,7 +18,7 @@ class Profile extends React.Component {
 
     componentDidMount() {
         document.title = 'Charlinfo | Profile';
-        user.get(this.state, user.isConnected).then((data) => this.setState(data))
+        user.get(this.state, this.props.match.params.user).then((data) => this.setState(data))
     }
 
     render() {
@@ -35,10 +35,6 @@ class Profile extends React.Component {
                         <div className="spinner-border" role="status">
                         </div>
                     </div>
-                )}
-
-                {this.state.test && (
-                    <h1>{this.state.test}</h1>
                 )}
 
                 {this.state.requestStatus === RequestStatus.Success && (

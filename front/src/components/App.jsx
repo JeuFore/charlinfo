@@ -6,6 +6,7 @@ import {
   Redirect
 } from "react-router-dom";
 import user from '../actions/user'
+import { RequestStatus } from '../utils/consts'
 
 import Home from './router/Home'
 import Navigation from './navigation/Navigation'
@@ -15,16 +16,36 @@ import Connection from './user/Connection'
 import Semester from './router/Semester'
 import DisplayClass from './display/DisplayClass'
 
-import uploadingData from '../assets/bdd/uploadingData.json'
-import dataClass from '../assets/bdd/dataClass.json'
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      requestStatus: RequestStatus.Getting
+    }
+    disconnect = disconnect.bind(this)
+    test = test.bind(this)
+  }
+
+  routeSemester() {
+    var res = [];
+    for (let i = 1; i < 5; i++) {
+      res[i] = (
+        <React.Fragment key={i}>
+          <Route path={`/S${i}/:class/add`} component={NoJSXPage} />
+          <Route path={`/S${i}/:class`} component={DisplayClass} />
+          <Route path={`/S${i}`} component={Semester} />
+        </React.Fragment>
+      )
+    }
+    return res
+  }
 
   render() {
+    if (window.location.pathname === '/disconnect')
+      disconnect()
     return (
       <Router>
         <Navigation />
-
         <Switch>
           <Route path='/connexion' component={() => <Connection register="responsive-register" />} />
           <Route path='/register' component={() => <Connection />} />
@@ -32,31 +53,13 @@ class App extends Component {
           {user.isConnected ? (
             <React.Fragment>
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={user.disconnect} />
+              <Route path='/disconnect' component={test} />
               <Route path='/profile/:user' component={Profile} />
-              <Route path='/:semester/:class/add' component={Profile} />
-              {dataClass.S1.map((data) => (
-                <Route path={`/S1/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-              ))}
-              {dataClass.S2.map((data) => (
-                <Route path={`/S2/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-              ))}
-              {dataClass.S3.map((data) => (
-                <Route path={`/S3/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-              ))}
-              {dataClass.S4.map((data) => (
-                <Route path={`/S4/${data.link}`} key={data.id} component={(props) => <DisplayClass {...props} dataPage={uploadingData[data.link]} />} />
-              ))}
-              <Route path='/S1' component={() => <Semester dataClass={dataClass.S1} title='S1' />} />
-              <Route path='/S2' component={() => <Semester dataClass={dataClass.S2} title='S2' />} />
-              <Route path='/S3' component={() => <Semester dataClass={dataClass.S3} title='S3' />} />
-              <Route path='/S4' component={() => <Semester dataClass={dataClass.S4} title='S4' />} />
+              {this.routeSemester()}
             </React.Fragment>
           )
             : <Redirect path='/' to='/connexion' />
           }
-
-          <Route path='/' component={NoJSXPage} />
         </Switch>
       </Router>
     );
@@ -73,6 +76,23 @@ function NoJSXPage() {
       <h2 className="fixed-center">Page Not Found</h2>
     </div>
   );
+}
+
+function disconnect() {
+  user.disconnect(this.state).then((data) => this.setState(data));
+}
+
+function test() {
+  console.log(this.state);
+
+  if (this.state.requestStatus === RequestStatus.Getting)
+    return (
+      <div className="text-center fixed-center">
+        <div className="spinner-border" role="status">
+        </div>
+      </div>
+    )
+  return null
 }
 
 export default App

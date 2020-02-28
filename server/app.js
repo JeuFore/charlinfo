@@ -28,9 +28,10 @@ app.use(session({
 //Définition du routeur
 const router = express.Router();
 app.use("/api", router);
-require(__dirname + "/controllers/userController")(router);
 require(__dirname + "/controllers/accountController")(router);
-require(__dirname + "/controllers/fileClassController")(router);
 require(__dirname + "/controllers/changelogController")(router);
+require(__dirname + "/controllers/fileClassController")(router);
+require(__dirname + "/controllers/fileSemesterController")(router);
+require(__dirname + "/controllers/userController")(router);
 
 module.exports = app;

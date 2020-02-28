@@ -1,5 +1,7 @@
 import React from 'react'
 import DisplayUploadingFile from './DisplayUploadingFile'
+import fileClass from '../../actions/fileClass'
+import { RequestStatus } from '../../utils/consts'
 
 //import request from '../../actions/httpRequest'
 
@@ -9,19 +11,13 @@ class DisplayClass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataPage: [],
-            requestStatusDataPage: false
+            requestStatus: RequestStatus.Getting
         }
     }
 
     componentDidMount() {
-        document.title = `Charlinfo | ${this.props.location.state.classNameEnter}`;
-        /**request(`/file${this.props.match.url}/get`)
-            .then((data) => {
-                if (data)
-                    this.setState({ dataPage: data, requestStatusDataPage: true })
-            })
-*/
+        document.title = `Charlinfo | ${this.props.match.params.class}`;
+        fileClass.get(this.state, this.props.match.url).then((data) => this.setState(data));
     }
 
     render() {
@@ -29,24 +25,20 @@ class DisplayClass extends React.Component {
         var exercice = [];
         var corrige = [];
         var aide = []
-
-        if (this.state.dataPage.request !== null) {
-            cours = this.state.dataPage.filter(data => data.type === "Cours");
-            exercice = this.state.dataPage.filter(data => data.type === "Exercice");
-            corrige = this.state.dataPage.filter(data => data.type === "Corrigé");
-            aide = this.state.dataPage.filter(data => data.type === "Aide");
+        if (this.state.requestStatus === RequestStatus.Success) {
+            cours = this.state.data.filter(data => data.type === "Cours");
+            exercice = this.state.data.filter(data => data.type === "Exercice");
+            corrige = this.state.data.filter(data => data.type === "Corrigé");
+            aide = this.state.data.filter(data => data.type === "Aide");
         }
+
         return (
             <div className="d-flex flex-column">
-                <h1 className="text-center m-3">{this.props.location.state.classNameEnter}</h1>
+                <h1 className="text-center m-3">{this.props.match.params.class}</h1>
                 <a href={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></a>
                 <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
 
-                {this.state.dataPage.text && (
-                    <p className="text-center">{this.state.dataPage.text}</p>
-                )}
-
-                {!this.state.requestStatusDataPage && (
+                {!this.state.requestStatus && (
                     <div className="text-center">
                         <div className="spinner-border" role="status">
                         </div>

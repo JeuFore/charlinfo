@@ -1,0 +1,60 @@
+{
+   "S1": [
+      {
+         "id": 1,
+         "title": "Fonctionnement des organisations",
+         "description": "Le cours d'environnement économique sert à nous familiariser et comprendre le système économique actuel.",
+         "creator": "Alain LONGHAIS, Sébastien ÉTIENNE",
+         "type": "general",
+         "link": "FDO"
+      },
+      {
+         "id": 2,
+         "title": "Programmation 1",
+         "description": "En programmation 1, on apprend les bases de la programmation en Java.",
+         "creator": "Mohamed Amine MENACER",
+         "type": "informatique",
+         "link": "PGR1"
+      },
+      {
+         "id": 3,
+         "title": "Expression communications",
+         "description": "Le cours d'expression communication sert à nous ... a rien",
+         "creator": "Truc Muche, chez plus",
+         "type": "general",
+         "link": "EC"
+      },
+      {
+         "id": 4,
+         "title": "SQL",
+         "description": "En SQL, nous apprenons à gérer des bases de données.",
+         "creator": "Une Prof",
+         "type": "informatique",
+         "link": "SQL"
+      },
+      {
+         "id": 5,
+         "title": "Anglais",
+         "description": "En cours d'anglais on étudie... l'anglais.",
+         "creator": "Michael LATHAM",
+         "type": "general",
+         "link": "ANG"
+      }
+   ],
+   "S2": [
+      {
+         "id": 1,
+         "title": "PL/SQL",
+         "description": "Le cours d'environnement économique sert à nous familiariser et comprendre le système économique actuel.",
+         "creator": "PAUL CAILLON",
+         "type": "informatique",
+         "link": "PLSQL"
+      }
+   ],
+   "S3": [
+
+   ],
+   "S4": [
+
+   ]
+}
