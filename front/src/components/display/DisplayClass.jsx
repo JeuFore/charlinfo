@@ -4,6 +4,8 @@ import DisplayUploadingFile from './DisplayUploadingFile'
 import fileClass from '../../actions/fileClass'
 import { RequestStatus } from '../../utils/consts'
 
+import loading from '../../actions/loading'
+
 import add_icon from '../../assets/icons/add-icon.png'
 
 class DisplayClass extends React.Component {
@@ -39,10 +41,7 @@ class DisplayClass extends React.Component {
                     <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
 
                     {this.state.requestStatus === RequestStatus.Getting && (
-                        <div className="text-center">
-                            <div className="spinner-border" role="status">
-                            </div>
-                        </div>
+                        loading()
                     )}
 
                     <div className="displayClass">

@@ -13,6 +13,8 @@ import Navigation from './navigation/Navigation'
 import Profile from './router/Profile'
 import Connection from './user/Connection'
 
+import loading from '../actions/loading'
+
 import Semester from './router/Semester'
 import AddSemester from './semester/AddSemester'
 import DisplayClass from './display/DisplayClass'
@@ -57,7 +59,7 @@ class App extends Component {
           {user.isConnected ? (
             <React.Fragment>
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={DisconnectPage} />
+              <Route path='/disconnect' component={loading} />
               <Route path='/profile/:user' component={Profile} />
               {this.routeSemester()}
             </React.Fragment>
@@ -88,8 +90,6 @@ function disconnect() {
 }
 
 function DisconnectPage() {
-  console.log(this.state);
-
   if (this.state.requestStatus === RequestStatus.Getting)
     return (
       <div className="text-center fixed-center">
