@@ -14,6 +14,7 @@ import Profile from './router/Profile'
 import Connection from './user/Connection'
 
 import Semester from './router/Semester'
+import AddSemester from './semester/AddSemester'
 import DisplayClass from './display/DisplayClass'
 import AddClass from './class/AddClass'
 
@@ -33,6 +34,7 @@ class App extends Component {
       res[i] = (
         <Switch key={i}>
           <Route path={`/S${i}/:class/add`} component={AddClass} />
+          <Route path={`/S${i}/add`} component={AddSemester} />
           <Route path={`/S${i}/:class`} component={DisplayClass} />
           <Route path={`/S${i}`} component={Semester} />
         </Switch>
@@ -43,13 +45,14 @@ class App extends Component {
 
   render() {
     if (window.location.pathname === '/disconnect')
-      disconnect()
+      disconnect();
     return (
       <Router>
         <Navigation />
         <Switch>
           <Route path='/connexion' component={() => <Connection register="responsive-register" />} />
           <Route path='/register' component={() => <Connection />} />
+          <Route path='/NoPageFound' component={NoJSXPage} />
 
           {user.isConnected ? (
             <React.Fragment>
@@ -59,8 +62,9 @@ class App extends Component {
               {this.routeSemester()}
             </React.Fragment>
           )
-            : <Redirect path='/' to='/connexion' />
+            : <Redirect path='' to='/connexion' />
           }
+
         </Switch>
       </Router>
     );

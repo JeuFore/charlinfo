@@ -1,12 +1,15 @@
-import axios from 'axios'
-import config from '../utils/config'
-import { RequestStatus } from '../utils/consts'
-
+import axios from 'axios';
+import config from '../utils/config';
+import { RequestStatus } from '../utils/consts';
+import user from '../actions/user';
 
 const MAX_RETRY = 3;
 
-export async function httpRequest(url, method, store, params, retry = 0) {
+export async function httpRequest(url, method, store, params, retry = 0, error) {
   if (retry > MAX_RETRY) {
+    if (error.response)
+      if (error.response.status === 401)
+        user.disconnect(store);
     store.requestStatus = RequestStatus.Error
     return store
   }
@@ -23,7 +26,7 @@ export async function httpRequest(url, method, store, params, retry = 0) {
     return store
   }
   catch (error) {
-    return httpRequest(url, method, store, params, retry + 1)
+    return httpRequest(url, method, store, params, retry + 1, error)
   }
 }
 

@@ -1,7 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import DisplayCategorie from '../display/DisplayCategorie'
 import fileSemester from '../../actions/fileSemester'
 import { RequestStatus } from '../../utils/consts'
+
+import add_icon from '../../assets/icons/add-icon.png'
 
 class Semester extends React.Component {
     constructor(props) {
@@ -20,25 +23,27 @@ class Semester extends React.Component {
         var informatique = [];
         var general = [];
         if (this.state.requestStatus === RequestStatus.Success) {
-            informatique = this.state.data.filter(data => data.type === "informatique");
-            general = this.state.data.filter(data => data.type === "general");
+            informatique = this.state.data.filter(data => data.type === "Informatique");
+            general = this.state.data.filter(data => data.type === "Général");
         }
-
+        console.log(this.state)
         return (
             <div className="container mt-3">
-                <h1 className="text-center mb-3">{this.props.title}</h1>
+                <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
+                <Link to={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
+                <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
 
                 <div className="s1_container">
                     <div className="s1_col">
                         <h3 className="text-center mb-3">UE Informatique</h3>
                         {informatique.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.id} />
+                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} />
                         ))}
                     </div>
                     <div className="s1_col">
                         <h3 className="text-center mb-3">UE Générale</h3>
                         {general.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.id} />
+                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} />
                         ))}
                     </div>
                 </div>

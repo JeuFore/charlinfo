@@ -33,67 +33,66 @@ class DisplayClass extends React.Component {
             DM = this.state.data.filter(data => data.type === "DM");
         }
         return (
-            <div className="d-flex flex-column">
-                <h1 className="text-center m-3">{this.props.match.params.class}</h1>
-                <Link to={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
-                <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
+                <div className="d-flex flex-column">
+                    <h1 className="text-center m-3">{this.props.match.params.class}</h1>
+                    <Link to={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
+                    <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
 
-                {this.state.requestStatus === RequestStatus.Getting && (
-                    <div className="text-center">
-                        <div className="spinner-border" role="status">
+                    {this.state.requestStatus === RequestStatus.Getting && (
+                        <div className="text-center">
+                            <div className="spinner-border" role="status">
+                            </div>
                         </div>
+                    )}
+
+                    <div className="displayClass">
+
+                        {cours.length !== 0 && (
+                            <div className="flex-column m-3 w-100">
+                                <h2 className="mb-3">Cours</h2>
+                                {cours.map((data) => (
+                                    <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-secondary" />
+                                ))}
+                            </div>
+                        )}
+
+                        {exercice.length !== 0 && (
+                            <div className="flex-column m-3 w-100">
+                                <h2 className="mb-3">Exercice</h2>
+                                {exercice.map((data) => (
+                                    <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-info" />
+                                ))}
+                            </div>
+                        )}
+
+                        {corrige.length !== 0 && (
+                            <div className="flex-column m-3 w-100">
+                                <h2 className="mb-3">Corrigé</h2>
+                                {corrige.map((data) => (
+                                    <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-success" />
+                                ))}
+                            </div>
+                        )}
+
+                        {aide.length !== 0 && (
+                            <div className="flex-column m-3 w-100">
+                                <h2 className="mb-3">Aide</h2>
+                                {aide.map((data) => (
+                                    <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-primary" />
+                                ))}
+                            </div>
+                        )}
+
+                        {DM.length !== 0 && (
+                            <div className="flex-column m-3 w-100">
+                                <h2 className="mb-3">DM</h2>
+                                {DM.map((data) => (
+                                    <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-danger" />
+                                ))}
+                            </div>
+                        )}
                     </div>
-                )}
-
-                <div className="displayClass">
-
-                    {cours.length !== 0 && (
-                        <div className="flex-column m-3 w-100">
-                            <h2 className="mb-3">Cours</h2>
-                            {cours.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-secondary" />
-                            ))}
-                        </div>
-                    )}
-
-                    {exercice.length !== 0 && (
-                        <div className="flex-column m-3 w-100">
-                            <h2 className="mb-3">Exercice</h2>
-                            {exercice.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-info" />
-                            ))}
-                        </div>
-                    )}
-
-                    {corrige.length !== 0 && (
-                        <div className="flex-column m-3 w-100">
-                            <h2 className="mb-3">Corrigé</h2>
-                            {corrige.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-success" />
-                            ))}
-                        </div>
-                    )}
-
-                    {aide.length !== 0 && (
-                        <div className="flex-column m-3 w-100">
-                            <h2 className="mb-3">Aide</h2>
-                            {aide.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-primary" />
-                            ))}
-                        </div>
-                    )}
-
-                    {DM.length !== 0 && (
-                        <div className="flex-column m-3 w-100">
-                            <h2 className="mb-3">DM</h2>
-                            {DM.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-danger" />
-                            ))}
-                        </div>
-                    )}
-
                 </div>
-            </div>
         )
     }
 }

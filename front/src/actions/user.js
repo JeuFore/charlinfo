@@ -15,10 +15,8 @@ export default {
     },
     disconnect: async function (store) {
         localStorage.clear();
-        const data = await httpRequest('/user/disconnect/', 'post', store);
-        window.location.replace('/connexion');
-        return data
-         
+        httpRequest('/user/disconnect/', 'post', store);
+        //window.location.replace('/connexion');
     },
     isConnected: localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
 }

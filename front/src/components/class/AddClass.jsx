@@ -9,7 +9,7 @@ class AddClass extends React.Component {
             title: "",
             type: "Cours",
             description: "",
-            file: React.createRef()
+            file: []
         };
 
         this.inputChange = this.inputChange.bind(this);
@@ -21,7 +21,7 @@ class AddClass extends React.Component {
             return this.setState({
                 [event.target.name]: event.target.value
             });
-        this.setState({
+        return this.setState({
             file: event.target.files[0]
         })
     }
@@ -38,7 +38,6 @@ class AddClass extends React.Component {
             type: this.state.type,
             description: this.state.description,
         }, formData).then((data) => this.setState(data));
-
     }
 
     render() {
@@ -47,7 +46,6 @@ class AddClass extends React.Component {
         }
         return (
             <div>
-
                 {this.state.requestStatus === RequestStatus.Getting && (
                     <div className="text-center fixed-center">
                         <div className="spinner-border" role="status">

@@ -1,28 +1,17 @@
 const Users = require('../../assets/bdd/user')
 
 async function getUser(req, res) {
-    const username = req.params.user;
-    if (!req.session.user || !username) {
-        return res.status(400).send({
-            text: "Requête invalide"
-        });
-    }
-    try {
-        const findEnterUser = Users[username];
-        const findReqUser = Users[req.session.user];
-        if (!findEnterUser || !findReqUser)
-            return res.status(401).send({
-                text: "L'utilisateur n'existe pas"
-            });
-        if (req.session.user !== username && findReqUser.information.grade < 4)
-            return res.status(401).send("Vous n'avez pas les permissions")
-        return res.status(200).send(findEnterUser.information);
-    }
-    catch (error) {
-        return res.status(500).send({
-            error
-        });
-    }
+    if (connected(req, res))
+        try {
+            const { user } = req.params;
+            const findEnterUser = Users[user];
+            if (req.session.user !== user && !permissions(req.session.user, 4))
+                return res.status(403).send("You don't have permissions");
+            return res.status(200).send(findEnterUser.information);
+        }
+        catch {
+            return res.status(404).send("User not found");
+        }
 }
 
 async function banUser(req, res) {
@@ -33,14 +22,19 @@ async function unbanUser(req, res) {
     return null
 }
 
-async function permissions(user, grade){
-    const findReqUser = Users[user];
-    return findReqUser.information.grade >= grade;
+function permissions(user, grade) {
+    return Users[user].information.grade >= grade;
 }
 
-async function disconnect(req, res){
+async function disconnect(req, res) {
     req.session.user = undefined;
-    return res.status(200).send("ok");
+    return res.status(200).send("Success disconnect");
+}
+
+function connected(req, res) {
+    if (!req.session.user)
+        res.status(401).send("Not connected");
+    return (req.session.user !== undefined);
 }
 
 exports.getUser = getUser;
@@ -48,3 +42,4 @@ exports.banUser = banUser;
 exports.unbanUser = unbanUser;
 exports.permissions = permissions;
 exports.disconnect = disconnect;
+exports.connected = connected;

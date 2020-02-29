@@ -1,17 +1,9 @@
-const Changelog = require('../../assets/bdd/changelog.json')
+const Changelog = require('../../assets/bdd/changelog.json');
+const user = require('../user/lib');
 
 async function getChangelog(req, res) {
-    try {
-        if (Changelog[0])
-            return res.status(200).json(Changelog)
-            return res.status(400).json({
-                status: "Aucun changelog"
-            })
-    } catch (error) {
-        return res.status(500).json({
-            error
-        });
-    }
+    if (user.connected(req, res))
+        return res.status(200).send(Changelog);
 }
 
 async function addChangelog(req, res) {
