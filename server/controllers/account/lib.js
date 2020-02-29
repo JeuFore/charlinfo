@@ -1,75 +1,50 @@
 const Users = require('../../assets/bdd/user.json');
+const fs = require('fs');
 
 async function signup(req, res) {
-  /**const { password, email } = req.body;
-  if (!email || !password) {
-    //Le cas où l'email ou bien le password ne serait pas soumit ou nul
-    return res.status(400).json({
-      text: "Requête invalide"
-    });
-  }
-  // Création d'un objet user, dans lequel on hash le mot de passe
-  const user = {
-    email,
-    password: passwordHash.generate(password)
-  };
-  // On check en base si l'utilisateur existe déjà
-  try {
-    const findUser = await User.findOne({
-      email
-    });
-    if (findUser) {
-      return res.status(400).json({
-        text: "L'utilisateur existe déjà"
-      });
-    }
-  } catch (error) {
-    return res.status(500).json({ error });
-  }
-  try {
-    // Sauvegarde de l'utilisateur en base
-    const userData = new User(user);
-    const userObject = await userData.save();
-    return res.status(200).json({
-      text: "Succès",
-      token: userObject.getToken()
-    });
-  } catch (error) {
-    return res.status(500).json({ error });
-  }
-  */
-  return null
+  const { username, first_name, name, formation, password } = req.body;
+  if (!username || !first_name || !name || !formation || !password)
+    return res.status(401).send("Requête invalite");
+  let findUser = Users[username];
+  if (!findUser)
+    return res.status(401).send("Vous n'êtes pas référencé")
+  if (findUser.password !== null)
+    return res.status(401).send("Vous êtes déjà inscrit")
+  findUser.password = password;
+  findUser.information.first_name = first_name;
+  findUser.information.name = name;
+  findUser.information.formation = formation;
+  findUser.information.dateCreation = new Date().toISOString().replace("-", " ");
+  findUser.information.type = "Visiteur"
+  findUser.information.grade = 1;
+  fs.writeFileSync('assets/bdd/user.json', JSON.stringify(Users));
+  return res.status(200).send({
+    token: username,
+    text: "Inscription réussite"
+  });
 }
 
 async function login(req, res) {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(400).json({
-      text: "Requête invalide"
-    });
+    return res.status(400).send("Requête invalide");
   }
   try {
     const findUser = Users[username];
     if (!findUser)
-      return res.status(401).json({
-        text: "L'utilisateur n'existe pas"
-      });
+      return res.status(401).send("L'utilisateur n'existe pas");
     if (findUser.password === null)
-      return res.status(401).json({
-        text: "Le compte n'a pas été crée"
-      });
+      return res.status(401).send("Le compte n'a pas été crée");
     if (findUser.password !== password)
-      return res.status(401).json({
-        text: "Mot de passe incorrect"
-      });
-      req.session.user = username
-    return res.status(200).json({
+      return res.status(401).send("Mot de passe incorrect");
+    req.session.user = username
+    return res.status(200).send({
       token: username,
       text: "Authentification réussi"
     });
   }
   catch (error) {
-    return res.status(500).json({
+    return res.status(500).send({
       error
     });
   }

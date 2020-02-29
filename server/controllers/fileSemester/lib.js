@@ -1,13 +1,10 @@
-const dataClass = require('../../assets/bdd/dataClass')
+const dataSemester = require('../../assets/bdd/dataSemester')
 
 async function getSemester(req, res){
-    let semester = dataClass[req.params.semester];
+    let semester = dataSemester[req.params.semester];
     if (semester)
         return res.status(200).send(semester);
-    return res.status(200).send({
-        request: null,
-        text: "Aucun cours, exercices, corrigés, aides n'est répertoriés"
-    });
+    return res.status(200).send("Aucun cours, exercices, corrigés, aides n'est répertorié");
 }
 
 async function addSemester(req, res){

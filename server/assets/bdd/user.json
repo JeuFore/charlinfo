@@ -1,29 +1,51 @@
 {
     "jeufore": {
         "password": "test",
-        "information" : {
-            "first_name": "Matis",
-            "name": "CHASTIN",
-            "type": "Admininstrateur",
-            "grade": 4
+        "information": {
+            "first_name": "coucou",
+            "name": "test",
+            "type": "Visiteur",
+            "grade": 1,
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:25:08.804Z"
         }
     },
     "taupe": {
-        "password": "porte",
-        "information" : {
-            "first_name": "Taupinette",
-            "name": "GIGI",
-            "type": "Développeur",
-            "grade": 3
-        }
-    },
-    "visiteur" : {
-        "password": null,
-        "information" : {
-            "first_name": "Lambda",
-            "name": "CHEP",
+        "password": "test",
+        "information": {
+            "first_name": "de",
+            "name": "de",
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:30:08.291Z",
             "type": "Visiteur",
             "grade": 1
+        }
+    },
+    "visiteur": {
+        "password": "test",
+        "information": {
+            "first_name": "de",
+            "name": "de",
+            "type": "Visiteur",
+            "grade": 1,
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:28:41.737Z"
+        }
+    },
+    "JeuFore": {
+        "password": "test",
+        "information": {
+            "first_name": "Matis",
+            "name": "Chastin",
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:36:24.038Z",
+            "type": "Visiteur",
+            "grade": 1
+        }
+    },
+    "chastin3u": {
+        "password": null,
+        "information": {
         }
     }
 }

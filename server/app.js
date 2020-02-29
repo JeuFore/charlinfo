@@ -2,7 +2,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
-var session = require('express-session')
+var session = require('express-session');
+var fileUpload = require('express-fileupload')
 
 //On définit notre objet express nommé app
 const app = express();
@@ -18,6 +19,8 @@ const urlencodedParser = bodyParser.urlencoded({
 app.use(urlencodedParser);
 
 app.use(bodyParser.json());
+
+app.use(fileUpload());
 
 app.use(session({
   secret: 'quiela',

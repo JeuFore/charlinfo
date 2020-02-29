@@ -15,6 +15,7 @@ import Connection from './user/Connection'
 
 import Semester from './router/Semester'
 import DisplayClass from './display/DisplayClass'
+import AddClass from './class/AddClass'
 
 class App extends Component {
   constructor(props) {
@@ -23,18 +24,18 @@ class App extends Component {
       requestStatus: RequestStatus.Getting
     }
     disconnect = disconnect.bind(this)
-    test = test.bind(this)
+    DisconnectPage = DisconnectPage.bind(this)
   }
 
   routeSemester() {
     var res = [];
     for (let i = 1; i < 5; i++) {
       res[i] = (
-        <React.Fragment key={i}>
-          <Route path={`/S${i}/:class/add`} component={NoJSXPage} />
+        <Switch key={i}>
+          <Route path={`/S${i}/:class/add`} component={AddClass} />
           <Route path={`/S${i}/:class`} component={DisplayClass} />
           <Route path={`/S${i}`} component={Semester} />
-        </React.Fragment>
+        </Switch>
       )
     }
     return res
@@ -53,7 +54,7 @@ class App extends Component {
           {user.isConnected ? (
             <React.Fragment>
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={test} />
+              <Route path='/disconnect' component={DisconnectPage} />
               <Route path='/profile/:user' component={Profile} />
               {this.routeSemester()}
             </React.Fragment>
@@ -82,7 +83,7 @@ function disconnect() {
   user.disconnect(this.state).then((data) => this.setState(data));
 }
 
-function test() {
+function DisconnectPage() {
   console.log(this.state);
 
   if (this.state.requestStatus === RequestStatus.Getting)

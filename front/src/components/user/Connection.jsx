@@ -9,6 +9,7 @@ class Connection extends React.Component {
             username: "",
             name: "",
             first_name: "",
+            formation: "DUT Informatique",
             password: "",
             userError: "",
             requestStatus: RequestStatus.Getting
@@ -39,6 +40,7 @@ class Connection extends React.Component {
             username: this.state.username,
             name: this.state.name,
             first_name: this.state.first_name,
+            formation: this.state.formation,
             password: this.state.password,
         }).then((data) => this.setState(data))
     }
@@ -54,8 +56,8 @@ class Connection extends React.Component {
             account.token(this.state.username);
             window.location.replace('/home');
         }
-
         return (
+
             <div className="d-flex justify-content-center mt-5">
                 {this.props.register && (
                     <form className="p-4 m-5 login-component rainbow bg-success d-flex flex-column justify-content-center" onSubmit={this.loginSubmit}>
@@ -74,13 +76,13 @@ class Connection extends React.Component {
                 <form className={`p-4 m-5 login-component rainbow bg-success text-center ${this.props.register}`} onSubmit={this.signupSubmit}>
                     <h1 className="m-3 text-center">Inscription</h1>
                     <div className="d-flex flex-column">
-                        <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} />
-                        <input type="name" placeholder="Nom" onChange={this.InputChange} />
-                        <input type="first_name" placeholder="Prénom" onChange={this.inputChange} />
-                        <select className="form-control m-3 w-auto">
-                            <option>DUT Informatique</option>
+                        <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} name="username" />
+                        <input type="name" placeholder="Nom" onChange={this.inputChange} name="name" />
+                        <input type="first_name" placeholder="Prénom" onChange={this.inputChange} name="first_name" />
+                        <select className="form-control m-3 w-auto" onChange={this.inputChange} name="formation">
+                            <option value="DUT Informatique">DUT Informatique</option>
                         </select>
-                        <input type="password" placeholder="Mot de passe" onChange={this.inputChange} />
+                        <input type="password" placeholder="Mot de passe" onChange={this.inputChange} name="password" />
                     </div>
                     <input type="submit" className="btn btn-primary" value="Se connecter" />
                 </form>

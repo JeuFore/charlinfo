@@ -27,6 +27,7 @@ class Semester extends React.Component {
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.title}</h1>
+
                 <div className="s1_container">
                     <div className="s1_col">
                         <h3 className="text-center mb-3">UE Informatique</h3>
@@ -41,6 +42,14 @@ class Semester extends React.Component {
                         ))}
                     </div>
                 </div>
+
+                {this.state.requestStatus === RequestStatus.Getting && (
+                    <div className="text-center">
+                        <div className="spinner-border" role="status">
+                        </div>
+                    </div>
+                )}
+
             </div>
         )
     }

@@ -1,3 +1,4 @@
 {
-    "secret": "p#k%&uPfkatn5eipsMRvJ"
+    "secret": "p#k%&uPfkatn5eipsMRvJ",
+    "BDD_url": "../../assets/bdd/user.json"
 }

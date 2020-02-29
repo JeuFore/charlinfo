@@ -33,12 +33,18 @@ async function unbanUser(req, res) {
     return null
 }
 
+async function permissions(user, grade){
+    const findReqUser = Users[user];
+    return findReqUser.information.grade >= grade;
+}
+
 async function disconnect(req, res){
-    req.session.user = null;
-    return res.status(200).send("ok")
+    req.session.user = undefined;
+    return res.status(200).send("ok");
 }
 
 exports.getUser = getUser;
 exports.banUser = banUser;
 exports.unbanUser = unbanUser;
+exports.permissions = permissions;
 exports.disconnect = disconnect;
