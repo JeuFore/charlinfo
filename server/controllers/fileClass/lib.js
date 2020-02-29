@@ -2,6 +2,8 @@ const UploadingData = require('../../assets/bdd/uploadingData.json');
 const user = require('../user/lib');
 const fs = require('fs');
 
+const LIMITE_UPLOAD_FILE_SIZE = 5.0;
+
 async function getClass(req, res) {
     const { semester, class_e } = req.params;
     if (user.connected(req, res))
@@ -13,6 +15,8 @@ async function getClass(req, res) {
 async function addClass(req, res) {
     if (user.connected(req, res))
         try {
+            if (req.files.content.size > LIMITE_UPLOAD_FILE_SIZE * 1000000)
+                return res.status(406).send("Fichier trop grand");
             const { title, type, description } = req.query;
             const { semester, class_e } = req.params;
             let dataClass = UploadingData[semester];
@@ -53,7 +57,7 @@ async function deleteClass(req, res) {
             const { path } = req.body;
             if (!path.includes(req.session.user) && !user.permissions(req.session.user, 4))
                 return res.status(403).send("You don't have permissions");
-            
+
             const { semester, class_e } = req.params;
             let dataClass = UploadingData[semester][class_e];
             if (!dataClass)

@@ -30,11 +30,7 @@ export async function httpRequest(url, method, store, params, retry = 0, error) 
   }
 }
 
-export async function httpFileRequest(url, method, store, params, file, retry = 0) {
-  if (retry > MAX_RETRY) {
-    store.requestStatus = RequestStatus.Error
-    return store
-  }
+export async function httpFileRequest(url, method, store, params, file) {
   try {
     const { data } = await axios({
       baseURL: config.localApiUrl,
@@ -52,6 +48,7 @@ export async function httpFileRequest(url, method, store, params, file, retry = 
     return store
   }
   catch (error) {
-    return httpFileRequest(url, method, store, params, file, retry + 1)
+    store.requestStatus = RequestStatus.Error
+    return store
   }
 }
