@@ -37,7 +37,7 @@ class AddClass extends React.Component {
             title: this.state.title,
             type: this.state.type,
             description: this.state.description,
-        }, formData).then((data) => this.setState(data));
+        }, formData).then(({ requestStatus }) => this.setState({ requestStatus }));
     }
 
     render() {

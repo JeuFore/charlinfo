@@ -9,9 +9,7 @@ async function getClass(req, res) {
         try {
             const { semester, class_e } = req.params;
             if (User.connected(req, res))
-                if (!UploadingData[semester][class_e])
-                    return res.status(404).send("Class not found");
-            return res.status(200).send(UploadingData[semester][class_e] || []);
+                return res.status(200).send(UploadingData[semester][class_e] || []);
         } catch{
 
         }
@@ -27,25 +25,26 @@ async function addClass(req, res) {
             let dataClass = UploadingData[semester];
             if (!title || !type || !description || !req.files)
                 return res.status(400).send("Requête invalide");
-            if (!dataClass[class_e]) {
-                dataClass[class_e] = [{}];
-                fs.writeFileSync('assets/bdd/uploadingData.json', JSON.stringify(UploadingData));
+            if (!fs.existsSync(`assets/uploadingFile/${semester}/${class_e}`)) {
+                dataClass[class_e] = [];
                 fs.mkdirSync(`assets/uploadingFile/${semester}/${class_e}`);
             }
 
             dataClass = UploadingData[semester][class_e]
 
-            let nb_class = dataClass.length - 1;
             const date = new Date().toISOString();
             let path = `assets/uploadingFile/${semester}/${class_e}/${req.session.user}_${date}.${(req.files.content.name).split(".")[((req.files.content.name).split(".")).length - 1]}`;
 
-            dataClass[nb_class].title = title;
-            dataClass[nb_class].type = type;
-            dataClass[nb_class].description = description;
-            dataClass[nb_class].creator = req.session.user;
-            dataClass[nb_class].release_date = date;
-            dataClass[nb_class].file = path;
-            dataClass[nb_class + 1] = {};
+            let value = {};
+
+            value.title = title;
+            value.type = type;
+            value.description = description;
+            value.creator = req.session.user;
+            value.release_date = date;
+            value.file = path;
+
+            dataClass.push(value);
 
             fs.writeFileSync('assets/bdd/uploadingData.json', JSON.stringify(UploadingData));
             fs.writeFileSync(path, req.files.content.data);

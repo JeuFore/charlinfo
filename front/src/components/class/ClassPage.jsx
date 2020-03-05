@@ -34,7 +34,6 @@ class DisplayClass extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         if (this.state.requestStatus === RequestStatus.Success && this.state.type !== "null") {
             let sort_type = this.state.type;
             function compare(a, b, type = sort_type) {

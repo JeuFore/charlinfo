@@ -20,15 +20,15 @@ const DisplayUploadingFile = (props) => {
                     <p style={{ whiteSpace: 'pre-line' }}>{props.data.description}</p>
                 </div>
                 <p className="m-0 w-auto">Fait par : <b>{props.data.creator}</b></p>
-                <a href={`${config.localApiUrl}/file${props.url}/download/?path=${props.data.file}`} className={`btn mt-3 ${props.styleD}`}>Download</a>
             </div>
             <div className="card-footer"><b>Date :</b> {props.data.release_date}</div>
 
-            <a href={`${config.localApiUrl}/file${props.url}/download/?path=${props.data.file}`} className={`btn mt-3 ${props.styleD}`}>Download</a>
-
             {((props.data.creator === props.user) || (props.grade)) && (
-                <button onClick={deleteClass} className="btn btn-danger delete-button">Supprimer</button>
+                <button onClick={deleteClass} className="btn btn-danger delete-button" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>Supprimer</button>
             )}
+
+            <a href={`${config.localApiUrl}/file${props.url}/download/?path=${props.data.file}`} className={`btn ${props.styleD}`} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>Download</a>
+
         </div>
     )
 }

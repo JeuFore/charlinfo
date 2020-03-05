@@ -34,7 +34,7 @@ class AddSemester extends React.Component {
             professor: this.state.professor,
             type: this.state.type,
             link: this.state.link
-        }).then((data) => this.setState(data));
+        }).then(({ requestStatus }) => this.setState({ requestStatus }));
     }
 
     render() {

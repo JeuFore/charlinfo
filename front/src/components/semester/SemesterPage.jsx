@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import DisplayCategorie from './DisplayCategorie'
 import fileSemester from '../../actions/fileSemester'
-import { RequestStatus } from '../../utils/consts'
+import { RequestStatus, UserPerm } from '../../utils/consts'
+import user from '../../actions/user'
 
 import add_icon from '../../assets/icons/add-icon.png'
 
@@ -11,14 +12,18 @@ class SemesterPage extends React.Component {
         super(props);
         this.state = {
             requestStatus: RequestStatus.Getting,
-            type: "null"
+            type: "null",
+            perm: ''
         }
         this.inputChange = this.inputChange.bind(this);
     }
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.url.replace('/', '')}`;
-        fileSemester.get(this.state, this.props.match.url).then((data) => this.setState({ requestStatus: data.requestStatus }));
+        fileSemester.get(this.state, this.props.match.url).then(({ requestStatus }) => this.setState({ requestStatus }));
+        user.permission({}, {
+            grade: UserPerm.Admininstrator
+        }).then((data) => this.setState({ perm: data.data }));
     }
 
     inputChange(event) {
@@ -59,13 +64,13 @@ class SemesterPage extends React.Component {
                     <div className="s1_col">
                         <h3 className="text-center mb-3">UE Informatique</h3>
                         {informatique.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} />
+                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} grade={this.state.perm} />
                         ))}
                     </div>
                     <div className="s1_col">
                         <h3 className="text-center mb-3">UE Générale</h3>
                         {general.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} />
+                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} grade={this.state.perm}/>
                         ))}
                     </div>
                 </div>

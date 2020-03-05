@@ -26,10 +26,12 @@ const DisplayCategorie = (props) => {
                     state: {
                         classNameEnter: props.data.title
                     }
-                }}><div className="btn btn-primary" >Accéder au cours</div></Link>
+                }}><div className="btn btn-primary">Accéder au cours</div></Link>
             </div>
 
-            <button className="btn btn-danger delete-button" onClick={deleteClass}>Supprimer</button>
+            {props.grade && (
+                <button className="btn btn-danger delete-button" onClick={deleteClass}>Supprimer</button>
+            )}
 
         </div>
     )
