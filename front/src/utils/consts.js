@@ -4,5 +4,16 @@ export const RequestStatus = {
   Error: 'Error',
   NetworkError: 'NetworkError',
   ConflictError: 'ConflictError',
-  ValidationError: 'ValidationError'
+  ValidationError: 'ValidationError',
+  InvalidRequest: 'InvalidRequest'
 };
+
+export const UserStatus = {
+    UserNotExist: 'UserNotExist',
+    AccountNotCreate: 'AccountNotCreate',
+    PasswordError: 'PasswordError'
+}
+
+export const UserPerm = {
+  Admininstrator: '4'
+}

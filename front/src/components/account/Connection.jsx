@@ -1,6 +1,6 @@
 import React from 'react'
 import account from '../../actions/account'
-import { RequestStatus } from '../../utils/consts'
+import { RequestStatus, UserStatus } from '../../utils/consts'
 
 class Connection extends React.Component {
     constructor(props) {
@@ -31,7 +31,9 @@ class Connection extends React.Component {
         account.login(this.state, {
             username: this.state.username,
             password: this.state.password
-        }).then((data) => this.setState(data))
+        }).then((data) => {
+            this.setState({ requestStatus: data.requestStatus });
+        });
     }
 
     signupSubmit(event) {
@@ -57,21 +59,22 @@ class Connection extends React.Component {
             window.location.replace('/home');
         }
         return (
-
             <div className="d-flex justify-content-center mt-5">
                 {this.props.register && (
                     <form className="p-4 m-5 login-component rainbow bg-success d-flex flex-column justify-content-center" onSubmit={this.loginSubmit}>
                         <h1 className="m-3 text-center">Connexion</h1>
                         <div className="d-flex flex-column">
-                            <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} name="username" />
-                            <input type="password" placeholder="Mot de passe" onChange={this.inputChange} name="password" />
+                        <small className={`px-3 text-danger d-none R${this.state.requestStatus}`}>Requête invalide</small>
+                            <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} name="username" className={`U${this.state.requestStatus}`} />
+                            <small className={`px-3 text-danger d-none SU${this.state.requestStatus}`}>Utilisateur incorrect</small>
+                            <small className={`px-3 text-danger d-none SN${this.state.requestStatus}`}>Vous n'êtes pas inscrit</small>
+                            <input type="password" placeholder="Mot de passe" onChange={this.inputChange} name="password" className={`P${this.state.requestStatus}`} />
+                            <small className={`px-3 text-danger d-none SP${this.state.requestStatus}`}>Mot de passe incorrect</small>
                         </div>
                         <input type="submit" className="btn btn-primary" value="Se connecter" />
                         <label className="responsive-register p-3">Pas encore inscrit, <a href="/register">Go s'inscrire sur Charlinfo</a></label>
                     </form>
                 )}
-
-                <h1>{this.state.userError}</h1>
 
                 <form className={`p-4 m-5 login-component rainbow bg-success text-center ${this.props.register}`} onSubmit={this.signupSubmit}>
                     <h1 className="m-3 text-center">Inscription</h1>

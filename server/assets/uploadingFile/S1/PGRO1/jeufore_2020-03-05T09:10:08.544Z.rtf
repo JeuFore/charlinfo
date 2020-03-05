@@ -1,0 +1,44 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww24400\viewh13900\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 create sequence SEQ_IDACTEUR start with 1 increment by 1;\
+\
+create or replace\
+procedure insererActeurFilm(v_nom char, v_prenom char, v_idfilm number, erreur out char) is\
+    x number(2);\
+    NOT_FOUND_IDFILM exception;\
+    ACTEUR_IS_PRESENT exception;\
+begin\
+\
+    if(verifieActeur(v_nom, v_prenom) != 0) then\
+        raise ACTEUR_IS_PRESENT;\
+    end if;\
+\
+    select count(*) into x\
+    from FILM\
+    where IDFILM=v_idfilm;\
+\
+    if(x = 0) then\
+        raise NOT_FOUND_IDFILM;\
+    end if;\
+\
+        select SEQ_IDACTEUR.nextval into x from DUAL;\
+        insert into ACTEUR (idacteur, nom, PRENOM) values (x, v_nom, v_prenom);\
+        insert into JOUER (idfilm, idacteur) values (v_idfilm, x);\
+\
+exception\
+    when DUP_VAL_ON_INDEX then erreur := 'Le casting existe d\'e9j\'e0';\
+    when ACTEUR_IS_PRESENT then erreur := 'L acteur existe d\'e9j\'e0';\
+    when NOT_FOUND_IDFILM then erreur := 'Le film n est pas pr\'e9sent';\
+end;\
+\
+declare\
+    erreur char(30);\
+begin\
+    insererActeurFilm('Chastin', 'Matis', '5', erreur);\
+    DBMS_OUTPUT.PUT_LINE(erreur);\
+end;}

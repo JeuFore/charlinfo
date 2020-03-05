@@ -5,14 +5,14 @@ import { RequestStatus } from '../../utils/consts'
 class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             requestStatus: RequestStatus.Getting
         }
     }
 
     componentDidMount() {
         document.title = 'Charlinfo | Home';
-        changelog.get(this.state).then((data) => this.setState(data))
+        changelog.get(this.state).then((data) => this.setState({ requestStatus: data.requestStatus }))
     }
 
     render() {
@@ -29,6 +29,8 @@ class Home extends React.Component {
                 {this.state.requestStatus === RequestStatus.Error && (
                     <h3 className="text-center">Erreur de chargement</h3>
                 )}
+
+                <h2 className="my-4">Changelog</h2>
 
                 {this.state.requestStatus === "Success" && this.state.data.length > 0 && (
                     this.state.data.map((data) => (

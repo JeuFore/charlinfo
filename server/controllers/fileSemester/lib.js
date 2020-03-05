@@ -11,7 +11,7 @@ async function getSemester(req, res) {
 async function addSemester(req, res) {
     if (user.connected(req, res))
         try {
-            if (!user.permissions(req.session.user, 4))
+            if (!user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
             const { title, description, professor, type, link } = req.body;
             const { semester } = req.params;
@@ -42,7 +42,7 @@ async function addSemester(req, res) {
 async function deleteSemester(req, res) {
     if (user.connected(req, res))
         try {
-            if (!user.permissions(req.session.user, 4))
+            if (!user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
             const { link } = req.body;
             const { semester } = req.params;

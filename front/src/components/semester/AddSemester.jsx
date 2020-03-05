@@ -41,7 +41,6 @@ class AddSemester extends React.Component {
         if (this.state.requestStatus === RequestStatus.Success) {
             window.location.replace(this.props.match.url.replace("/add", ""));
         }
-        console.log(this.props)
         return (
             <div>
                 {this.state.requestStatus === RequestStatus.Getting && (

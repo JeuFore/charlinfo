@@ -1,1 +1,39 @@
-{"jeufore":{"password":"test","information":{"first_name":"coucou","name":"test","type":"Visiteur","grade":4,"formation":"DUT Informatique","dateCreation":"2020-02-28T14:25:08.804Z"}},"taupe":{"password":"test","information":{"first_name":"de","name":"de","formation":"DUT Informatique","dateCreation":"2020-02-28T14:30:08.291Z","type":"Visiteur","grade":1}},"visiteur":{"password":"test","information":{"first_name":"de","name":"de","type":"Visiteur","grade":1,"formation":"DUT Informatique","dateCreation":"2020-02-28T14:28:41.737Z"}},"chastin3u":{"password":"test","information":{"first_name":"Matis","name":"CHASTIN","formation":"DUT Informatique","dateCreation":"2020-02-29T16:58:29.236Z","type":"Visiteur","grade":1}}}
+{
+    "jeufore": {
+        "password": "gqsdbdfgh79886hJù$$",
+        "information": {
+            "first_name": "coucou",
+            "name": "test",
+            "type": "Visiteur",
+            "grade": 4,
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:25:08.804Z"
+        }
+    },
+    "taupe": {
+        "password": "test",
+        "information": {
+            "first_name": "de",
+            "name": "de",
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-28T14:30:08.291Z",
+            "type": "Visiteur",
+            "grade": 1
+        }
+    },
+    "visiteur": {
+        "password": null,
+        "information": {}
+    },
+    "chastin3u": {
+        "password": "test",
+        "information": {
+            "first_name": "Matis",
+            "name": "CHASTIN",
+            "formation": "DUT Informatique",
+            "dateCreation": "2020-02-29T16:58:29.236Z",
+            "type": "Visiteur",
+            "grade": 1
+        }
+    }
+}

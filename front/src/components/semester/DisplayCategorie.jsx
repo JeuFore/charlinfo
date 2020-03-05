@@ -9,7 +9,6 @@ const DisplayCategorie = (props) => {
         if (requestStatus === "Success")
             window.location.reload()
     }
-    console.log(props)
     return (
         <div className="card mb-5 displayUploading" >
             <h5 className="card-header">{props.data.title}</h5>
@@ -30,7 +29,7 @@ const DisplayCategorie = (props) => {
                 }}><div className="btn btn-primary" >Accéder au cours</div></Link>
             </div>
 
-            <button onClick={deleteClass}>Supprimer</button>
+            <button className="btn btn-danger delete-button" onClick={deleteClass}>Supprimer</button>
 
         </div>
     )

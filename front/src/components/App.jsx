@@ -11,13 +11,11 @@ import { RequestStatus } from '../utils/consts'
 import Home from './router/Home'
 import Navigation from './navigation/Navigation'
 import Profile from './router/Profile'
-import Connection from './user/Connection'
+import Connection from './account/Connection'
 
-import loading from '../actions/loading'
-
-import Semester from './router/Semester'
+import SemesterPage from './semester/SemesterPage'
 import AddSemester from './semester/AddSemester'
-import DisplayClass from './display/DisplayClass'
+import ClassPage from './class/ClassPage'
 import AddClass from './class/AddClass'
 
 class App extends Component {
@@ -37,8 +35,8 @@ class App extends Component {
         <Switch key={i}>
           <Route path={`/S${i}/:class/add`} component={AddClass} />
           <Route path={`/S${i}/add`} component={AddSemester} />
-          <Route path={`/S${i}/:class`} component={DisplayClass} />
-          <Route path={`/S${i}`} component={Semester} />
+          <Route path={`/S${i}/:class`} component={ClassPage} />
+          <Route path={`/S${i}`} component={SemesterPage} />
         </Switch>
       )
     }
@@ -59,7 +57,7 @@ class App extends Component {
           {user.isConnected ? (
             <React.Fragment>
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={loading} />
+              <Route path='/disconnect' component={NoJSXPage} />
               <Route path='/profile/:user' component={Profile} />
               {this.routeSemester()}
             </React.Fragment>

@@ -34,16 +34,16 @@ async function signup(req, res) {
 async function login(req, res) {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(400).send("Requête invalide");
+    return res.status(400).send("InvalidRequest");
   }
   try {
     const findUser = Users[username];
     if (!findUser)
-      return res.status(400).send("L'utilisateur n'existe pas");
+      return res.status(400).send("UserNotExist");
     if (findUser.password === null)
-      return res.status(400).send("Le compte n'a pas été crée");
+      return res.status(400).send("AccountNotCreate");
     if (findUser.password !== password)
-      return res.status(400).send("Mot de passe incorrect");
+      return res.status(400).send("PasswordError");
     req.session.user = username;
     return res.status(200).send({
       token: username,
