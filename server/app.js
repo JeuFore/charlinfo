@@ -8,7 +8,7 @@ var fileUpload = require('express-fileupload')
 //On définit notre objet express nommé app
 const app = express();
 app.use(cors({
-  origin:['http://localhost:3000', 'http://192.168.1.27:3000'],
+  origin:['http://localhost:3000', 'http://192.168.1.12:3000'],
   credentials: true // enable set cookie
 }));
 

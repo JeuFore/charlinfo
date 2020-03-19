@@ -1,17 +1,14 @@
 import { httpRequest } from './httpRequest'
 
 export default {
-    get: async function (store, user) {
-        await httpRequest(`/user/get/${user}`, 'get', store);
-        return store
+    get: function (store, user) {
+        return httpRequest(`/user/get/${user}`, 'get', store);
     },
-    ban: async function (store, user) {
-        await httpRequest(`/user/ban/${user}`, 'post', store);
-        return store
+    ban: function (store, user) {
+        return httpRequest(`/user/ban/${user}`, 'post', store);
     },
-    unban: async function (store, user) {
-        await httpRequest(`/user/unban/${user}`, 'post', store);
-        return store
+    unban: function (store, user) {
+        return httpRequest(`/user/unban/${user}`, 'post', store);
     },
     disconnect: async function (store) {
         localStorage.clear();
@@ -19,7 +16,7 @@ export default {
         window.location.replace('/connexion');
     },
     permission: function (store, params) {
-       return httpRequest('/user/permission', 'post', store, params);
+        return httpRequest('/user/permission', 'post', store, params);
     },
     isConnected: localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
 }

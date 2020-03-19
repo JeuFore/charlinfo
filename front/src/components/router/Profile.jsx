@@ -14,14 +14,16 @@ class Profile extends React.Component {
         this.state = {
             requestStatus: RequestStatus.Getting
         }
+        this.data = [];
     }
 
     componentDidMount() {
         document.title = 'Charlinfo | Profile';
-        user.get(this.state, this.props.match.params.user).then((data) => this.setState(data))
+        user.get(this.state, this.props.match.params.user).then(({ requestStatus }) => this.setState({ requestStatus }));
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="text-center mt-4">
                 <svg className="mt-n5 responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -41,7 +43,7 @@ class Profile extends React.Component {
                     <div>
                         <img className="mb-3" src={profile} alt="Profile icon" width={100} />
                         <h3>{`${this.state.data.first_name} ${this.state.data.name}`}</h3>
-                        <p className="text-muted">{this.state.data.type}</p>
+                        <p className="text-muted">{this.data.type}</p>
                         <div className="mt-n5 responsive-svg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                                 <path fill="url(#gradient1)" fillOpacity="1" d="M0,96L80,128C160,160,320,224,480,256C640,288,800,288,960,245.3C1120,203,1280,117,1360,74.7L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>

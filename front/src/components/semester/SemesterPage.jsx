@@ -12,65 +12,66 @@ class SemesterPage extends React.Component {
         super(props);
         this.state = {
             requestStatus: RequestStatus.Getting,
-            type: "null",
-            perm: ''
         }
-        this.inputChange = this.inputChange.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.informatique = [];
+        this.general = [];
     }
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.url.replace('/', '')}`;
-        fileSemester.get(this.state, this.props.match.url).then(({ requestStatus }) => this.setState({ requestStatus }));
+        fileSemester.get(this.state, this.props.match.url).then((data) => {
+            if (data.requestStatus === RequestStatus.Success) {
+                this.informatique = data.data.filter(data => data.type === "Informatique");
+                this.general = data.data.filter(data => data.type === "Général");
+            }
+            this.setState({ requestStatus: RequestStatus.Success });
+        });
         user.permission({}, {
             grade: UserPerm.Admininstrator
-        }).then((data) => this.setState({ perm: data.data }));
+        }).then(({ data }) => this.setState({ perm: data }));
     }
 
-    inputChange(event) {
-        return this.setState({
-            [event.target.name]: event.target.value
-        });
+    sortChange(event) {
+        if (this.state.requestStatus === RequestStatus.Success && event.target.value !== "null") {
+            function compare(a, b) {
+                return a[event.target.value].localeCompare(b[event.target.value])
+            }
+            this.informatique.sort(compare);
+            this.general.sort(compare);
+            this.setState({ requestStatus: RequestStatus.Success });
+        }
     }
 
     render() {
-        if (this.state.requestStatus === RequestStatus.Success && this.state.type !== "null") {
-            let sort_type = this.state.type;
-            function compare(a, b, type = sort_type) {
-                return a[type].localeCompare(b[type])
-            }
-            this.state.data.sort(compare);
-        }
-
-        var informatique = [];
-        var general = [];
-        if (this.state.requestStatus === RequestStatus.Success) {
-            informatique = this.state.data.filter(data => data.type === "Informatique");
-            general = this.state.data.filter(data => data.type === "Général");
-        }
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
-                <Link to={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
+                <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
                 <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
 
-                <select className="form-control m-3 w-auto" onChange={this.inputChange} name="type">
+                <select className="form-control m-3 w-auto" onChange={this.sortChange} name="type">
                     <option value="null">Trier par ...</option>
                     <option value="title">Titre</option>
                     <option value="description">Description</option>
                     <option value="professor">Professeurs</option>
                 </select>
 
-                <div className="s1_container">
+                <div className="s1_container mt-4">
                     <div className="s1_col">
-                        <h3 className="text-center mb-3">UE Informatique</h3>
-                        {informatique.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} grade={this.state.perm} />
+                        <h3 className="mb-3 font-weight-bold">UE Informatique</h3>
+                        {this.informatique.map((data) => (
+                            <div className="displaycat" key={data.link}>
+                                <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} grade={this.state.perm} />
+                            </div>
                         ))}
                     </div>
                     <div className="s1_col">
-                        <h3 className="text-center mb-3">UE Générale</h3>
-                        {general.map((data) => (
-                            <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} key={data.link} grade={this.state.perm}/>
+                        <h3 className="mb-3 mt-5 font-weight-bold">UE Générale</h3>
+                        {this.general.map((data) => (
+                            <div className="displaycat" key={data.link}>
+                                <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} grade={this.state.perm} />
+                            </div>
                         ))}
                     </div>
                 </div>
