@@ -9,7 +9,10 @@ body{
   }
   .s1_col{
     width: 50%;
-    margin: 2% 0 2% 5%;
+    margin: 2% 5% 0 0;
+  }
+  .s1_col + .s1_col{
+    margin: 2% 0 0 5%;
   }
   .s1_col h3{
     text-align: center;

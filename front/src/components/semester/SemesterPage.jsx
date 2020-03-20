@@ -47,10 +47,12 @@ class SemesterPage extends React.Component {
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
-                <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
-                <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
+                <div className="adding-zone">
+                    <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
+                    <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
+                </div>
 
-                <select className="form-control m-3 w-auto" onChange={this.sortChange} name="type">
+                <select className="form-control" onChange={this.sortChange} name="type">
                     <option value="null">Trier par ...</option>
                     <option value="title">Titre</option>
                     <option value="description">Description</option>
