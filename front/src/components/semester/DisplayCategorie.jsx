@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import fileSemester from '../../actions/fileSemester'
-import { RequestStatus } from '../../utils/consts'
+import { RequestStatus, Color } from '../../utils/consts'
 
 import arrow from '../../assets/icons/arrow-pointing-to-right.png'
 
 import '../../style/test.css';
 
 const DisplayCategorie = (props) => {
+
+    const test = '#43A047'
 
     async function deleteClass(event) {
         event.preventDefault();
@@ -22,7 +24,7 @@ const DisplayCategorie = (props) => {
                 classNameEnter: props.data.title
             }
         }}>
-            <div className="number-float"><h2>{props.data.number}</h2></div>
+            <div className="number-float" style={{ backgroundColor: Color[Math.round(Math.random() * Color.length - 1)] }}><h2>{props.data.number}</h2></div>
             <div className="round-card-text">
                 <div>
                     <h5>{props.data.title}</h5>

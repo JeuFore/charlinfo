@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import DisplayUploadingFile from './DisplayUploadingFile'
 import fileClass from '../../actions/fileClass'
-import { RequestStatus, UserPerm } from '../../utils/consts'
+import { RequestStatus, UserPerm, Color } from '../../utils/consts'
 import user from '../../actions/user'
 
 import add_icon from '../../assets/icons/add-icon.png'
@@ -20,7 +20,7 @@ class DisplayClass extends React.Component {
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.params.class}`;
-        fileClass.get(this.state, this.props.match.url);
+        fileClass.get(this.state, this.props.match.url).then(({ requestStatus }) => this.setState({ requestStatus }));
         this.user = user.isConnected;
         user.permission({}, {
             grade: UserPerm.Admininstrator
@@ -77,46 +77,46 @@ class DisplayClass extends React.Component {
                 <div className="displayClass">
 
                     {cours.length !== 0 && (
-                        <div className="flex-column m-3">
+                        <div className="m-3">
                             <h2 className="mb-3">Cours</h2>
                             {cours.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-secondary" user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
 
                     {exercice.length !== 0 && (
-                        <div className="flex-column m-3">
+                        <div className="m-3">
                             <h2 className="mb-3">Exercice</h2>
                             {exercice.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-info" user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
 
                     {corrige.length !== 0 && (
-                        <div className="flex-column m-3">
+                        <div className="m-3">
                             <h2 className="mb-3">Corrigé</h2>
                             {corrige.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-success" user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
 
                     {aide.length !== 0 && (
-                        <div className="flex-column m-3">
+                        <div className="m-3">
                             <h2 className="mb-3">Aide</h2>
                             {aide.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-primary" user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
 
                     {DM.length !== 0 && (
-                        <div className="flex-column m-3">
+                        <div className="m-3">
                             <h2 className="mb-3">DM</h2>
                             {DM.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD="text-white bg-danger" user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[10] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}

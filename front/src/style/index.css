@@ -20,6 +20,9 @@ body{
   .displayClass{
     display: flex;
   }
+  .displayClass > div{
+    width: 100%;
+  }
   .responsive-svg{
     display: none;
   }
