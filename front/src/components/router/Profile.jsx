@@ -23,7 +23,6 @@ class Profile extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="text-center mt-4">
                 <svg className="mt-n5 responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

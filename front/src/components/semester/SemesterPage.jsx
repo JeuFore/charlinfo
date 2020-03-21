@@ -47,10 +47,18 @@ class SemesterPage extends React.Component {
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
-                <div className="adding-zone">
-                    <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
-                    <small className="text-center mb-3">Ajouter des cours</small>
-                </div>
+
+                {this.state.perm && (
+                    <div className="adding-zone">
+                        <Link className="add-icon" to={{
+                            pathname: `${this.props.match.url}/add`,
+                            state: {
+                                Perm: this.state.perm
+                            }
+                        }}><img src={add_icon} alt="add icon" /></Link>
+                        <small className="text-center mb-3">Ajouter des cours</small>
+                    </div>
+                )}
 
                 <select className="form-control" onChange={this.sortChange} name="type">
                     <option value="null">Trier par ...</option>

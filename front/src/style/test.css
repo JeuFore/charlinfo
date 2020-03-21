@@ -195,13 +195,13 @@
         opacity: 0;
         transition: width 1s, padding 0.8s, opacity 0s ease 0.8s;
     }
-    .download_button:hover p{
+    .card-design:hover .download_button p{
         opacity: 1;
         width: 83.5px;
         padding: 15px;
         transition: width 1s, padding 0.5s, opacity 0s ease;
     }
-    .download_button:hover .icon{
+    .card-design:hover .download_button .icon{
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         transition: all 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28);

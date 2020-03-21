@@ -13,9 +13,9 @@ async function addSemester(req, res) {
         try {
             if (!user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
-            const { title, description, professor, type, link } = req.body;
+            const { title, description, professor, type, link, color } = req.body;
             const { semester } = req.params;
-            if (!title || !description || !professor || !type || !link)
+            if (!title || !description || !professor || !type || !link || !color)
                 return res.status(400).send("Requête invalide");
             if (searchExistSemester(DataSemester[semester], link).stop)
                 return res.status(409).send("Lien du cours déjà existant");
@@ -27,6 +27,7 @@ async function addSemester(req, res) {
             value.description = description;
             value.professor = professor;
             value.link = link;
+            value.color = color;
 
             DataSemester[semester].push(value);
 

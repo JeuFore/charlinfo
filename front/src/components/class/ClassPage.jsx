@@ -63,7 +63,7 @@ class DisplayClass extends React.Component {
         }
         return (
             <div className="d-flex flex-column">
-                <h1 className="text-center m-3">{this.props.match.params.class}</h1>
+                <h1 className="text-center m-3">{this.props.location.state.classNameEnter}</h1>
 
                 <div className="adding-zone">
                     <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
