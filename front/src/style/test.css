@@ -209,6 +209,13 @@
   }
 
 @media screen and (max-width: 700px) {
+    .displayClass.container{
+        padding: 0;
+        max-width: none;
+    }
+    .displayClass{
+        padding: 0 30px!important;
+    }
     .adding-zone{
         background-color: #f5f7fb;
         position: fixed;

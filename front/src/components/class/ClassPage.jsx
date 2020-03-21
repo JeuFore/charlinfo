@@ -16,6 +16,7 @@ class DisplayClass extends React.Component {
             perm: ''
         }
         this.inputChange = this.inputChange.bind(this);
+        this.count = 0;
     }
 
     componentDidMount() {
@@ -31,6 +32,13 @@ class DisplayClass extends React.Component {
         return this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    container(){
+        this.count++;
+        this.test = '';
+        if(this.count <= 3)
+            this.test = 'container';
     }
 
     render() {
@@ -77,10 +85,11 @@ class DisplayClass extends React.Component {
                     </div>
                 )}
 
-                <div className="displayClass container">
+                <div className={`displayClass ${this.test}`}>
 
                     {cours.length !== 0 && (
-                        <div className="m-3">
+                        <div>
+                            {this.container()}
                             <h2 className="mb-3">Cours</h2>
                             {cours.map((data) => (
                                 <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
@@ -89,7 +98,8 @@ class DisplayClass extends React.Component {
                     )}
 
                     {exercice.length !== 0 && (
-                        <div className="m-3">
+                        <div>
+                            {this.container()}
                             <h2 className="mb-3">Exercice</h2>
                             {exercice.map((data) => (
                                 <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[10] }} user={this.user} grade={this.state.perm} />
@@ -98,7 +108,8 @@ class DisplayClass extends React.Component {
                     )}
 
                     {corrige.length !== 0 && (
-                        <div className="m-3">
+                        <div>
+                            {this.container()}
                             <h2 className="mb-3">Corrigé</h2>
                             {corrige.map((data) => (
                                 <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[0] }} user={this.user} grade={this.state.perm} />
@@ -107,7 +118,8 @@ class DisplayClass extends React.Component {
                     )}
 
                     {aide.length !== 0 && (
-                        <div className="m-3">
+                        <div>
+                            {this.container()}
                             <h2 className="mb-3">Aide</h2>
                             {aide.map((data) => (
                                 <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[6] }} user={this.user} grade={this.state.perm} />
@@ -116,7 +128,8 @@ class DisplayClass extends React.Component {
                     )}
 
                     {DM.length !== 0 && (
-                        <div className="m-3">
+                        <div>
+                            {this.container()}
                             <h2 className="mb-3">DM</h2>
                             {DM.map((data) => (
                                 <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[8] }} user={this.user} grade={this.state.perm} />
