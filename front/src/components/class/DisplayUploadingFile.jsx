@@ -13,13 +13,20 @@ const DisplayUploadingFile = (props) => {
             window.location.reload()
     }
     return (
-        <div className="card-design">
+        <div className="card-design mb-4" style={props.styleD}>
             <div>
                 <h5>{props.data.title}</h5>
+
+                <p style={{ whiteSpace: 'pre-line' }} className="description">{props.data.description}</p>
+
+                <p className="creator">Fait par : <b>{props.data.creator}</b></p>
+
+                <p><b>Date :</b> {props.data.release_date}</p>
+
                 <a href={`${config.localApiUrl}/file${props.url}/download/?path=${props.data.file}`}>
-                    <div className="test" style={props.styleD}>
-                        <h4>Download</h4>
-                        <img src={arrow} alt="arrow" />
+                    <div className="download_button">
+                        <p>Download</p>
+                        <div className="icon"><img src={arrow} alt="arrow" /></div>
                     </div>
                 </a>
             </div>

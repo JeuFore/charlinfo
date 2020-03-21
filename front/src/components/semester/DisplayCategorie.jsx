@@ -9,8 +9,6 @@ import '../../style/test.css';
 
 const DisplayCategorie = (props) => {
 
-    const test = '#43A047'
-
     async function deleteClass(event) {
         event.preventDefault();
         const { requestStatus } = await fileSemester.delete({}, props.link.replace(`/${props.data.link}`, ""), { link: props.data.link });

@@ -77,7 +77,7 @@ async function deleteClass(req, res) {
                 return res.status(400).send("Cours inexistant");
             dataClass.splice(i - 1, 1);
             fs.writeFileSync('assets/bdd/uploadingData.json', JSON.stringify(UploadingData));
-            fs.unlinkSync(path);
+            //fs.unlinkSync(path);
             return res.status(200).send("Successful deletion");
         } catch {
             return res.status(500).send("Server Error");

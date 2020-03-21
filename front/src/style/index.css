@@ -48,6 +48,9 @@ body{
   .s1_col h3{
     margin-left: 15px;
   }
+  .s1_container, .displayClass{
+    margin-bottom: 80px;
+  }
 }
 
 .navbar-right-text a{

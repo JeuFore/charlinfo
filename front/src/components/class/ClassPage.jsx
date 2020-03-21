@@ -20,7 +20,7 @@ class DisplayClass extends React.Component {
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.params.class}`;
-        fileClass.get(this.state, this.props.match.url).then(({ requestStatus }) => this.setState({ requestStatus }));
+        fileClass.get(this.state, this.props.match.url).then((data) => this.setState(data));
         this.user = user.isConnected;
         user.permission({}, {
             grade: UserPerm.Admininstrator
@@ -56,8 +56,11 @@ class DisplayClass extends React.Component {
         return (
             <div className="d-flex flex-column">
                 <h1 className="text-center m-3">{this.props.match.params.class}</h1>
-                <Link to={`${this.props.match.url}/add`} className="mx-auto mb-3 add-icon"><img src={add_icon} alt="add icon" style={{ width: 50 }} /></Link>
-                <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
+
+                <div className="adding-zone">
+                    <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
+                    <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
+                </div>
 
                 <select className="form-control m-3 w-auto" onChange={this.inputChange} name="type">
                     <option value="null">Trier par ...</option>
@@ -74,7 +77,7 @@ class DisplayClass extends React.Component {
                     </div>
                 )}
 
-                <div className="displayClass">
+                <div className="displayClass container">
 
                     {cours.length !== 0 && (
                         <div className="m-3">
@@ -89,7 +92,7 @@ class DisplayClass extends React.Component {
                         <div className="m-3">
                             <h2 className="mb-3">Exercice</h2>
                             {exercice.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[10] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
@@ -98,7 +101,7 @@ class DisplayClass extends React.Component {
                         <div className="m-3">
                             <h2 className="mb-3">Corrigé</h2>
                             {corrige.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[0] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
@@ -107,7 +110,7 @@ class DisplayClass extends React.Component {
                         <div className="m-3">
                             <h2 className="mb-3">Aide</h2>
                             {aide.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[1] }} user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[6] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
@@ -116,7 +119,7 @@ class DisplayClass extends React.Component {
                         <div className="m-3">
                             <h2 className="mb-3">DM</h2>
                             {DM.map((data) => (
-                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[10] }} user={this.user} grade={this.state.perm} />
+                                <DisplayUploadingFile key={data.release_date} data={data} url={this.props.match.url} styleD={{ color: 'white', backgroundColor: Color[8] }} user={this.user} grade={this.state.perm} />
                             ))}
                         </div>
                     )}
