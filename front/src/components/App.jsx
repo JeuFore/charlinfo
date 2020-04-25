@@ -29,21 +29,6 @@ class App extends Component {
     DisconnectPage = DisconnectPage.bind(this)
   }
 
-  routeSemester() {
-    var res = [];
-    for (let i = 1; i < 5; i++) {
-      res[i] = (
-        <Switch key={i}>
-          <Route path={`/S${i}/:class/add`} component={AddClass} />
-          <Route path={`/S${i}/add`} component={AddSemester} />
-          <Route path={`/S${i}/:class`} component={ClassPage} />
-          <Route path={`/S${i}`} component={SemesterPage} />
-        </Switch>
-      )
-    }
-    return res
-  }
-
   render() {
     if (window.location.pathname === '/disconnect')
       disconnect();
@@ -61,7 +46,16 @@ class App extends Component {
               <Route path='/home' component={Home} />
               <Route path='/disconnect' component={NoJSXPage} />
               <Route path='/profile/:user' component={Profile} />
-              {this.routeSemester()}
+              <Route path={`/:s1/:class/add`} component={AddClass} />
+              <Route path={`/:s1/add`} component={AddSemester} />
+              <Route path={`/:s1/:class`} component={ClassPage} />
+              <React.Fragment>
+                <Route path={`/S1`} component={SemesterPage} />
+                <Route path={`/S2`} component={SemesterPage} />
+                <Route path={`/S3`} component={SemesterPage} />
+                <Route path={`/S4`} component={SemesterPage} />
+              </React.Fragment>
+
             </Switch>
           )
             : <Redirect path='' to='/connexion' />
