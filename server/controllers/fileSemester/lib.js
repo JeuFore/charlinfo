@@ -18,8 +18,10 @@ async function addSemester(req, res) {
             const { semester } = req.params;
             if (!title || !description || !professor || !type || !link || !color)
                 return res.status(400).send("Requête invalide");
+            if ((await request("select id from cours where link like $1 and idsemestre = $2", [link, semester.replace("S", "")]))[0])
+                return res.status(409).send("Lien du cours déjà existant");
 
-            let number = (await request("select count(*) as nb from cours"))[0].nb;
+            let number = (await request("select id from cours order by id desc limit 1"))[0].id;
             number++;
 
             await request("insert into cours values($1, $2, 1, $3, $4, $5, $6, $7, $8)", [number, title, semester.replace("S", ""), description, color, link, type, professor]);
