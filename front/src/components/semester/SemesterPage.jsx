@@ -35,6 +35,8 @@ class SemesterPage extends React.Component {
     sortChange(event) {
         if (this.state.requestStatus === RequestStatus.Success && event.target.value !== "null") {
             function compare(a, b) {
+                if (event.target.value === "number")
+                    return b[event.target.value].localeCompare(a[event.target.value])
                 return a[event.target.value].localeCompare(b[event.target.value])
             }
             this.informatique.sort(compare);
@@ -63,6 +65,7 @@ class SemesterPage extends React.Component {
                 <select className="form-control" onChange={this.sortChange} name="type">
                     <option value="null">Trier par ...</option>
                     <option value="title">Titre</option>
+                    <option value="number">Nombres de cours</option>
                     <option value="description">Description</option>
                     <option value="professor">Professeurs</option>
                 </select>
