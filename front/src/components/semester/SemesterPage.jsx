@@ -22,8 +22,8 @@ class SemesterPage extends React.Component {
         document.title = `Charlinfo | ${this.props.match.url.replace('/', '')}`;
         fileSemester.get(this.state, this.props.match.url).then((data) => {
             if (data.requestStatus === RequestStatus.Success) {
-                this.informatique = data.data.filter(data => data.type === "Informatique");
-                this.general = data.data.filter(data => data.type === "Général");
+                this.informatique = data.data.filter(data => data.type === 1);
+                this.general = data.data.filter(data => data.type === 2);
             }
             this.setState({ requestStatus: RequestStatus.Success });
         });

@@ -1,14 +1,14 @@
-const Users = require('../../assets/bdd/user');
 const UploadingData = require('../../assets/bdd/uploadingData.json');
+const { request } = require('../requestController');
 
 async function getUser(req, res) {
     if (connected(req, res))
         try {
             const { user } = req.params;
-            const findEnterUser = Users[user];
-            if (req.session.user !== user && !permissions(req, undefined, 4))
+            if (req.session.user !== user && !await permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
-            return res.status(200).send(findEnterUser.information);
+            const findEnterUser = (await request("SELECT nom as first_name, prenom as name, idformation, grade, datecreation FROM compte where id LIKE $1", [user]))[0]
+            return res.status(200).send(findEnterUser);
         }
         catch {
             return res.status(404).send("User not found");
@@ -23,12 +23,13 @@ async function unbanUser(req, res) {
     return null
 }
 
-function permissions(req, res, grade) {
+async function permissions(req, res, grade) {
     if (connected(req, res))
         try {
+            let user = (await request("SELECT grade FROM compte where id LIKE $1", [req.session.user]))[0];
             if (!res)
-                return Users[req.session.user].information.grade >= grade;
-            return res.status(200).send(Users[req.session.user].information.grade >= req.body.grade);
+                return user.grade >= grade;
+            return res.status(200).send(user.grade >= req.body.grade);
         }
         catch {
             return res.status(404).send("User not found");
@@ -48,7 +49,6 @@ function connected(req, res) {
 
 async function upload(req, res) {
     const { user } = req.params;
-    //if (connected(req, res))
 
     let first_tab = Object.keys(UploadingData);
     let secondtab = [];

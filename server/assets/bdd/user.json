@@ -1,6 +1,6 @@
 {
     "jeufore": {
-        "password": "gqsdbdfgh79886hJù$$",
+        "password": null,
         "information": {
             "first_name": "coucou",
             "name": "test",
@@ -11,14 +11,14 @@
         }
     },
     "taupe": {
-        "password": "test",
+        "password": "sha1$768c5311$1$f7151fd51284494f1b5ac54b03f9eedac678ae9c",
         "information": {
-            "first_name": "de",
-            "name": "de",
+            "first_name": "Taupenet",
+            "name": "TAUPE",
             "formation": "DUT Informatique",
-            "dateCreation": "2020-02-28T14:30:08.291Z",
+            "dateCreation": "2020-04-24T15:08:23.162Z",
             "type": "Visiteur",
-            "grade": 4
+            "grade": 1
         }
     },
     "visiteur": {
@@ -26,12 +26,12 @@
         "information": {}
     },
     "chastin3u": {
-        "password": "test",
+        "password": null,
         "information": {
-            "first_name": "Matis",
-            "name": "CHASTIN",
+            "first_name": "D",
+            "name": "D",
             "formation": "DUT Informatique",
-            "dateCreation": "2020-02-29T16:58:29.236Z",
+            "dateCreation": "2020-04-24T16:35:59.912Z",
             "type": "Visiteur",
             "grade": 1
         }

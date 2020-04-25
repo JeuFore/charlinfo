@@ -9,7 +9,7 @@ class Connection extends React.Component {
             username: "",
             name: "",
             first_name: "",
-            formation: "DUT Informatique",
+            formation: 1,
             password: "",
             userError: "",
             requestStatus: RequestStatus.Getting
@@ -83,7 +83,7 @@ class Connection extends React.Component {
                         <input type="name" placeholder="Nom" onChange={this.inputChange} name="name" />
                         <input type="first_name" placeholder="Prénom" onChange={this.inputChange} name="first_name" />
                         <select className="form-control m-3 w-auto" onChange={this.inputChange} name="formation">
-                            <option value="DUT Informatique">DUT Informatique</option>
+                            <option value="1">DUT Informatique</option>
                         </select>
                         <input type="password" placeholder="Mot de passe" onChange={this.inputChange} name="password" />
                     </div>

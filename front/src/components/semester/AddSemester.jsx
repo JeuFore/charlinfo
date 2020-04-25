@@ -8,7 +8,7 @@ class AddSemester extends React.Component {
         super(props);
         this.state = {
             title: "",
-            type: "Informatique",
+            type: "1",
             description: "",
             professor: "",
             link: ""
@@ -63,8 +63,8 @@ class AddSemester extends React.Component {
                     <div className="form-group">
                         <label>Type</label>
                         <select className="form-control my-3 w-auto" onChange={this.inputChange} name="type">
-                            <option value="Informatique">Informatique</option>
-                            <option value="Général">Général</option>
+                            <option value="1">Informatique</option>
+                            <option value="2">Général</option>
                         </select>
                     </div>
                     <div className="form-group">

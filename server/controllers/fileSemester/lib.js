@@ -1,41 +1,33 @@
 const DataSemester = require('../../assets/bdd/dataSemester')
 const user = require('../user/lib');
 const fs = require('fs');
+const { request } = require('../requestController');
 
 async function getSemester(req, res) {
     const { semester } = req.params;
     if (user.connected(req, res))
-        return res.status(200).send(DataSemester[semester] || []);
+        return res.status(200).send(await request("select cours.nom as title, cours.description, professor,  color, link, type, count(fichier.id) as number from cours LEFT OUTER JOIN fichier on cours.id = fichier.idcours where idsemestre = $1 group by cours.nom, cours.description, professor,  color, link, type", [semester.replace("S", "")]));
 }
 
 async function addSemester(req, res) {
     if (user.connected(req, res))
         try {
-            if (!user.permissions(req, undefined, 4))
+            if (!await user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
             const { title, description, professor, type, link, color } = req.body;
             const { semester } = req.params;
             if (!title || !description || !professor || !type || !link || !color)
                 return res.status(400).send("Requête invalide");
-            if (searchExistSemester(DataSemester[semester], link).stop)
-                return res.status(409).send("Lien du cours déjà existant");
 
-            let value = {};
+            let number = (await request("select count(*) as nb from cours"))[0].nb;
+            number++;
 
-            value.title = title;
-            value.type = type;
-            value.description = description;
-            value.professor = professor;
-            value.link = link;
-            value.color = color;
-
-            DataSemester[semester].push(value);
-
-            fs.writeFileSync('assets/bdd/dataSemester.json', JSON.stringify(DataSemester));
+            await request("insert into cours values($1, $2, 1, $3, $4, $5, $6, $7, $8)", [number, title, semester.replace("S", ""), description, color, link, type, professor]);
 
             return res.status(200).send("Successful upload");
 
-        } catch {
+        } catch (e) {
+            console.log(e);
             return res.status(500).send("Server Error");
         }
 }
@@ -43,33 +35,21 @@ async function addSemester(req, res) {
 async function deleteSemester(req, res) {
     if (user.connected(req, res))
         try {
-            if (!user.permissions(req, undefined, 4))
+            if (!await user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
             const { link } = req.body;
             const { semester } = req.params;
-            let dataSemester = DataSemester[semester];
-            if (!dataSemester)
+            const dataSemester = (await request("select id from cours where link LIKE $1 AND idsemestre = $2", [link, semester.replace("S", "")]))[0];
+            if (!link || !semester)
                 return res.status(400).send("Requête invalide");
-            const search = searchExistSemester(dataSemester, link);
-            if (!search.stop)
+            if (!dataSemester)
                 return res.status(400).send("Cours inexistant");
-            dataSemester.splice(search.i - 1, 1);
-            fs.writeFileSync('assets/bdd/dataSemester.json', JSON.stringify(DataSemester));
+            await request("delete from cours where id = $1", [dataSemester.id])
             return res.status(200).send("Successful deletion");
-        } catch {
+        } catch (e) {
+            console.log(e);
             return res.status(500).send("Server Error");
         }
-}
-
-function searchExistSemester(dataSemester, link) {
-    let i = 0;
-    let stop = false;
-    while (i in dataSemester && stop !== true) {
-        if (dataSemester[i].link === link)
-            stop = true;
-        i++;
-    }
-    return { stop, i };
 }
 
 exports.getSemester = getSemester;

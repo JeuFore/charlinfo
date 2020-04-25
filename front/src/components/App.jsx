@@ -9,6 +9,7 @@ import user from '../actions/user'
 import { RequestStatus } from '../utils/consts'
 
 import Home from './router/Home'
+import AddChangelog from './router/AddChangelog'
 import Navigation from './navigation/Navigation'
 import Profile from './router/Profile'
 import Connection from './account/Connection'
@@ -55,12 +56,13 @@ class App extends Component {
           <Route path='/NoPageFound' component={NoJSXPage} />
 
           {user.isConnected ? (
-            <React.Fragment>
+            <Switch>
+              <Route path='/home/add' component={AddChangelog} />
               <Route path='/home' component={Home} />
               <Route path='/disconnect' component={NoJSXPage} />
               <Route path='/profile/:user' component={Profile} />
               {this.routeSemester()}
-            </React.Fragment>
+            </Switch>
           )
             : <Redirect path='' to='/connexion' />
           }
