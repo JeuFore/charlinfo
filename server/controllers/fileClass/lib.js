@@ -1,16 +1,17 @@
 const UploadingData = require('../../assets/bdd/uploadingData.json');
 const user = require('../user/lib');
 const fs = require('fs');
+const { request } = require('../requestController');
 
 const LIMITE_UPLOAD_FILE_SIZE = 5.0;
 
 async function getClass(req, res) {
     if (user.connected(req, res))
         try {
-            const { semester, class_e } = req.params;
-            return res.status(200).send(UploadingData[semester][class_e] || []);
-        } catch{
-
+            const { idclass } = req.params;
+            return res.status(200).send(await request("select idauteur as creator, description, datefich as release_date, nom as title, typecours as type, 1 as file from fichier where idcours = $1", [idclass]));
+        } catch (e){
+            console.log(e);
         }
 }
 
@@ -20,19 +21,19 @@ async function addClass(req, res) {
             if (req.files.content.size > LIMITE_UPLOAD_FILE_SIZE * 1000000)
                 return res.status(406).send("Fichier trop grand");
             const { title, type, description } = req.query;
-            const { semester, class_e } = req.params;
+            const { semester, idclass } = req.params;
             let dataClass = UploadingData[semester];
             if (!title || !type || !description || !req.files)
                 return res.status(400).send("Requête invalide");
-            if (!fs.existsSync(`assets/uploadingFile/${semester}/${class_e}`)) {
-                dataClass[class_e] = [];
-                fs.mkdirSync(`assets/uploadingFile/${semester}/${class_e}`);
+            if (!fs.existsSync(`assets/uploadingFile/${semester}/${idclass}`)) {
+                dataClass[idclass] = [];
+                fs.mkdirSync(`assets/uploadingFile/${semester}/${idclass}`);
             }
 
-            dataClass = UploadingData[semester][class_e]
+            dataClass = UploadingData[semester][idclass]
 
             const date = new Date().toISOString();
-            let path = `assets/uploadingFile/${semester}/${class_e}/${req.session.user}_${date}.${(req.files.content.name).split(".")[((req.files.content.name).split(".")).length - 1]}`;
+            let path = `assets/uploadingFile/${semester}/${idclass}/${req.session.user}_${date}.${(req.files.content.name).split(".")[((req.files.content.name).split(".")).length - 1]}`;
 
             let value = {};
 
@@ -61,8 +62,8 @@ async function deleteClass(req, res) {
             if (!path.includes(req.session.user) && !await user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
 
-            const { semester, class_e } = req.params;
-            let dataClass = UploadingData[semester][class_e];
+            const { semester, idclass } = req.params;
+            let dataClass = UploadingData[semester][idclass];
             if (!dataClass)
                 return res.status(400).send("Requête invalide");
             let i = 0;
