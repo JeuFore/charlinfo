@@ -18,7 +18,8 @@ const DisplayCategorie = (props) => {
         <Link className="round-card" to={{
             pathname: props.link,
             state: {
-                classNameEnter: props.data.title
+                classNameEnter: props.data.title,
+                classId: props.data.id
             }
         }}>
             <div className="number-float" style={{backgroundColor: props.data.color}}><h2>{props.data.number}</h2></div>

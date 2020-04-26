@@ -21,7 +21,7 @@ class DisplayClass extends React.Component {
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.params.class}`;
-        fileClass.get(this.state, this.props.match.url).then((data) => this.setState(data));
+        fileClass.get(this.state, `${this.props.match.params.s1}/${this.props.location.state.classId}`).then((data) => this.setState(data));
         this.user = user.isConnected;
         user.permission({}, {
             grade: UserPerm.Admininstrator
@@ -55,11 +55,11 @@ class DisplayClass extends React.Component {
         var aide = [];
         var DM = [];
         if (this.state.requestStatus === RequestStatus.Success) {
-            cours = this.state.data.filter(data => data.type === "Cours");
-            exercice = this.state.data.filter(data => data.type === "Exercice");
-            corrige = this.state.data.filter(data => data.type === "Corrigé");
-            aide = this.state.data.filter(data => data.type === "Aide");
-            DM = this.state.data.filter(data => data.type === "DM");
+            cours = this.state.data.filter(data => data.type === "1");
+            exercice = this.state.data.filter(data => data.type === "2");
+            corrige = this.state.data.filter(data => data.type === "3");
+            aide = this.state.data.filter(data => data.type === "4");
+            DM = this.state.data.filter(data => data.type === "5");
         }
         return (
             <div className="d-flex flex-column">

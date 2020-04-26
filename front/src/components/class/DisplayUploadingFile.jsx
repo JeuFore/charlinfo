@@ -12,6 +12,7 @@ const DisplayUploadingFile = (props) => {
         if (requestStatus === "Success")
             window.location.reload()
     }
+    console.log(props)
     return (
         <div className="card-design mb-4" style={props.styleD}>
             <div>
