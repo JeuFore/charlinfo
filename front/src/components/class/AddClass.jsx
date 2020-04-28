@@ -88,6 +88,7 @@ class AddClass extends React.Component {
             //return <Redirect to={this.props.match.url.replace("/add", "")} />
             //window.location.replace();
         }
+        console.log(this.state.file)
         return (
             <div>
                 {this.state.requestStatus === RequestStatus.Getting && (
@@ -118,37 +119,37 @@ class AddClass extends React.Component {
                     </div>
 
                     <Uploader
+                        className="mb-3"
                         multiple={false}
                         autoUpload={false}
-                        onChange={(value) => this.test = value}
+                        fileListVisible={false}
+                        onChange={(value) => this.setState({ file: value[value.length - 1].blobFile })}
                     />
 
-                    <div className="rs-uploader rs-uploader-text mb-3">
-                        <div className="rs-uploader-trigger">
-                            <input type="file" style={{ width: 0 }} />
-                            <button className="rs-uploader-trigger-btn" type="button">
-                                <span>Upload</span>
-                                <span className="rs-ripple-pond">
-                                    <span className="rs-ripple"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div className="rs-uploader-file-items">
-                            <div className="rs-uploader-file-item rs-uploader-file-item-text">
-                                <div className="rs-uploader-file-item-icon-wrapper">
-                                    <i className="rs-uploader-file-item-icon"></i>
-                                </div>
-                                <div className="rs-uploader-file-item-panel">
-                                    <div className="rs-uploader-file-item-content">
-                                        <a role="presentation" className="rs-uploader-file-item-title">file.txt</a>
+                    {this.state.file && (
+                        <div className="rs-uploader rs-uploader-text mb-5">
+                            <div className="rs-uploader-file-items">
+                                <div className="rs-uploader-file-item rs-uploader-file-item-text bg-light">
+                                    <div className="rs-uploader-file-item-icon-wrapper">
+                                        <i className="rs-uploader-file-item-icon"></i>
                                     </div>
+                                    <div className="rs-uploader-file-item-panel">
+                                        <div className="rs-uploader-file-item-content">
+                                            <a role="presentation" className="rs-uploader-file-item-title">{this.state.file.name}</a>
+                                            <span className="rs-uploader-file-item-size">
+                                                {this.state.file.size < 1048576 ?
+                                                    `${Math.round(this.state.file.size / 1024 * 100) / 100}KB`
+                                                    : `${Math.round(this.state.file.size / 1048576 * 100) / 100}MB`
+                                                }</span>
+                                        </div>
+                                    </div>
+                                    <a className="rs-uploader-file-item-btn-remove" role="button" onClick={() => this.setState({ file: '' })}></a>
                                 </div>
-                                <a className="rs-uploader-file-item-btn-remove" role="button" tabIndex="-1"></a>
                             </div>
                         </div>
-                    </div>
+                    )}
 
-                    <input type="submit" className="btn btn-primary mb-3" value="Upload" />
+                    <input type="submit" className="btn btn-primary mb-3" value="Ajouter le cours" />
 
                     <Progress.Line percent={this.state.upload} status={this.state.upload_bar} />
                 </form>
