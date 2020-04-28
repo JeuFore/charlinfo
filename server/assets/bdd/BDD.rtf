@@ -1,0 +1,198 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;}
+{\colortbl;\red255\green255\blue255;\red191\green100\blue38;\red32\green32\blue32;\red153\green168\blue186;
+\red133\green96\blue154;\red86\green132\blue173;\red88\green118\blue71;\red254\green187\blue91;}
+{\*\expandedcolortbl;;\csgenericrgb\c74902\c39216\c14902;\csgenericrgb\c12549\c12549\c12549;\csgenericrgb\c60000\c65882\c72941;
+\csgenericrgb\c52157\c37647\c60392;\csgenericrgb\c33725\c51765\c67843;\csgenericrgb\c34510\c46275\c27843;\csgenericrgb\c99608\c73333\c35686;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 DROP TABLE \cf4 Cours\cf2 , \cf4 Assurer_Cours\cf2 , \cf4 Professeur\cf2 , \cf4 Formation\cf2 , \cf4 Fichier\cf2 , \cf4 Compte\cf2 , \cf4 Semestre\cf2 , \cf4 Changelog\cf2 , \cf4 Description_changelog \cf2 CASCADE;\
+\
+CREATE TABLE \cf4 FORMATION\
+(\
+    \cf5 id          \cf2 integer,\
+    \cf5 nom         \cf2 varchar not null,\
+    \cf5 description \cf2 varchar,\
+    \cf5 duree       \cf2 integer not null,\
+    primary key \cf4 (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 PROFESSEUR\
+(\
+    \cf5 id     \cf2 integer,\
+    \cf5 nom    \cf2 varchar not null,\
+    \cf5 prenom \cf2 varchar not null,\
+    primary key \cf4 (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 SEMESTRE\
+(\
+    \cf5 id \cf2 integer,\
+    primary key \cf4 (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 COMPTE\
+(\
+    \cf5 id           \cf2 varchar,\
+    \cf5 nom          \cf2 varchar,\
+    \cf5 prenom       \cf2 varchar,\
+    \cf5 motDePasse   \cf2 varchar,\
+    \cf5 idFormation  \cf2 integer NOT NULL,\
+    \cf5 grade        \cf2 integer,\
+    \cf5 dateCreation \cf2 TIMESTAMP WITH TIME ZONE,\
+    primary key \cf4 (\cf5 id\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idFormation\cf4 ) \cf2 references \cf4 FORMATION (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 COURS\
+(\
+    \cf5 id          \cf2 varchar,\
+    \cf5 nom         \cf2 varchar NOT NULL,\
+    \cf5 idformation \cf2 integer,\
+    \cf5 idSemestre  \cf2 integer,\
+    \cf5 description \cf2 varchar,\
+    \cf5 type        \cf2 integer not null,\
+    \cf5 color       \cf2 varchar,\
+    primary key \cf4 (\cf5 id\cf2 , \cf5 idformation\cf2 , \cf5 idSemestre\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idFormation\cf4 ) \cf2 references \cf4 FORMATION (\cf5 id\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idSemestre\cf4 ) \cf2 references \cf4 SEMESTRE (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 ASSURER_COURS\
+(\
+    \cf5 idCours     \cf2 varchar,\
+    \cf5 idProf      \cf2 integer,\
+    \cf5 idformation \cf2 integer,\
+    \cf5 idSemestre  \cf2 integer,\
+    primary key \cf4 (\cf5 idCours\cf2 , \cf5 idProf\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idCours\cf2 , \cf5 idformation\cf2 , \cf5 idSemestre\cf4 ) \cf2 references \cf4 COURS (\cf5 id\cf2 , \cf5 idformation\cf2 , \cf5 idSemestre\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idProf\cf4 ) \cf2 references \cf4 PROFESSEUR (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 FICHIER\
+(\
+    \cf5 id          \cf2 integer,\
+    \cf5 idCours     \cf2 varchar                  NOT NULL,\
+    \cf5 idsemestre  \cf2 integer                  not null,\
+    \cf5 idFormation \cf2 integer                  NOT NULL,\
+    \cf5 nom         \cf2 varchar                  NOT NULL,\
+    \cf5 dateFich    \cf2 TIMESTAMP WITH TIME ZONE NOT NULL,\
+    \cf5 idauteur    \cf2 varchar                  NOT NULL,\
+    \cf5 extension   \cf2 varchar,\
+    \cf5 typeCours   \cf2 integer                  NOT NULL,\
+    \cf5 description \cf2 varchar,\
+    primary key \cf4 (\cf5 id\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idCours\cf2 , \cf5 idFormation\cf2 , \cf5 idsemestre\cf4 ) \cf2 references \cf4 COURS (\cf5 id\cf2 , \cf5 idformation\cf2 , \cf5 idsemestre\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 idAuteur\cf4 ) \cf2 references \cf4 COMPTE (\cf5 id\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 CHANGELOG\
+(\
+    \cf5 nom  \cf2 varchar                  NOT NULL,\
+    \cf5 date \cf2 TIMESTAMP WITH TIME ZONE NOT NULL,\
+    primary key \cf4 (\cf5 nom\cf4 )\
+)\cf2 ;\
+\
+CREATE TABLE \cf4 DESCRIPTION_CHANGELOG\
+(\
+    \cf5 nomChangelog \cf2 varchar NOT NULL,\
+    \cf5 description  \cf2 varchar NOT NULL,\
+    primary key \cf4 (\cf5 nomChangelog\cf2 , \cf5 description\cf4 )\cf2 ,\
+    foreign key \cf4 (\cf5 nomChangelog\cf4 ) \cf2 references \cf4 CHANGELOG (\cf5 nom\cf4 )\
+)\cf2 ;\
+\
+\
+INSERT INTO \cf4 FORMATION\
+\cf2 VALUES \cf4 (\cf6 1\cf2 , \cf7 'DUT Informatique'\cf2 ,\
+        \cf7 'Dans le DUT Informatique, on apprend les bases de l\cf4 ''\cf7 Informatique et de la programmation.'\cf2 , \cf6 4\cf4 )\cf2 ;\
+\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 1\cf2 , \cf7 'Fanny'\cf2 , \cf7 'BINET'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 2\cf2 , \cf7 'Irina'\cf2 , \cf7 'ILLINA'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 3\cf2 , \cf7 'Paul'\cf2 , \cf7 'CAILLON'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 4\cf2 , \cf7 'Victorien'\cf2 , \cf7 'ELVINGER'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 5\cf2 , \cf7 'Etienne'\cf2 , \cf7 'ANDRE'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 6\cf2 , \cf7 'Michael'\cf2 , \cf7 'LATHAM'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 7\cf2 , \cf7 'El Haj'\cf2 , \cf7 'LAAMRI'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 8\cf2 , \cf7 'R\'e9my'\cf2 , \cf7 'BOURGUIGNON'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 9\cf2 , \cf7 'Alain'\cf2 , \cf7 'LONGHAIS'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 10\cf2 , \cf7 'Dominique'\cf2 , \cf7 'COLINET'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 11\cf2 , \cf7 'Denis'\cf2 , \cf7 'ROEGEL'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 12\cf2 , \cf7 'Emmanuel'\cf2 , \cf7 'NATAF'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 13\cf2 , \cf7 'Amirouche'\cf2 , \cf7 'HADDOU'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 14\cf2 , \cf7 'Christelle'\cf2 , \cf7 'LACRESSE'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 15\cf2 , \cf7 'Bernard'\cf2 , \cf7 'MANGEOL'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 16\cf2 , \cf7 'Abdessamad'\cf2 , \cf7 'IMINE'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 17\cf2 , \cf7 'Pierre-Andr\'e9'\cf2 , \cf7 'GUENEGO'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 18\cf2 , \cf7 'Yolande'\cf2 , \cf7 'BELAID'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 19\cf2 , \cf7 'Anne-C\'e9cile'\cf2 , \cf7 'SCHNEIDER'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 20\cf2 , \cf7 'Berengere'\cf2 , \cf7 'STASSIN'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 21\cf2 , \cf7 'Samira'\cf2 , \cf7 'MESSAOUDI'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 22\cf2 , \cf7 'Patrick'\cf2 , \cf7 'NOURRISSIER'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 23\cf2 , \cf7 'Amine'\cf2 , \cf7 'BOUMAZA'\cf4 )\cf2 ;\
+INSERT INTO \cf4 PROFESSEUR\
+\cf2 VALUES \cf4 (\cf6 24\cf2 , \cf7 'Catherine'\cf2 , \cf7 'MARIAGE'\cf4 )\cf2 ;\
+\
+INSERT INTO \cf4 SEMESTRE\
+\cf2 VALUES \cf4 (\cf6 1\cf4 )\cf2 ;\
+INSERT INTO \cf4 SEMESTRE\
+\cf2 VALUES \cf4 (\cf6 2\cf4 )\cf2 ;\
+INSERT INTO \cf4 SEMESTRE\
+\cf2 VALUES \cf4 (\cf6 3\cf4 )\cf2 ;\
+INSERT INTO \cf4 SEMESTRE\
+\cf2 VALUES \cf4 (\cf6 4\cf4 )\cf2 ;\
+\
+select \cf8 * \cf2 from \cf4 formation\cf2 ;\
+select \cf8 * \cf2 from \cf4 semestre\cf2 ;\
+select \cf8 * \cf2 from \cf4 professeur\cf2 ;\
+select \cf8 * \cf2 from \cf4 ASSURER_COURS\cf2 ;\
+select \cf8 * \cf2 from \cf4 CHANGELOG\cf2 ;\
+select \cf8 * \cf2 from \cf4 COMPTE\cf2 ;\
+select \cf8 * \cf2 from \cf4 COURS\cf2 ;\
+select \cf8 * \cf2 from \cf4 DESCRIPTION_CHANGELOG\cf2 ;\
+select \cf8 * \cf2 from \cf4 fichier\cf2 ;\
+\
+insert into \cf4 changelog\
+\cf2 values \cf4 (\cf7 'Beta 1,0'\cf2 , 
+\f1\i \cf8 current_date
+\f0\i0 \cf4 )\cf2 ;\
+\
+insert into \cf4 description_changelog\
+\cf2 values \cf4 (\cf7 'Beta 1,0'\cf2 , \cf7 'Ceci est la toute permi\'e8re version du site'\cf4 )\cf2 ;\
+\
+select \cf4 cours.\cf5 id\cf2 , \cf4 cours.\cf5 nom \cf2 as \cf4 title\cf2 , \cf4 cours.\cf5 description\cf2 , \cf5 color\cf2 , \cf5 type\cf2 , 
+\f1\i \cf8 count
+\f0\i0 \cf4 (fichier.\cf5 id\cf4 ) \cf2 as \cf4 number\
+\cf2 from \cf4 cours\
+         \cf2 LEFT OUTER JOIN \cf4 fichier \cf2 on \cf4 cours.\cf5 id \cf4 = fichier.\cf5 idcours\
+\cf2 where \cf4 cours.\cf5 idsemestre \cf4 = \cf6 1\
+  \cf2 and \cf4 cours.\cf5 idformation \cf4 = \cf6 1\
+\cf2 group by \cf4 cours.\cf5 id\cf2 , \cf4 cours.\cf5 nom\cf2 , \cf4 cours.\cf5 description\cf2 , \cf5 color\cf2 , \cf5 type\
+\
+\cf2 select \cf5 id \cf2 as label, \cf5 nom \cf4 || \cf7 ' ' \cf4 || \cf5 prenom \cf2 as value from \cf4 PROFESSEUR\cf2 ;\
+\
+delete from \cf4 fichier \cf2 where \cf5 id \cf4 = \cf6 1\cf2 ;\
+}
