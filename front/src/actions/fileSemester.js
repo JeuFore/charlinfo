@@ -10,7 +10,7 @@ export default {
     delete: function (store, id, params) {
         return httpRequest(`/file${id}/delete`, 'post', store, params);
     },
-    getprofessor: function (store){
+    getallprofessor: function (store){
         return httpRequest(`/file/getallprofessor`, 'get', store);
     }
 }

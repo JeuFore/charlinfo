@@ -33,7 +33,14 @@ class DisplayCategorie extends React.Component {
                         )}
                     </div>
                     <p className="description" style={{ whiteSpace: 'pre-line' }}>{this.props.data.description}</p>
-                    <p className="professor"> <b>Professeur(s) :</b>{this.props.data.professor}</p>
+                    <p className="professor">
+                        <b className="position-absolute">Professeur(s) :</b>
+                    </p>
+                    <p className="professor_list">
+                        {this.props.data.professor.map(data => (
+                            <p key={data.label}> - {data.label}</p>
+                        ))}
+                    </p>
                     <img src={arrow} alt="" width="32px" />
                 </div>
             </Link>

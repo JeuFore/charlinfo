@@ -23,7 +23,7 @@ class AddSemester extends React.Component {
     }
 
     componentDidMount() {
-        fileSemester.getprofessor({}).then((data) => this.setState({ professorStatus: data.requestStatus, professor: data.data, professor_list: [...this.state.professor_list, <SelectPicker key={this.professor_number} data={data.data} placeholder={data.data[0].label} className="w-100 d-block mb-3" onChange={(value) => this.professor[this.professor_number] = value} name="professor" />] }));
+        fileSemester.getallprofessor({}).then((data) => this.setState({ professorStatus: data.requestStatus, professor: data.data, professor_list: [...this.state.professor_list, <SelectPicker key={this.professor_number} data={data.data} placeholder={data.data[0].label} className="w-100 d-block mb-3" onChange={(value) => this.professor[this.professor_number] = value} name="professor" />] }));
     }
 
     inputChange(e) {
@@ -57,7 +57,7 @@ class AddSemester extends React.Component {
         if (!this.props.location.state)
             window.location.replace('/home');
         if (this.state.requestStatus === RequestStatus.Success) {
-            window.location.replace(this.props.match.url.replace("/add", ""));
+            this.props.history.goBack();
         }
         return (
             <div>

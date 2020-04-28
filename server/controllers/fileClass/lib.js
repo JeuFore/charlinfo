@@ -20,7 +20,6 @@ async function addClass(req, res) {
         try {
             if (req.files.content.size > LIMITE_UPLOAD_FILE_SIZE * 1000000)
                 return res.status(406).send("Fichier trop grand");
-            console.log(req.files)
             const { title, type, description } = req.query;
             const { semester, idclass } = req.params;
             if (!title || !type || !description || !req.files)
@@ -50,7 +49,6 @@ async function deleteClass(req, res) {
             const { path } = req.body;
             if (!path.includes(req.session.user) && !await user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
-
             const { semester, idclass } = req.params;
             let dataClass = UploadingData[semester][idclass];
             if (!dataClass)

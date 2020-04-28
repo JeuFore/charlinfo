@@ -5,7 +5,17 @@ const fs = require('fs');
 async function getSemester(req, res) {
     const { semester } = req.params;
     if (user.connected(req, res))
-        return res.status(200).send(await request("select cours.id, cours.nom as title, cours.description, color, type, count(fichier.id) as number from cours LEFT OUTER JOIN fichier on cours.id = fichier.idcours where cours.idsemestre = $1 and cours.idformation = $2 group by cours.id, cours.nom, cours.description, color, type", [semester.replace("S", ""), req.session.idformation]));
+        try {
+            let data = await request("select cours.id, cours.nom as title, cours.description, color, type, count(fichier.id) as number from cours LEFT OUTER JOIN fichier on cours.id = fichier.idcours where cours.idsemestre = $1 and cours.idformation = $2 group by cours.id, cours.nom, cours.description, color, type", [semester.replace("S", ""), req.session.idformation]);
+            for (let index = 0; index < data.length; index++) {
+                let temp = await request("select nom || ' ' || prenom as label from ASSURER_COURS inner join PROFESSEUR P on ASSURER_COURS.idProf = P.id where idCours like $1", [data[index].id]);
+                data[index].professor = temp;
+            }
+            return res.status(200).send(data);
+        } catch (e) {
+            console.log(e);
+            return res.status(500).send("Server Error");
+        }
 }
 
 async function addSemester(req, res) {

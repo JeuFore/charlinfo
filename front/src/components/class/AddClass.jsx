@@ -1,7 +1,5 @@
 import React from 'react'
 import { RequestStatus } from '../../utils/consts'
-import fileClass from '../../actions/fileClass'
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import config from '../../utils/config';
 
@@ -11,46 +9,28 @@ class AddClass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: "",
-            type: "1",
-            description: "",
             upload: 0,
             upload_bar: 'active'
         };
-
+        this.type = 1;
         this.inputChange = this.inputChange.bind(this);
         this.uploadSubmit = this.uploadSubmit.bind(this);
     }
 
-    inputChange(event) {
-        if (event.target.name !== "file")
-            return this.setState({
-                [event.target.name]: event.target.value
-            });
-        return this.setState({
-            file: event.target.files[0]
-        })
+    inputChange(e) {
+        return this[e.target.name] = e.target.value;
     }
 
     async uploadSubmit(event) {
         event.preventDefault();
-
-        console.log(this.test)
-        console.log(this.state.file)
-
         this.setState({
             requestStatus: RequestStatus.Getting,
             upload: 0
         });
-
         const formData = new FormData();
-        formData.append('content', this.test[0].blobFile);
-
-        console.log(formData)
-        console.log(this.test)
-
+        formData.append('content', this.state.file);
         try {
-            const { data } = await axios({
+            await axios({
                 baseURL: config.localApiUrl,
                 url: `/file/${this.props.match.params.s1.replace("S", "")}/${this.props.location.state.classId}/add`,
                 method: 'POST',
@@ -59,9 +39,9 @@ class AddClass extends React.Component {
                 },
                 data: formData,
                 params: {
-                    title: this.state.title,
-                    type: this.state.type,
-                    description: this.state.description,
+                    title: this.title,
+                    type: this.type,
+                    description: this.description,
                 },
                 withCredentials: true,
                 onUploadProgress: (p) => {
@@ -71,24 +51,14 @@ class AddClass extends React.Component {
                 }
             });
             this.setState({ requestStatus: RequestStatus.Success, upload_bar: 'success' })
+            //window.location.replace(`/${this.props.match.params.s1}`);
+            this.props.history.goBack();
         } catch (error) {
             this.setState({ requestStatus: error.response.data, upload_bar: 'fail' })
         }
-
-        /**fileClass.add(this.state, `/${this.props.match.params.s1}/${this.props.location.state.classId}/add`, {
-            title: this.state.title,
-            type: this.state.type,
-            description: this.state.description,
-        }, formData, this).then((data) => this.setState(data));
-        */
     }
 
     render() {
-        if (this.state.requestStatus === RequestStatus.Success) {
-            //return <Redirect to={this.props.match.url.replace("/add", "")} />
-            //window.location.replace();
-        }
-        console.log(this.state.file)
         return (
             <div>
                 {this.state.requestStatus === RequestStatus.Getting && (

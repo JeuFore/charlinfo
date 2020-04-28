@@ -70,6 +70,7 @@ class SemesterPage extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
@@ -114,7 +115,7 @@ class SemesterPage extends React.Component {
                     <div className="s1_col">
                         <h3 className="mb-3 font-weight-bold">UE Informatique</h3>
                         {this.informatique.map((data) => (
-                            <div className="displaycat" key={data.link}>
+                            <div className="displaycat" key={data.id}>
                                 <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
                             </div>
                         ))}
@@ -122,7 +123,7 @@ class SemesterPage extends React.Component {
                     <div className="s1_col">
                         <h3 className="mb-3 mt-5 font-weight-bold">UE Générale</h3>
                         {this.general.map((data) => (
-                            <div className="displaycat" key={data.link}>
+                            <div className="displaycat" key={data.id}>
                                 <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
                             </div>
                         ))}

@@ -56,12 +56,13 @@ class DisplayClass extends React.Component {
         var aide = [];
         var DM = [];
         if (this.state.requestStatus === RequestStatus.Success) {
-            cours = this.state.data.filter(data => data.type === "1");
-            exercice = this.state.data.filter(data => data.type === "2");
-            corrige = this.state.data.filter(data => data.type === "3");
-            aide = this.state.data.filter(data => data.type === "4");
-            DM = this.state.data.filter(data => data.type === "5");
+            cours = this.state.data.filter(data => data.type === 1);
+            exercice = this.state.data.filter(data => data.type === 2);
+            corrige = this.state.data.filter(data => data.type === 3);
+            aide = this.state.data.filter(data => data.type === 4);
+            DM = this.state.data.filter(data => data.type === 5);
         }
+        console.log(this.state)
         return (
             <div className="d-flex flex-column">
                 <h1 className="text-center m-3">{this.props.location.state.classNameEnter}</h1>
@@ -70,7 +71,8 @@ class DisplayClass extends React.Component {
                     <Link to={{
                         pathname: `${this.props.match.url}/add`,
                         state: {
-                            classId: this.props.location.state.classId
+                            classId: this.props.location.state.classId,
+                            classNameEnter: this.props.location.state.classNameEnter
                         }
                     }} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
                     <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
