@@ -3,26 +3,32 @@ import { RequestStatus } from '../../utils/consts'
 import fileSemester from '../../actions/fileSemester'
 import { Color } from '../../utils/consts'
 
+import { SelectPicker } from 'rsuite';
+
+import plus_icon from '../../assets/icons/plus.png'
+
 class AddSemester extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: "",
-            type: "1",
-            description: "",
-            professor: "",
-            link: ""
+            professorStatus: RequestStatus.Getting,
+            professor_list: []
         };
-
         this.inputChange = this.inputChange.bind(this);
         this.uploadSubmit = this.uploadSubmit.bind(this);
+        this.addProfessor = this.addProfessor.bind(this);
+        this.type = 1;
+        this.professor_number = 0;
+        this.professor = []
     }
 
-    inputChange(event) {
-        event.preventDefault();
-        return this.setState({
-            [event.target.name]: event.target.value
-        });
+    componentDidMount() {
+        fileSemester.getprofessor({}).then((data) => this.setState({ professorStatus: data.requestStatus, professor: data.data, professor_list: [...this.state.professor_list, <SelectPicker key={this.professor_number} data={data.data} placeholder={data.data[0].label} className="w-100 d-block mb-3" onChange={(value) => this.professor[this.professor_number] = value} name="professor" />] }));
+    }
+
+    inputChange(e) {
+        e.preventDefault();
+        return this[e.target.name] = e.target.value
     }
 
     uploadSubmit(event) {
@@ -30,25 +36,32 @@ class AddSemester extends React.Component {
         this.setState({
             requestStatus: RequestStatus.Getting
         });
-        fileSemester.add(this.state, this.props.match.url, {
-            title: this.state.title,
-            description: this.state.description,
-            professor: this.state.professor,
-            type: this.state.type,
-            link: this.state.link,
-            color: this.state.color
+        fileSemester.add(this.state, this.props.match.url.replace("S", ""), {
+            name: this.name,
+            description: this.description,
+            professor: this.professor,
+            type: this.type,
+            id: this.id,
+            color: this.color
         }).then(({ requestStatus }) => this.setState({ requestStatus }));
     }
 
+    addProfessor() {
+        this.professor_number++;
+        this.setState({
+            professor_list: [...this.state.professor_list, <SelectPicker key={this.professor_number} data={this.state.professor} placeholder={this.state.professor[0].label} className="w-100 d-block mb-3" onChange={(value) => this.professor[this.professor_number] = value} name="professor" />]
+        })
+    }
+
     render() {
-        if (!this.props.location.state) 
+        if (!this.props.location.state)
             window.location.replace('/home');
         if (this.state.requestStatus === RequestStatus.Success) {
             window.location.replace(this.props.match.url.replace("/add", ""));
         }
         return (
             <div>
-                {this.state.requestStatus === RequestStatus.Getting && (
+                {(this.state.professorStatus === RequestStatus.Getting || this.state.requestStatus === RequestStatus.Getting) && (
                     <div className="text-center fixed-center">
                         <div className="spinner-border" role="status">
                         </div>
@@ -58,7 +71,7 @@ class AddSemester extends React.Component {
                 <form className="m-5" onSubmit={this.uploadSubmit}>
                     <div className="form-group">
                         <label>Title</label>
-                        <input type="title" className="form-control" placeholder="Mon cours" onChange={this.inputChange} name="title" />
+                        <input type="title" className="form-control" placeholder="Mon cours" onChange={this.inputChange} name="name" />
                     </div>
                     <div className="form-group">
                         <label>Type</label>
@@ -72,10 +85,13 @@ class AddSemester extends React.Component {
                         <textarea className="form-control" rows="3" onChange={this.inputChange} name="description" />
                     </div>
 
-                    <input type="enter" className="form-control my-3" placeholder="Professeurs" onChange={this.inputChange} name="professor" />
-                    <input type="enter" className="form-control my-3" placeholder="Lien" onChange={this.inputChange} name="link" />
+                    {this.state.professor_list}
 
-                    <div className="d-flex my-3">
+                    <img src={plus_icon} alt="add icon" className="mb-3 cursor-p" width="40px" onClick={this.addProfessor} />
+
+                    <input type="enter" className="form-control mb-3" placeholder="Lien" onChange={this.inputChange} name="id" />
+
+                    <div className="d-flex mb-3">
                         {Color.map((data) => (
                             <button key={data} className="rounded-circle m-1" style={{ backgroundColor: data, width: "20px", height: "20px" }} value={data} onClick={this.inputChange} name="color" />
                         ))}

@@ -30,7 +30,7 @@ class Navigation extends Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-info">
                 <Link to='/home' className="navbar-brand"><img width="30" className="logo mr-3" src={logo} alt="Home Icon" />Charlinfo</Link>
-                <button onClick={this.toggleNavbar} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className={`collapse navbar-collapse ${this.state.collapsed}`} id="navbarText">

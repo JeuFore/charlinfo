@@ -20,7 +20,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container mb">
                 <h1 className="text-center m-4">Accueil</h1>
                 {this.state.requestStatus === RequestStatus.Getting && (
                     <div className="text-center fixed-center">

@@ -17,6 +17,7 @@ class DisplayClass extends React.Component {
         }
         this.inputChange = this.inputChange.bind(this);
         this.count = 0;
+        this.test = '';
     }
 
     componentDidMount() {
@@ -34,10 +35,10 @@ class DisplayClass extends React.Component {
         });
     }
 
-    container(){
+    container() {
         this.count++;
         this.test = '';
-        if(this.count <= 3)
+        if (this.count <= 3)
             this.test = 'container';
     }
 
@@ -66,7 +67,12 @@ class DisplayClass extends React.Component {
                 <h1 className="text-center m-3">{this.props.location.state.classNameEnter}</h1>
 
                 <div className="adding-zone">
-                    <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
+                    <Link to={{
+                        pathname: `${this.props.match.url}/add`,
+                        state: {
+                            classId: this.props.location.state.classId
+                        }
+                    }} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
                     <small className="text-center mb-3">Ajouter des cours, exercices, corrigés, aides</small>
                 </div>
 

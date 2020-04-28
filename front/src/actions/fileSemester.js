@@ -9,5 +9,8 @@ export default {
     },
     delete: function (store, id, params) {
         return httpRequest(`/file${id}/delete`, 'post', store, params);
+    },
+    getprofessor: function (store){
+        return httpRequest(`/file/getallprofessor`, 'get', store);
     }
 }

@@ -6,16 +6,22 @@ import { RequestStatus, UserPerm } from '../../utils/consts'
 import user from '../../actions/user'
 
 import add_icon from '../../assets/icons/add-icon.png'
+import alert from '../../assets/icons/alert-circle.svg'
 
 class SemesterPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             requestStatus: RequestStatus.Getting,
+            deleteStatus: RequestStatus.Success
         }
-        this.sortChange = this.sortChange.bind(this);
         this.informatique = [];
         this.general = [];
+        this.remove = '';
+        this.sortChange = this.sortChange.bind(this);
+        this.validateRemove = this.validateRemove.bind(this);
+        this.removeChild = this.removeChild.bind(this);
+        this.dismissRemove = this.dismissRemove.bind(this);
     }
 
     componentDidMount() {
@@ -45,6 +51,24 @@ class SemesterPage extends React.Component {
         }
     }
 
+    validateRemove(link) {
+        this.remove = link;
+        this.setState({ deleteStatus: RequestStatus.Getting });
+    }
+
+    dismissRemove() {
+        this.setState({ deleteStatus: RequestStatus.Success });
+    }
+
+    async removeChild() {
+        const { requestStatus } = await fileSemester.delete({}, this.props.location.pathname.replace("S", ""), { id: this.remove });
+        if (requestStatus === RequestStatus.Success){
+            let index = this.informatique.findIndex((element) => element.id === this.remove);
+            this.informatique.splice(index, 1);
+        }
+        this.dismissRemove();
+    }
+
     render() {
         return (
             <div className="container mt-3">
@@ -62,6 +86,22 @@ class SemesterPage extends React.Component {
                     </div>
                 )}
 
+                {this.state.deleteStatus === RequestStatus.Getting && (
+                    <div className="toast position-fixed fixed-center" role="alert" style={{ opacity: 1, zIndex: 100 }}>
+                        <div className="toast-header">
+                            <img src={alert} className="rounded mr-2" alt="alert-icon" />
+                            <strong className="mr-auto">Charlinfo</strong>
+                            <button type="button" className="ml-2 mb-1 close" onClick={this.dismissRemove}>
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div className="toast-body d-flex flex-column">
+                            <p>Êtes-vous sur de supprimer ce module ?</p>
+                            <button type="button" className="btn btn-danger" onClick={this.removeChild}>Supprimer</button>
+                        </div>
+                    </div>
+                )}
+
                 <select className="form-control" onChange={this.sortChange} name="type">
                     <option value="null">Trier par ...</option>
                     <option value="title">Titre</option>
@@ -70,12 +110,12 @@ class SemesterPage extends React.Component {
                     <option value="professor">Professeurs</option>
                 </select>
 
-                <div className="s1_container mt-4">
+                <div className="s1_container mb mt-4">
                     <div className="s1_col">
                         <h3 className="mb-3 font-weight-bold">UE Informatique</h3>
                         {this.informatique.map((data) => (
                             <div className="displaycat" key={data.link}>
-                                <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} grade={this.state.perm} />
+                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
                             </div>
                         ))}
                     </div>
@@ -83,7 +123,7 @@ class SemesterPage extends React.Component {
                         <h3 className="mb-3 mt-5 font-weight-bold">UE Générale</h3>
                         {this.general.map((data) => (
                             <div className="displaycat" key={data.link}>
-                                <DisplayCategorie data={data} link={`${this.props.match.url}/${data.link}`} grade={this.state.perm} />
+                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
                             </div>
                         ))}
                     </div>

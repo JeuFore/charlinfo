@@ -190,6 +190,11 @@
     margin: 0;
 }
 
+.bootstrap-select  button{
+    background-color: #fff;
+    border-color: #fff;
+}
+
 @media (min-width: 1200px){
     .container {
         max-width: 90%;

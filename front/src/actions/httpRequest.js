@@ -42,7 +42,10 @@ export async function httpFileRequest(url, method, store, params, file) {
       },
       data: file,
       params,
-      withCredentials: true
+      withCredentials: true,
+      onUploadProgress: (p) => {
+        return store.upload = ((p.loaded / p.total) * 100)
+      }
     });
     store.requestStatus = RequestStatus.Success;
     store.data = data;
