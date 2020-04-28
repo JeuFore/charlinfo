@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './style/bootstrap.min.css'
+import 'rsuite/dist/styles/rsuite-default.css'
 import './style/index.css';
 import App from './components/App.jsx';
 import * as serviceWorker from './serviceWorker';
