@@ -23,6 +23,11 @@ class AddClass extends React.Component {
 
     async uploadSubmit(event) {
         event.preventDefault();
+        if (!this.state.file)
+            return this.setState({
+                requestStatus: RequestStatus.Error
+            });
+
         this.setState({
             requestStatus: RequestStatus.Getting,
             upload: 0
@@ -32,7 +37,7 @@ class AddClass extends React.Component {
         try {
             await axios({
                 baseURL: config.localApiUrl,
-                url: `/file/${this.props.match.params.s1.replace("S", "")}/${this.props.location.state.classId}/add`,
+                url: `/file/${this.props.match.params.s1.replace("S", "")}/${this.props.match.params.class}/add`,
                 method: 'POST',
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -51,14 +56,14 @@ class AddClass extends React.Component {
                 }
             });
             this.setState({ requestStatus: RequestStatus.Success, upload_bar: 'success' })
-            //window.location.replace(`/${this.props.match.params.s1}`);
             this.props.history.goBack();
         } catch (error) {
-            this.setState({ requestStatus: error.response.data, upload_bar: 'fail' })
+            this.setState({ requestStatus: error.response, upload_bar: 'fail' })
         }
     }
 
     render() {
+        console.log(this.props)
         return (
             <div>
                 {this.state.requestStatus === RequestStatus.Getting && (

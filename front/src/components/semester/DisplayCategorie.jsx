@@ -15,15 +15,10 @@ class DisplayCategorie extends React.Component {
         e.preventDefault();
         this.props.remove(this.props.data.id);
     }
+
     render() {
         return (
-            <Link className="round-card" to={{
-                pathname: this.props.id,
-                state: {
-                    classNameEnter: this.props.data.title,
-                    classId: this.props.data.id
-                }
-            }}>
+            <Link className="round-card" to={this.props.id}>
                 <div className="number-float" style={{ backgroundColor: this.props.data.color }}><h2>{this.props.data.number}</h2></div>
                 <div className="round-card-text">
                     <div>
@@ -34,11 +29,11 @@ class DisplayCategorie extends React.Component {
                     </div>
                     <p className="description" style={{ whiteSpace: 'pre-line' }}>{this.props.data.description}</p>
                     <p className="professor">
-                        <b className="position-absolute">Professeur(s) :</b>
-                    </p>
-                    <p className="professor_list">
-                        {this.props.data.professor.map(data => (
-                            <p key={data.label}> - {data.label}</p>
+                        <b>Professeur(s) : </b>
+                        {this.props.data.professor.map((data, index) => (
+                            this.props.data.professor.length - 1 !== index
+                                ? <span key={data.label}>{data.label}, </span>
+                                : <span key={data.label}>{data.label}</span>
                         ))}
                     </p>
                     <img src={arrow} alt="" width="32px" />

@@ -54,8 +54,6 @@ class AddSemester extends React.Component {
     }
 
     render() {
-        if (!this.props.location.state)
-            window.location.replace('/home');
         if (this.state.requestStatus === RequestStatus.Success) {
             this.props.history.goBack();
         }

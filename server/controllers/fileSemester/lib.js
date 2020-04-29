@@ -6,7 +6,7 @@ async function getSemester(req, res) {
     const { semester } = req.params;
     if (user.connected(req, res))
         try {
-            let data = await request("select cours.id, cours.nom as title, cours.description, color, type, count(fichier.id) as number from cours LEFT OUTER JOIN fichier on cours.id = fichier.idcours where cours.idsemestre = $1 and cours.idformation = $2 group by cours.id, cours.nom, cours.description, color, type", [semester.replace("S", ""), req.session.idformation]);
+            let data = await request("select id, nom as title, description, color, type, (select count(*) as number from FICHIER where idCours like COURS.id and idsemestre = $1 and idFormation = $2) from cours where idsemestre = $1 and idformation = $2", [semester.replace("S", ""), req.session.idformation]);
             for (let index = 0; index < data.length; index++) {
                 let temp = await request("select nom || ' ' || prenom as label from ASSURER_COURS inner join PROFESSEUR P on ASSURER_COURS.idProf = P.id where idCours like $1", [data[index].id]);
                 data[index].professor = temp;
@@ -51,6 +51,12 @@ async function deleteSemester(req, res) {
                 return res.status(400).send("Requête invalide");
             if (!(await request("select id from cours where id like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation]))[0])
                 return res.status(400).send("Cours inexistant");
+            const fichier = await request("select extension from fichier where idCours like $1 and idsemestre = $2 and idFormation = $3", [id, semester, req.session.idformation])
+
+            fichier.forEach(element => {
+                fs.unlinkSync(element.extension);
+            });
+            
             await request("delete from fichier where idcours like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation]);
             await request("delete from ASSURER_COURS where idcours like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation])
             await request("delete from cours where id like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation]);

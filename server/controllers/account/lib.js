@@ -1,5 +1,5 @@
-const passwordHash = require('password-hash');
 const { request } = require('../requestController');
+const passwordHash = require('password-hash');
 
 async function signup(req, res) {
   try {
@@ -25,7 +25,8 @@ async function signup(req, res) {
       token: username,
       text: "Inscription réussite"
     });
-  } catch {
+  } catch (e) {
+    console.log(e);
     return res.status(500).send("Server Error");
   }
 }
@@ -50,7 +51,8 @@ async function login(req, res) {
       text: "Authentification réussi"
     });
   }
-  catch {
+  catch (e){
+    console.log(e);
     return res.status(500).send("Server Error");
   }
 }

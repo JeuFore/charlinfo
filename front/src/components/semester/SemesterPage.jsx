@@ -51,8 +51,8 @@ class SemesterPage extends React.Component {
         }
     }
 
-    validateRemove(link) {
-        this.remove = link;
+    validateRemove(id) {
+        this.remove = id;
         this.setState({ deleteStatus: RequestStatus.Getting });
     }
 
@@ -65,12 +65,13 @@ class SemesterPage extends React.Component {
         if (requestStatus === RequestStatus.Success){
             let index = this.informatique.findIndex((element) => element.id === this.remove);
             this.informatique.splice(index, 1);
+            index = this.general.findIndex((element) => element.id === this.remove);
+            this.general.splice(index, 1);
         }
         this.dismissRemove();
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>

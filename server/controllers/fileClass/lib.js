@@ -1,4 +1,3 @@
-const UploadingData = require('../../assets/bdd/uploadingData.json');
 const user = require('../user/lib');
 const fs = require('fs');
 const { request } = require('../requestController');
@@ -8,10 +7,11 @@ const LIMITE_UPLOAD_FILE_SIZE = 5000.0;
 async function getClass(req, res) {
     if (user.connected(req, res))
         try {
-            const { idclass } = req.params;
-            return res.status(200).send(await request("select idauteur as creator, description, datefich as release_date, nom as title, typecours as type, 1 as file from fichier where idcours = $1", [idclass]));
+            const { semester, idclass } = req.params;
+            return res.status(200).send(await request("select id, idauteur as creator, description, datefich as release_date, nom as title, typecours as type, extension from fichier where idcours = $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]));
         } catch (e) {
             console.log(e);
+            return res.status(500).send("Server Error");
         }
 }
 
@@ -46,26 +46,26 @@ async function addClass(req, res) {
 async function deleteClass(req, res) {
     if (user.connected(req, res))
         try {
-            const { path } = req.body;
-            if (!path.includes(req.session.user) && !await user.permissions(req, undefined, 4))
-                return res.status(403).send("You don't have permissions");
-            const { semester, idclass } = req.params;
-            let dataClass = UploadingData[semester][idclass];
-            if (!dataClass)
+            const { id } = req.body;
+            if (!id)
                 return res.status(400).send("Requête invalide");
-            let i = 0;
-            let stop = false;
-            while (i in dataClass && stop !== true) {
-                if (dataClass[i].file === path)
-                    stop = true;
-                i++;
-            }
-            if (stop !== true)
-                return res.status(400).send("Cours inexistant");
-            dataClass.splice(i - 1, 1);
-            fs.writeFileSync('assets/bdd/uploadingData.json', JSON.stringify(UploadingData));
-            //fs.unlinkSync(path);
+            const fichier = (await request("select idauteur, extension from fichier where id = $1", [id]))[0]
+            if ((fichier.idauteur !== req.session.user) && !await user.permissions(req, undefined, 4))
+                return res.status(403).send("You don't have permissions");
+            await request("delete from fichier where id = $1", [id]);
+            fs.unlinkSync(fichier.extension);
             return res.status(200).send("Successful deletion");
+        } catch (e) {
+            console.log(e);
+            return res.status(500).send("Server Error");
+        }
+}
+
+async function getClassTitle(req, res){
+    if (user.connected(req, res))
+        try {
+            const { semester, idclass } = req.params;
+            return res.status(200).send((await request("select nom as title from COURS where id like $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]))[0]);
         } catch (e) {
             console.log(e);
             return res.status(500).send("Server Error");
@@ -81,3 +81,4 @@ exports.getClass = getClass;
 exports.addClass = addClass;
 exports.deleteClass = deleteClass;
 exports.downloadClass = downloadClass;
+exports.getClassTitle = getClassTitle;

@@ -59,8 +59,8 @@
     margin-top: 15px;
 }
 
-.professor_list{
-    margin-left: 95px;
+.professor b{
+    margin-bottom: 50px;
 }
 
 .round-card img{
@@ -192,10 +192,6 @@
 .bootstrap-select  button{
     background-color: #fff;
     border-color: #fff;
-}
-
-p + p{
-    margin: 0;
 }
 
 @media (min-width: 1200px){
