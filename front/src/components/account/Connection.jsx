@@ -1,6 +1,6 @@
 import React from 'react'
 import account from '../../actions/account'
-import { RequestStatus, UserStatus } from '../../utils/consts'
+import { RequestStatus } from '../../utils/consts'
 
 class Connection extends React.Component {
     constructor(props) {

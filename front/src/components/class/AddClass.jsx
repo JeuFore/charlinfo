@@ -110,7 +110,7 @@ class AddClass extends React.Component {
                                     </div>
                                     <div className="rs-uploader-file-item-panel">
                                         <div className="rs-uploader-file-item-content">
-                                            <a role="presentation" className="rs-uploader-file-item-title">{this.state.file.name}</a>
+                                            <p role="presentation" className="rs-uploader-file-item-title">{this.state.file.name}</p>
                                             <span className="rs-uploader-file-item-size">
                                                 {this.state.file.size < 1048576 ?
                                                     `${Math.round(this.state.file.size / 1024 * 100) / 100}KB`
@@ -118,7 +118,7 @@ class AddClass extends React.Component {
                                                 }</span>
                                         </div>
                                     </div>
-                                    <a className="rs-uploader-file-item-btn-remove" role="button" onClick={() => this.setState({ file: '' })}></a>
+                                    <p className="rs-uploader-file-item-btn-remove" role="button" onClick={() => this.setState({ file: '' })}></p>
                                 </div>
                             </div>
                         </div>

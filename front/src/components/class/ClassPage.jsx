@@ -22,6 +22,7 @@ class DisplayClass extends React.Component {
         this.validateRemove = this.validateRemove.bind(this);
         this.removeChild = this.removeChild.bind(this);
         this.dismissRemove = this.dismissRemove.bind(this);
+        this.container = this.container.bind(this);
     }
 
     componentDidMount() {
@@ -30,8 +31,11 @@ class DisplayClass extends React.Component {
             grade: UserPerm.Admininstrator
         }).then((data) => this.perm = data.data);
         this.user = user.isConnected;
-        fileClass.getTitle(this.state, this.props.location.pathname.replace("S", "")).then(data => this.title = data.data.title)
-        fileClass.get(this.state, this.props.location.pathname.replace("S", "")).then(data => this.setState(data));
+        //fileClass.getTitle(this.state, this.props.location.pathname.replace("S", "")).then(data => this.title = data.data.title)
+        fileClass.get(this.state, this.props.location.pathname.replace("S", "")).then((res) => {
+            this.title = res.data.title;
+            this.setState(res.data);
+        });
     }
 
     inputChange(event) {
@@ -42,8 +46,6 @@ class DisplayClass extends React.Component {
 
     container() {
         this.count++;
-        if (this.count <= 3)
-            this.setState({ container: 'container' });
     }
 
     validateRemove(id) {

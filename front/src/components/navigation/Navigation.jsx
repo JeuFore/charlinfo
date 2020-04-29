@@ -6,10 +6,6 @@ import logo from "../../assets/icons/home-icon.png"
 import profile from "../../assets/icons/user-icon.png"
 
 class Navigation extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-info">

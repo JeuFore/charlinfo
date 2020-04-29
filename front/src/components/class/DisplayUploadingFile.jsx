@@ -1,5 +1,4 @@
 import React from 'react'
-import fileClass from '../../actions/fileClass'
 import config from '../../utils/config'
 
 import remove_icon from '../../assets/icons/cancel.png'

@@ -25,26 +25,53 @@ class App extends Component {
     this.state = {
       requestStatus: RequestStatus.Getting
     }
-    disconnect = disconnect.bind(this)
-    DisconnectPage = DisconnectPage.bind(this)
+    this.disconnect = this.disconnect.bind(this)
+    this.DisconnectPage = this.DisconnectPage.bind(this)
+  }
+
+  NoJSXPage() {
+    document.title = "charlinfo | Not Found"
+    return (
+      <div className="text-center">
+        <div className="fixed-center">
+          <img src={require('../assets/icons/error.png')} alt="Icon error" style={{ width: 256 }} />
+        </div>
+        <h2 className="fixed-center">Page Not Found</h2>
+      </div>
+    );
+  }
+
+  disconnect() {
+    user.disconnect(this.state).then((data) => this.setState(data));
+  }
+
+  DisconnectPage() {
+    if (this.state.requestStatus === RequestStatus.Getting)
+      return (
+        <div className="text-center fixed-center">
+          <div className="spinner-border" role="status">
+          </div>
+        </div>
+      )
+    return null
   }
 
   render() {
     if (window.location.pathname === '/disconnect')
-      disconnect();
+      this.disconnect();
     return (
       <Router>
         <Navigation />
         <Switch>
           <Route path='/connexion' component={() => <Connection register="responsive-register" />} />
           <Route path='/register' component={() => <Connection />} />
-          <Route path='/NoPageFound' component={NoJSXPage} />
+          <Route path='/NoPageFound' component={this.NoJSXPage} />
 
           {user.isConnected ? (
             <Switch>
               <Route path='/home/add' component={AddChangelog} />
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={NoJSXPage} />
+              <Route path='/disconnect' component={this.NoJSXPage} />
               <Route path='/profile/:user' component={Profile} />
               <Route path={`/:s1/:class/add`} component={AddClass} />
               <Route path={`/:s1/add`} component={AddSemester} />
@@ -65,33 +92,6 @@ class App extends Component {
       </Router>
     );
   }
-}
-
-function NoJSXPage() {
-  document.title = "charlinfo | Not Found"
-  return (
-    <div className="text-center">
-      <div className="fixed-center">
-        <img src={require('../assets/icons/error.png')} alt="Icon error" style={{ width: 256 }} />
-      </div>
-      <h2 className="fixed-center">Page Not Found</h2>
-    </div>
-  );
-}
-
-function disconnect() {
-  user.disconnect(this.state).then((data) => this.setState(data));
-}
-
-function DisconnectPage() {
-  if (this.state.requestStatus === RequestStatus.Getting)
-    return (
-      <div className="text-center fixed-center">
-        <div className="spinner-border" role="status">
-        </div>
-      </div>
-    )
-  return null
 }
 
 export default App
