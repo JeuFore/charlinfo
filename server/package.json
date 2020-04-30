@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start-dev": "node ./bin/www",
-    "start": "pm2 start ./bin/www"
+    "start": "pm2 start ./bin/www",
+    "restart": "pm2 restart ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
