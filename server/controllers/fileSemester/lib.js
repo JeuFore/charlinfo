@@ -51,10 +51,10 @@ async function deleteSemester(req, res) {
                 return res.status(400).send("Requête invalide");
             if (!(await request("select id from cours where id like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation]))[0])
                 return res.status(400).send("Cours inexistant");
-            const fichier = await request("select extension from fichier where idCours like $1 and idsemestre = $2 and idFormation = $3", [id, semester, req.session.idformation])
+            const fichier = await request("select path from fichier where idCours like $1 and idsemestre = $2 and idFormation = $3", [id, semester, req.session.idformation])
 
             fichier.forEach(element => {
-                fs.unlinkSync(element.extension);
+                fs.unlinkSync(element.path);
             });
             
             await request("delete from fichier where idcours like $1 and idsemestre = $2 and idformation = $3", [id, semester, req.session.idformation]);

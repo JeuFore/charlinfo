@@ -2,7 +2,7 @@ const user = require('../user/lib');
 const fs = require('fs');
 const { request } = require('../requestController');
 
-const LIMITE_UPLOAD_FILE_SIZE = 5000.0;
+const LIMITE_UPLOAD_FILE_SIZE = 500.0;
 
 async function getClass(req, res) {
     if (user.connected(req, res))
@@ -10,7 +10,7 @@ async function getClass(req, res) {
             const { semester, idclass } = req.params;
             let value = {};
             value = (await request("select nom as title from COURS where id like $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]))[0]
-            value.data = await request("select id, idauteur as creator, description, datefich as release_date, nom as title, typecours as type, extension from fichier where idcours = $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]);
+            value.data = await request("select id, idauteur as creator, description, datefich as release_date, nom as title, typecours as type, path from fichier where idcours = $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]);
             return res.status(200).send(value);
         } catch (e) {
             console.log(e);
@@ -38,7 +38,7 @@ async function addClass(req, res) {
             fs.writeFileSync(path, req.files.content.data);
 
             await request("insert into fichier values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", [number, idclass, semester, req.session.idformation, title, date, req.session.user, path, type, description]);
-
+            req.files = undefined;
             return res.status(200).send("Successful upload");
         } catch (e) {
             console.log(e);
@@ -52,11 +52,11 @@ async function deleteClass(req, res) {
             const { id } = req.body;
             if (!id)
                 return res.status(400).send("Requête invalide");
-            const fichier = (await request("select idauteur, extension from fichier where id = $1", [id]))[0]
+            const fichier = (await request("select idauteur, path from fichier where id = $1", [id]))[0]
             if ((fichier.idauteur !== req.session.user) && !await user.permissions(req, undefined, 4))
                 return res.status(403).send("You don't have permissions");
             await request("delete from fichier where id = $1", [id]);
-            fs.unlinkSync(fichier.extension);
+            fs.unlinkSync(fichier.path);
             return res.status(200).send("Successful deletion");
         } catch (e) {
             console.log(e);

@@ -27,7 +27,7 @@ class DisplayUploadingFile extends React.Component {
 
                     <p><b>Date :</b> {this.props.data.release_date}</p>
 
-                    <a href={`${config.localApiUrl}/file${this.props.url}/download/?path=${this.props.data.extension}`}>
+                    <a href={`${config.localApiUrl}/file${this.props.url}/download/?path=${this.props.data.path}`}>
                         <div className="download_button">
                             <p>Download</p>
                             <div className="icon"><img src={arrow} alt="arrow" /></div>

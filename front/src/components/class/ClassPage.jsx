@@ -31,7 +31,6 @@ class DisplayClass extends React.Component {
             grade: UserPerm.Admininstrator
         }).then((data) => this.perm = data.data);
         this.user = user.isConnected;
-        //fileClass.getTitle(this.state, this.props.location.pathname.replace("S", "")).then(data => this.title = data.data.title)
         fileClass.get(this.state, this.props.location.pathname.replace("S", "")).then((res) => {
             this.title = res.data.title;
             this.setState(res.data);

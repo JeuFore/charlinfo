@@ -10,7 +10,7 @@ class AddClass extends React.Component {
         super(props);
         this.state = {
             upload: 0,
-            upload_bar: 'active'
+            upload_bar: 'hide'
         };
         this.type = 1;
         this.inputChange = this.inputChange.bind(this);
@@ -28,9 +28,15 @@ class AddClass extends React.Component {
                 requestStatus: RequestStatus.Error
             });
 
+        if (this.state.file.size > 500000000 * 10)
+            return this.setState({
+                requestStatus: RequestStatus.Error
+            });
+
         this.setState({
             requestStatus: RequestStatus.Getting,
-            upload: 0
+            upload: 0,
+            upload_bar: 'active'
         });
         const formData = new FormData();
         formData.append('content', this.state.file);
@@ -63,7 +69,7 @@ class AddClass extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+        console.log(this.state)
         return (
             <div>
                 {this.state.requestStatus === RequestStatus.Getting && (
@@ -126,7 +132,7 @@ class AddClass extends React.Component {
 
                     <input type="submit" className="btn btn-primary mb-3" value="Ajouter le cours" />
 
-                    <Progress.Line percent={this.state.upload} status={this.state.upload_bar} />
+                    <Progress.Line percent={this.state.upload} status={this.state.upload_bar} className={this.state.upload_bar} />
                 </form>
             </div>
         )
