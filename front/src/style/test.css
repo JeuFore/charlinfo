@@ -194,6 +194,10 @@
     border-color: #fff;
 }
 
+.rs-picker-select-menu{
+    opacity: 1!important;
+}
+
 @media (min-width: 1200px){
     .container {
         max-width: 90%;
