@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "run-p install-server:dev install-front:dev",
-    "start": "run-p start-server:dev start-front:dev",
+    "dev": "run-p start-server:dev start-front:dev",
     "test": "run-p test-server test-front",
     "install-server:dev": "cd server && npm install",
     "start-server:dev": "cd server && npm start",
@@ -19,7 +19,10 @@
     "copy-front": "shx cp -R front/build server/static",
     "build": "npm run build:clean && npm run build-front && npm run copy-front",
     "push-coverage": "codecov -F server",
-    "generate-changelog": "auto-changelog"
+    "generate-changelog": "auto-changelog",
+    "start" : "run-p start-server start-front",
+    "start-front" : "cd front && pm2 start app.config.json",
+    "start-server" : "cd server && pm2 start ./bin/www"
   },
   "repository": {
     "type": "git",
