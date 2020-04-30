@@ -64,7 +64,7 @@ async function deleteClass(req, res) {
         }
 }
 
-async function getClassTitle(req, res){
+async function getClassTitle(req, res) {
     if (user.connected(req, res))
         try {
             const { semester, idclass } = req.params;
@@ -76,8 +76,16 @@ async function getClassTitle(req, res){
 }
 
 async function downloadClass(req, res) {
-    const { path } = req.query;
-    return res.download(path);
+    if (user.connected(req, res))
+        try {
+            const { path } = req.query;
+            const id = path.split("/", 3)[2].split('.', 1)[0];
+            const name = await request("select nom from fichier where id = $1", [id]);
+            return res.download(path, path.replace(id, name[0].nom));
+        } catch (e) {
+            console.log(e);
+            return res.status(500).send("Server Error");
+        }
 }
 
 exports.getClass = getClass;
