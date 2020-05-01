@@ -14,7 +14,7 @@ class DisplayClass extends React.Component {
         this.state = {
             requestStatus: RequestStatus.Getting,
             type: "null",
-            container: ''
+            container: 'container'
         }
         this.count = 0;
         this.title = '';

@@ -28,7 +28,7 @@ class AddClass extends React.Component {
                 requestStatus: RequestStatus.Error
             });
 
-        if (this.state.file.size > 500000000 * 10)
+        if (this.state.file.size > 500000000)
             return this.setState({
                 requestStatus: RequestStatus.Error
             });
