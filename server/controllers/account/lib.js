@@ -60,11 +60,11 @@ async function login(req, res, websocketManager) {
   }
 }
 
-function NotificationConnection(websocketManager, user, retry = 0) {
+async function NotificationConnection(websocketManager, user, retry = 0) {
   if (retry === 20)
     return;
-  if (websocketManager.sendMessageUser(user, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
-    setTimeout(() => NotificationConnection(websocketManager, retry + 1), 250);
+  if (await websocketManager.sendMessageUser(user, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
+    setTimeout(() => NotificationConnection(websocketManager, 1, retry + 1), 250);
 }
 
 exports.login = login;
