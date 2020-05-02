@@ -25,7 +25,7 @@ async function signup(req, res, websocketManager) {
       token: username,
       text: "Inscription réussite"
     });
-    return NotificationConnection(websocketManager);
+    return NotificationConnection(websocketManager, username);
   } catch (e) {
     console.log(e);
     return res.status(500).send("Server Error");
@@ -52,7 +52,7 @@ async function login(req, res, websocketManager) {
       token: username,
       text: "Authentification réussi"
     });
-    return NotificationConnection(websocketManager);
+    return NotificationConnection(websocketManager, username);
   }
   catch (e) {
     console.log(e);
@@ -60,11 +60,11 @@ async function login(req, res, websocketManager) {
   }
 }
 
-function NotificationConnection(websocketManager, retry = 0) {
+function NotificationConnection(websocketManager, user, retry = 0) {
   if (retry === 20)
     return;
-  if (websocketManager.sendMessageUser(username, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
-    setTimeout(() => NotificationConnection(retry + 1), 250);
+  if (websocketManager.sendMessageUser(user, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
+    setTimeout(() => NotificationConnection(websocketManager, retry + 1), 250);
 }
 
 exports.login = login;
