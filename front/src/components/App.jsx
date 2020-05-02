@@ -55,10 +55,10 @@ class App extends Component {
 
         Notification["info"]({
           title: data.message.title,
-          duration: 0,
+          duration: 10000,
           description: (
             <div>
-              <p style={{ whiteSpace: 'pre-line' }} >{data.message.description}</p>
+              <p style={{ whiteSpace: 'pre-line', marginBottom: 0 }} >{data.message.description}</p>
               {data.id === 1 && (
                 <div>
                   <p style={{ whiteSpace: 'pre-line' }} >Date : {new Date(data.message.date).toLocaleDateString("fr-FR")}, {new Date(data.message.date).toLocaleTimeString('fr-FR')}</p>
