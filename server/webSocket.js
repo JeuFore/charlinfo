@@ -24,11 +24,16 @@ async function verificationNotification(userId) {
     await request("update notification set show = 0 where iduser like $1", [userId]);
 }
 
-function sendMessageUser(userId, message) {
+function sendMessageUser(userId, data) {
     if (!this.connections[userId]) {
+        let number = (await request("select id from notification order by id desc limit 1"))[0];
+        if (number) number = number.id + 1;
+        else number = 1;
+        const date = data.message.date;
+        await request("insert into notification values($1, $2, $3, $4, $5, $6, $7)", [number, userId, data.message.title, data.message.description, date, 1, data.type]);
         return 0;
     }
-    this.connections[userId].client.send(JSON.stringify(message));
+    this.connections[userId].client.send(JSON.stringify(data));
 }
 
 /**
@@ -39,14 +44,10 @@ function sendMessageUser(userId, message) {
  */
 async function sendMessageAllUsers(data) {
     if (data.type !== 0) {
-        console.log(data.type)
         const user = await request("select id from compte");
         let number = (await request("select id from notification order by id desc limit 1"))[0];
-        if (number)
-            number = number.id + 1;
-        else
-            number = 1;
-
+        if (number) number = number.id + 1;
+        else number = 1;
         const date = data.message.date;
 
         user.forEach(element => {
