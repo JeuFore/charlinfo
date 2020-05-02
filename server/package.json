@@ -6,7 +6,7 @@
     "start-dev": "node ./bin/www",
     "start": "pm2 start ./bin/www --name='server'",
     "restart": "pm2 restart server",
-    "stop" : "pm2 stop server"
+    "stop": "pm2 stop server"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -19,6 +19,7 @@
     "express-fileupload": "^1.1.6",
     "express-session": "^1.17.0",
     "pg": "^8.0.2",
-    "password-hash": "^1.2.2"
+    "password-hash": "^1.2.2",
+    "ws": "7.2.5"
   }
 }
