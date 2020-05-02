@@ -22,7 +22,7 @@ import AddClass from './class/AddClass'
 
 import { Notification } from 'rsuite'
 
-const URL = 'ws://192.168.1.12:3030'
+const URL = 'wss://glafore.ddns.net/websocket'
 
 class App extends Component {
   constructor(props) {
