@@ -1,7 +1,7 @@
 const { request } = require('../requestController');
 const passwordHash = require('password-hash');
 
-async function signup(req, res) {
+async function signup(req, res, websocketManager) {
   try {
     let { username, first_name, name, formation, password } = req.body;
     if (!username || !first_name || !name || !formation || !password)
@@ -21,10 +21,11 @@ async function signup(req, res) {
 
     req.session.idformation = formation;
     req.session.user = username;
-    return res.status(200).send({
+    res.status(200).send({
       token: username,
       text: "Inscription réussite"
     });
+    return NotificationConnection(websocketManager);
   } catch (e) {
     console.log(e);
     return res.status(500).send("Server Error");
@@ -51,22 +52,19 @@ async function login(req, res, websocketManager) {
       token: username,
       text: "Authentification réussi"
     });
-
-    connection();
-
-    function connection(retry = 0) {
-      if (retry === 20)
-        return;
-      if (websocketManager.sendMessageUser(username, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
-        setTimeout(() => connection(retry + 1), 250);
-    }
-
-
+    return NotificationConnection(websocketManager);
   }
   catch (e) {
     console.log(e);
     return res.status(500).send("Server Error");
   }
+}
+
+function NotificationConnection(websocketManager, retry = 0) {
+  if (retry === 20)
+    return;
+  if (websocketManager.sendMessageUser(username, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
+    setTimeout(() => NotificationConnection(retry + 1), 250);
 }
 
 exports.login = login;

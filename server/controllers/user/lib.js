@@ -48,25 +48,9 @@ function connected(req, res) {
     return (req.session.user !== undefined);
 }
 
-async function upload(req, res) {
-    const { user } = req.params;
-
-    let first_tab = Object.keys(UploadingData);
-    let secondtab = [];
-
-    let test;
-
-    const result = first_tab.map((key) => {
-        secondtab = Object.keys(UploadingData[key]);
-        secondtab.map((key2) => {
-            test = UploadingData[key][key2]
-            if (test !== undefined) {
-                if (test.filter(data => data.creator === "jeufore") !== undefined)
-                    testbis += test.filter(data => data.creator === "jeufore");
-            }
-        })
-    })
-    return res.status(200).send(result)
+async function promotion(req, res, websocketManager) {
+    return;
+    websocketManager.sendMessageUser({ type: 2, message: { title: "Vous avez été promu", description: `Vous avez eu une promotion de la part de ${req.session.user}`, date: new Date() } });
 }
 
 exports.getUser = getUser;
@@ -75,4 +59,4 @@ exports.unbanUser = unbanUser;
 exports.permissions = permissions;
 exports.disconnect = disconnect;
 exports.connected = connected;
-exports.upload = upload;
+exports.promotion = promotion;

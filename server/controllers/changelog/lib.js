@@ -1,7 +1,7 @@
 const user = require('../user/lib');
 const { request } = require('../requestController');
 
-async function getChangelog(req, res, websocketManager) {
+async function getChangelog(req, res) {
   if (user.connected(req, res))
     try {
       let changelog = await request("SELECT nom, date FROM changelog ORDER BY date DESC");
@@ -15,8 +15,9 @@ async function getChangelog(req, res, websocketManager) {
     }
 }
 
-async function addChangelog(req, res) {
+async function addChangelog(req, res, websocketManager) {
   return null
+  websocketManager.sendMessageAllUsers({ type: 1, message: { title: "Ajout d'un changelog", description: `Nom du changelog : ${nom}` } });
 }
 
 async function deleteChangelog(req, res) {
