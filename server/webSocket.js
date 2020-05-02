@@ -24,7 +24,7 @@ async function verificationNotification(userId) {
     await request("update notification set show = 0 where iduser like $1", [userId]);
 }
 
-function sendMessageUser(userId, data) {
+async function sendMessageUser(userId, data) {
     if (!this.connections[userId]) {
         let number = (await request("select id from notification order by id desc limit 1"))[0];
         if (number) number = number.id + 1;
