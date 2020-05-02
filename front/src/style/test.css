@@ -235,6 +235,9 @@
         border-bottom-left-radius: 0;
         transition: all 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     }
+    .rs-notification > div{
+        width: 300px;
+    }
   }
 
 @media screen and (max-width: 700px) {
@@ -269,5 +272,8 @@
     .download_button .icon{
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+    .rs-notification{
+        max-width: 300px;
     }
 }

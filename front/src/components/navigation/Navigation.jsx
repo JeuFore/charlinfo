@@ -4,6 +4,7 @@ import user from '../../actions/user'
 
 import logo from "../../assets/icons/home-icon.png"
 import profile from "../../assets/icons/user-icon.png"
+import notification from '../../assets/icons/bell.svg'
 
 class Navigation extends Component {
     render() {
@@ -21,7 +22,8 @@ class Navigation extends Component {
                         <NavLink to='/S4' className="nav-link">S4</NavLink>
                     </div>
                     <div className="navbar-right-text py-2">
-                        <a href='/disconnect' className="mb-3 mr-3">Deconnexion</a>
+                        <a href='/disconnect' className="mr-3">Deconnexion</a>
+                        <Link to='/notification'><img src={notification} alt="Notication icon" className="mr-3 my-3" style={{ width: 20, filter: "invert(1)" }} /></Link>
                         <Link to={`/profile/${user.isConnected}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
                     </div>
                 </div>
