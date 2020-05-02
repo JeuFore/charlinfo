@@ -22,7 +22,10 @@
     "generate-changelog": "auto-changelog",
     "start": "run-p start-server start-front",
     "start-front": "cd front && npm start",
-    "start-server": "cd server && npm start"
+    "start-server": "cd server && npm start",
+    "stop": "run-p stop-server stop-front",
+    "stop-front": "cd front && npm stop",
+    "stop-server": "cd server && npm stop"
   },
   "repository": {
     "type": "git",
