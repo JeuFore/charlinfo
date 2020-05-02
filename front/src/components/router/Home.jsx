@@ -9,13 +9,14 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            requestStatus: RequestStatus.Getting
+            requestStatus: RequestStatus.Getting,
+            data: []
         }
     }
 
     componentDidMount() {
         document.title = 'Charlinfo | Home';
-        changelog.get(this.state).then((data) => this.setState({ requestStatus: data.requestStatus }))
+        changelog.get(this.state).then((data) => this.setState({ requestStatus: data.requestStatus }));
     }
 
     render() {
