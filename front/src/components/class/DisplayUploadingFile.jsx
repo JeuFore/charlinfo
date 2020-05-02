@@ -25,7 +25,7 @@ class DisplayUploadingFile extends React.Component {
 
                     <p className="creator">Fait par : <b>{this.props.data.creator}</b></p>
 
-                    <p><b>Date :</b> {this.props.data.release_date}</p>
+                    <p><b>Date :</b> {new Date(this.props.data.release_date).toLocaleDateString("fr-FR")}</p>
 
                     <a href={`${config.localApiUrl}/file${this.props.url}/download/?path=${this.props.data.path}`}>
                         <div className="download_button">

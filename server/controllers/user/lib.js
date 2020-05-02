@@ -36,7 +36,8 @@ async function permissions(req, res, grade) {
         }
 }
 
-async function disconnect(req, res) {
+async function disconnect(req, res, websocketManager) {
+    websocketManager.userDisconnected(req.session.user);
     req.session.user = undefined;
     return res.status(200).send("Success disconnect");
 }

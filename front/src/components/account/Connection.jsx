@@ -44,7 +44,7 @@ class Connection extends React.Component {
             first_name: this.state.first_name,
             formation: this.state.formation,
             password: this.state.password,
-        }).then((data) => this.setState(data))
+        }).then((data) => this.setState(data));
     }
 
     componentDidMount() {
@@ -58,6 +58,7 @@ class Connection extends React.Component {
             account.token(this.state.username);
             window.location.replace('/home');
         }
+
         return (
             <div className="d-flex justify-content-center mt-5">
                 {this.props.register && (

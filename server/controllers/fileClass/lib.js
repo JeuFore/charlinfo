@@ -18,12 +18,12 @@ async function getClass(req, res) {
         }
 }
 
-async function addClass(req, res) {
+async function addClass(req, res, websocketManager) {
     if (user.connected(req, res))
         try {
             if (req.files.content.size > LIMITE_UPLOAD_FILE_SIZE * 1000000)
                 return res.status(406).send("Fichier trop grand");
-            const { title, type, description } = req.query;
+            let { title, type, description } = req.query;
             const { semester, idclass } = req.params;
             if (!title || !type || !description || !req.files)
                 return res.status(400).send("Requête invalide");
@@ -39,7 +39,29 @@ async function addClass(req, res) {
 
             await request("insert into fichier values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", [number, idclass, semester, req.session.idformation, title, date, req.session.user, path, type, description]);
             req.files = undefined;
-            return res.status(200).send("Successful upload");
+            res.status(200).send("Successful upload");
+
+            const nom = (await request("select c.nom from fichier inner join cours c on fichier.idcours = c.id where fichier.id = $1", [number]))[0].nom;
+
+            switch (type) {
+                case "1":
+                    type = "cours";
+                    break;
+                case "2":
+                    type = "exercice";
+                    break;
+                case "3":
+                    type = "corrigé";
+                    break;
+                case "4":
+                    type = "aide";
+                    break;
+                case "5":
+                    type = "dm";
+                    break;
+            }
+
+            return websocketManager.sendMessageAllUsers({ type: 0, message: { title: "Ajout d'un cours", description: `Nom du cours : ${nom}\nNom du fichier : ${title}\nType : ${type}\nFait par : ${req.session.user}` } });
         } catch (e) {
             console.log(e);
             return res.status(500).send("Server Error");

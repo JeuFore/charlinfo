@@ -10,9 +10,10 @@ class AddClass extends React.Component {
         super(props);
         this.state = {
             upload: 0,
-            upload_bar: 'hide'
+            upload_bar: 'active'
         };
         this.type = 1;
+        this.hide = "hide";
         this.inputChange = this.inputChange.bind(this);
         this.uploadSubmit = this.uploadSubmit.bind(this);
     }
@@ -33,6 +34,7 @@ class AddClass extends React.Component {
                 requestStatus: RequestStatus.Error
             });
 
+        this.hide = '';
         this.setState({
             requestStatus: RequestStatus.Getting,
             upload: 0,
@@ -131,7 +133,7 @@ class AddClass extends React.Component {
 
                     <input type="submit" className="btn btn-primary mb-3" value="Ajouter le cours" />
 
-                    <Progress.Line percent={this.state.upload} status={this.state.upload_bar} className={this.state.upload_bar} />
+                    <Progress.Line percent={this.state.upload} status={this.state.upload_bar} className={this.hide} />
                 </form>
             </div>
         )

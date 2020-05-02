@@ -31,7 +31,7 @@ async function signup(req, res) {
   }
 }
 
-async function login(req, res) {
+async function login(req, res, websocketManager) {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -46,12 +46,24 @@ async function login(req, res) {
       return res.status(400).send("PasswordError");
     req.session.idformation = findUser.idformation;
     req.session.user = username;
-    return res.status(200).send({
+
+    res.status(200).send({
       token: username,
       text: "Authentification réussi"
     });
+
+    connection();
+
+    function connection(retry = 0) {
+      if (retry === 20)
+        return;
+      if (websocketManager.sendMessageUser(username, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
+        setTimeout(() => connection(retry + 1), 250);
+    }
+
+
   }
-  catch (e){
+  catch (e) {
     console.log(e);
     return res.status(500).send("Server Error");
   }

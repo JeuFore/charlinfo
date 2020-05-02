@@ -13,11 +13,16 @@ import AddChangelog from './router/AddChangelog'
 import Navigation from './navigation/Navigation'
 import Profile from './router/Profile'
 import Connection from './account/Connection'
+import NotificationPage from './router/Notification'
 
 import SemesterPage from './semester/SemesterPage'
 import AddSemester from './semester/AddSemester'
 import ClassPage from './class/ClassPage'
 import AddClass from './class/AddClass'
+
+import { Notification } from 'rsuite'
+
+const URL = 'ws://192.168.1.12:3030'
 
 class App extends Component {
   constructor(props) {
@@ -25,8 +30,56 @@ class App extends Component {
     this.state = {
       requestStatus: RequestStatus.Getting
     }
-    this.disconnect = this.disconnect.bind(this)
-    this.DisconnectPage = this.DisconnectPage.bind(this)
+    this.disconnect = this.disconnect.bind(this);
+    this.DisconnectPage = this.DisconnectPage.bind(this);
+  }
+
+  ws = new WebSocket(URL)
+
+  componentDidMount() {
+    try {
+      this.ws.onopen = () => {
+        // on connecting, do nothing but log it to the console
+        console.log('connected');
+
+        let test = localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
+        if (test)
+          this.ws.send(test);
+
+      }
+
+      this.ws.onmessage = evt => {
+        // on receiving a message, add it to the list of messages
+
+        let data = JSON.parse(evt.data);
+
+        Notification["info"]({
+          title: data.message.title,
+          duration: 0,
+          description: (
+            <div>
+              <p style={{ whiteSpace: 'pre-line' }} >{data.message.description}</p>
+              {data.id === 1 && (
+                <div>
+                  <p style={{ whiteSpace: 'pre-line' }} >Date : {new Date(data.message.date).toLocaleDateString("fr-FR")}, {new Date(data.message.date).toLocaleTimeString('fr-FR')}</p>
+                  <div className="d-flex justify-content-around mt-3" style={{ marginLeft: "-34px" }}>
+                    <button type="button" className="btn btn-success ">Accéder</button>
+                    <button type="button" className="btn btn-danger">Effacer</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        });
+      }
+
+      this.ws.onclose = () => {
+        console.log('disconnected');
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   NoJSXPage() {
@@ -72,10 +125,12 @@ class App extends Component {
               <Route path='/home/add' component={AddChangelog} />
               <Route path='/home' component={Home} />
               <Route path='/disconnect' component={this.NoJSXPage} />
+              <Route path='/notification' component={NotificationPage} />
               <Route path='/profile/:user' component={Profile} />
               <Route path={`/:s1/:class/add`} component={AddClass} />
               <Route path={`/:s1/add`} component={AddSemester} />
               <Route path={`/:s1/:class`} component={ClassPage} />
+
               <React.Fragment>
                 <Route path={`/S1`} component={SemesterPage} />
                 <Route path={`/S2`} component={SemesterPage} />
