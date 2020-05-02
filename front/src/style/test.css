@@ -276,4 +276,7 @@
     .rs-notification{
         max-width: 300px;
     }
+    #notification{
+        margin: 1rem 0!important;
+    }
 }

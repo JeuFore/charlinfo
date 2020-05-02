@@ -38,19 +38,22 @@ function sendMessageUser(userId, message) {
  * sendMessageAllUsers(event);
  */
 async function sendMessageAllUsers(data) {
-    const user = await request("select id from compte");
-    let number = (await request("select id from notification order by id desc limit 1"))[0];
-    if (number)
-        number = number.id + 1;
-    else
-        number = 1;
+    if (data.type !== 0) {
+        console.log(data.type)
+        const user = await request("select id from compte");
+        let number = (await request("select id from notification order by id desc limit 1"))[0];
+        if (number)
+            number = number.id + 1;
+        else
+            number = 1;
 
-    const date = data.message.date;
+        const date = data.message.date;
 
-    user.forEach(element => {
-        request("insert into notification values($1, $2, $3, $4, $5, $6, $7)", [number, element.id, data.message.title, data.message.description, date, 1, data.type]);
-        number++;
-    });
+        user.forEach(element => {
+            request("insert into notification values($1, $2, $3, $4, $5, $6, $7)", [number, element.id, data.message.title, data.message.description, date, 1, data.type]);
+            number++;
+        });
+    }
 
     const usersIds = Object.keys(this.connections);
 
