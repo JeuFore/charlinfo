@@ -8,8 +8,9 @@ const MAX_RETRY = 3;
 export async function httpRequest(url, method, store, params, retry = 0, error) {
   if (retry > MAX_RETRY) {
     if (error.response) {
-      if (error.response.status === 401)
-        user.disconnect(store);
+      if (error.response.status === 502){
+        return error.response.status
+      }
       store.requestStatus = error.response.data;
     }
     return store;

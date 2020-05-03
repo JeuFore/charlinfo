@@ -6,39 +6,42 @@ class Connection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
-            name: "",
-            first_name: "",
-            formation: 1,
-            password: "",
-            userError: "",
             requestStatus: RequestStatus.Getting
         };
-
+        this.username = "";
+        this.name = "";
+        this.first_name = "";
+        this.formation = 1;
+        this.password = "";
         this.inputChange = this.inputChange.bind(this);
         this.loginSubmit = this.loginSubmit.bind(this);
         this.signupSubmit = this.signupSubmit.bind(this);
     }
 
     inputChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        this[event.target.name] = event.target.value
     }
 
     loginSubmit(event) {
         event.preventDefault();
-        account.login(this.state, {
-            username: this.state.username,
-            password: this.state.password
+        this.props.ws(this.username);
+        account.login({}, {
+            username: this.username,
+            password: this.password
         }).then((data) => {
+            if (data.requestStatus === RequestStatus.Success) {
+                account.token(this.username);
+                this.props.history.push('/home');
+            }
+            else
             this.setState({ requestStatus: data.requestStatus });
         });
     }
 
     signupSubmit(event) {
         event.preventDefault();
-        account.signup(this.state, {
+        this.props.ws(this.state.username);
+        account.signup({}, {
             username: this.state.username,
             name: this.state.name,
             first_name: this.state.first_name,
@@ -54,9 +57,9 @@ class Connection extends React.Component {
             document.title = `Charlinfo | Inscription`;
     }
     render() {
-        if (this.state.requestStatus === RequestStatus.Success) {
+        if (this.state.requestStatus1 === RequestStatus.Success) {
             account.token(this.state.username);
-            window.location.replace('/home');
+            this.props.history.push('/home');
         }
 
         return (
@@ -65,7 +68,7 @@ class Connection extends React.Component {
                     <form className="p-4 m-5 login-component rainbow bg-success d-flex flex-column justify-content-center" onSubmit={this.loginSubmit}>
                         <h1 className="m-3 text-center">Connexion</h1>
                         <div className="d-flex flex-column">
-                        <small className={`px-3 text-danger d-none R${this.state.requestStatus}`}>Requête invalide</small>
+                            <small className={`px-3 text-danger d-none R${this.state.requestStatus}`}>Requête invalide</small>
                             <input type="username" placeholder="Nom d'utilisateur" onChange={this.inputChange} name="username" className={`U${this.state.requestStatus}`} />
                             <small className={`px-3 text-danger d-none SU${this.state.requestStatus}`}>Utilisateur incorrect</small>
                             <small className={`px-3 text-danger d-none SN${this.state.requestStatus}`}>Vous n'êtes pas inscrit</small>

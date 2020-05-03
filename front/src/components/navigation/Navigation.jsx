@@ -22,7 +22,7 @@ class Navigation extends Component {
                         <NavLink to='/S4' className="nav-link">S4</NavLink>
                     </div>
                     <div className="navbar-right-text py-2">
-                        <a href='/disconnect' className="mr-3">Deconnexion</a>
+                        <Link to='/disconnect' className="mr-3">Deconnexion</Link>
                         <Link to='/notification'><img src={notification} alt="Notication icon" className="mr-3" id="notification" style={{ width: 20, filter: "invert(1)" }} /></Link>
                         <Link to={`/profile/${user.isConnected}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
                     </div>

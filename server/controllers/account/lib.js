@@ -5,12 +5,12 @@ async function signup(req, res, websocketManager) {
   try {
     let { username, first_name, name, formation, password } = req.body;
     if (!username || !first_name || !name || !formation || !password)
-      return res.status(400).send("Requête invalite");
+      return errorMessage(res, "InvalidRequest", username, websocketManager);
     const findUser = (await request("select id, motdepasse as password from compte where id LIKE $1", [username]))[0];
     if (!findUser)
-      return res.status(400).send("Vous n'êtes pas référencé")
+      return errorMessage(res, "Vous n'êtes pas référencé", username, websocketManager);
     if (findUser.password)
-      return res.status(400).send("Vous êtes déjà inscrit")
+      return errorMessage(res, "Vous êtes déjà inscrit", username, websocketManager);
 
     first_name = first_name.toLowerCase();
     let firstLetter = first_name.charAt(0);
@@ -36,15 +36,15 @@ async function login(req, res, websocketManager) {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
-      return res.status(400).send("InvalidRequest");
+      return errorMessage(res, "InvalidRequest", username, websocketManager);
     }
     const findUser = (await request("select id, motdepasse as password, idformation from compte where id LIKE $1", [username]))[0];
     if (!findUser)
-      return res.status(400).send("UserNotExist");
+      return errorMessage(res, "UserNotExist", username, websocketManager);
     if (!findUser.password)
-      return res.status(400).send("AccountNotCreate");
+      return errorMessage(res, "AccountNotCreate", username, websocketManager);
     if (!passwordHash.verify(password, findUser.password))
-      return res.status(400).send("PasswordError");
+      return errorMessage(res, "PasswordError", username, websocketManager);
     req.session.idformation = findUser.idformation;
     req.session.user = username;
 
@@ -52,6 +52,7 @@ async function login(req, res, websocketManager) {
       token: username,
       text: "Authentification réussi"
     });
+
     return NotificationConnection(websocketManager, username);
   }
   catch (e) {
@@ -60,11 +61,13 @@ async function login(req, res, websocketManager) {
   }
 }
 
-async function NotificationConnection(websocketManager, user, retry = 0) {
-  if (retry === 20)
-    return;
-  if (await websocketManager.sendMessageUser(user, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } }) === 0)
-    setTimeout(() => NotificationConnection(websocketManager, user, retry + 1), 250);
+function errorMessage(res, message, user, websocketManager) {
+  websocketManager.userDisconnected(user)
+  return res.status(400).send(message);
+}
+
+function NotificationConnection(websocketManager, user) {
+  websocketManager.sendMessageUser(user, { type: 0, message: { title: "Nouvelle notification", description: "Desormais connecté" } });
 }
 
 exports.login = login;

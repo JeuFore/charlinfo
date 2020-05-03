@@ -30,7 +30,6 @@ class DisplayClass extends React.Component {
         user.permission({}, {
             grade: UserPerm.Admininstrator
         }).then((data) => this.perm = data.data);
-        this.user = user.isConnected;
         fileClass.get(this.state, this.props.location.pathname.replace("S", "")).then((res) => {
             this.title = res.data.title;
             this.setState(res.data);
@@ -85,7 +84,7 @@ class DisplayClass extends React.Component {
             aide = this.state.data.filter(data => data.type === 4);
             DM = this.state.data.filter(data => data.type === 5);
         }
-
+        
         return (
             <div className="d-flex flex-column">
                 <h1 className="text-center m-3">{this.title}</h1>
@@ -134,7 +133,7 @@ class DisplayClass extends React.Component {
                             {this.container()}
                             <h2 className="mb-3">Cours</h2>
                             {cours.map((data) => (
-                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[1] }} remove={this.validateRemove} />
+                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.props.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[1] }} remove={this.validateRemove} />
                             ))}
                         </div>
                     )}
@@ -144,7 +143,7 @@ class DisplayClass extends React.Component {
                             {this.container()}
                             <h2 className="mb-3">Exercice</h2>
                             {exercice.map((data) => (
-                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[10] }} remove={this.validateRemove} />
+                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.props.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[10] }} remove={this.validateRemove} />
                             ))}
                         </div>
                     )}
@@ -154,7 +153,7 @@ class DisplayClass extends React.Component {
                             {this.container()}
                             <h2 className="mb-3">Corrigé</h2>
                             {corrige.map((data) => (
-                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[0] }} remove={this.validateRemove} />
+                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.props.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[0] }} remove={this.validateRemove} />
                             ))}
                         </div>
                     )}
@@ -164,7 +163,7 @@ class DisplayClass extends React.Component {
                             {this.container()}
                             <h2 className="mb-3">Aide</h2>
                             {aide.map((data) => (
-                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[6] }} remove={this.validateRemove} />
+                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.props.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[6] }} remove={this.validateRemove} />
                             ))}
                         </div>
                     )}
@@ -174,7 +173,7 @@ class DisplayClass extends React.Component {
                             {this.container()}
                             <h2 className="mb-3">DM</h2>
                             {DM.map((data) => (
-                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[8] }} remove={this.validateRemove} />
+                                <DisplayUploadingFile key={data.id} grade={this.perm} user={this.props.user} url={this.props.match.url} data={data} styleD={{ color: 'white', backgroundColor: Color[8] }} remove={this.validateRemove} />
                             ))}
                         </div>
                     )}

@@ -10,10 +10,9 @@ export default {
     unban: function (store, user) {
         return httpRequest(`/user/unban/${user}`, 'post', store);
     },
-    disconnect: async function (store) {
+    disconnect: function () {
         localStorage.clear();
-        httpRequest('/user/disconnect', 'post', store);
-        window.location.replace('/connexion');
+        return httpRequest('/user/disconnect', 'post', {});
     },
     permission: function (store, params) {
         return httpRequest('/user/permission', 'post', store, params);

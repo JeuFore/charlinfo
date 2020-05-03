@@ -28,10 +28,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      requestStatus: RequestStatus.Getting
+      requestStatus: RequestStatus.Getting,
+      userState: user.isConnected
     }
-    this.disconnect = this.disconnect.bind(this);
-    this.DisconnectPage = this.DisconnectPage.bind(this);
+    this.webSocketConnection = this.webSocketConnection.bind(this);
   }
 
   ws = new WebSocket(URL)
@@ -42,10 +42,7 @@ class App extends Component {
         // on connecting, do nothing but log it to the console
         console.log('connected');
 
-        let test = localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
-        if (test)
-          this.ws.send(test);
-
+        this.webSocketConnection(this.state.userState);
       }
 
       this.ws.onmessage = evt => {
@@ -53,7 +50,7 @@ class App extends Component {
 
         let data = JSON.parse(evt.data);
 
-        Notification["info"]({
+        Notification.info({
           title: data.message.title,
           duration: 10000,
           description: (
@@ -82,6 +79,13 @@ class App extends Component {
     }
   }
 
+  webSocketConnection(user) {
+    if (user) {
+      this.ws.send(user);
+      this.setState({ userState: user })
+    }
+  }
+
   NoJSXPage() {
     document.title = "charlinfo | Not Found"
     return (
@@ -94,42 +98,52 @@ class App extends Component {
     );
   }
 
-  disconnect() {
-    user.disconnect(this.state).then((data) => this.setState(data));
+  async disconnect(props) {
+    if (await user.disconnect(props) === 502)
+      return Notification.error({
+        title: 'Erreur de deconnexion',
+        duration: 0,
+        description: (
+          <div>
+            <p>Une erreur est survenu lors de la tentative de deconnexion au serveur.</p>
+            <br />
+            <p>Veuillez raffraichir la page s'il vous plaît</p>
+          </div>
+        )
+      });
+    this.setState({ userState: undefined })
+    props.history.push('/connexion');
   }
 
-  DisconnectPage() {
-    if (this.state.requestStatus === RequestStatus.Getting)
-      return (
-        <div className="text-center fixed-center">
-          <div className="spinner-border" role="status">
-          </div>
+  DisconnectPage(props) {
+    this.disconnect(props);
+    return (
+      <div className="text-center fixed-center">
+        <div className="spinner-border" role="status">
         </div>
-      )
-    return null
+      </div>
+    )
   }
 
   render() {
-    if (window.location.pathname === '/disconnect')
-      this.disconnect();
     return (
       <Router>
         <Navigation />
         <Switch>
-          <Route path='/connexion' component={() => <Connection register="responsive-register" />} />
-          <Route path='/register' component={() => <Connection />} />
+          <Route path='/connexion' component={(props) => <Connection  {...props} register="responsive-register" ws={this.webSocketConnection} />} />
+          <Route path='/register' component={() => <Connection ws={this.webSocketConnection} />} />
           <Route path='/NoPageFound' component={this.NoJSXPage} />
 
-          {user.isConnected ? (
+          {this.state.userState ? (
             <Switch>
               <Route path='/home/add' component={AddChangelog} />
               <Route path='/home' component={Home} />
-              <Route path='/disconnect' component={this.NoJSXPage} />
+              <Route path='/disconnect' component={(props) => this.DisconnectPage(props)} />
               <Route path='/notification' component={NotificationPage} />
               <Route path='/profile/:user' component={Profile} />
               <Route path={`/:s1/:class/add`} component={AddClass} />
               <Route path={`/:s1/add`} component={AddSemester} />
-              <Route path={`/:s1/:class`} component={ClassPage} />
+              <Route path={`/:s1/:class`} component={(props) => <ClassPage {...props} user={this.state.userState} />} />
 
               <React.Fragment>
                 <Route path={`/S1`} component={SemesterPage} />
