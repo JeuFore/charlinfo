@@ -1,6 +1,7 @@
 import React from 'react'
 import user from '../../actions/user'
 import { RequestStatus } from '../../utils/consts'
+import { Link } from 'react-router-dom'
 
 import profile from "../../assets/icons/user-icon.png"
 import register_icon from "../../assets/icons/id-card.png"
@@ -68,10 +69,10 @@ class Profile extends React.Component {
                                 <h5 className="m-0 ml-5">Support</h5>
                             </a>
 
-                            <a className="text-body list-group-item d-flex align-items-center" href="/disconnect">
+                            <Link className="text-body list-group-item d-flex align-items-center" to="/disconnect">
                                 <img src={logout_icon} alt="profil icon" style={styles.size_icon} />
                                 <h5 className="m-0 ml-5">Déconnexion</h5>
-                            </a>
+                            </Link>
                         </ul>
                     </div>
                 )}

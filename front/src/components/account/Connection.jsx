@@ -41,14 +41,22 @@ class Connection extends React.Component {
 
     signupSubmit(event) {
         event.preventDefault();
-        this.props.ws(this.state.username);
+        this.props.ws(this.username);
         account.signup({}, {
-            username: this.state.username,
-            name: this.state.name,
-            first_name: this.state.first_name,
-            formation: this.state.formation,
-            password: this.state.password,
-        }).then((data) => this.setState(data));
+            username: this.username,
+            name: this.name,
+            first_name: this.first_name,
+            formation: this.formation,
+            password: this.password,
+        }).then((data) => {
+            if (data.requestStatus === RequestStatus.Success) {
+                account.token(this.username);
+                this.props.ws(this.username, 2);
+                this.props.history.push('/home');
+            }
+            else
+                this.setState({ requestStatus: data.requestStatus });
+        });
     }
 
     componentDidMount() {
