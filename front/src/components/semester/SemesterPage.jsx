@@ -64,7 +64,7 @@ class SemesterPage extends React.Component {
         const { requestStatus } = await fileSemester.delete({}, this.props.location.pathname.replace("S", ""), { id: this.remove });
         if (requestStatus === RequestStatus.Success) {
             let index = this.informatique.findIndex((element) => element.id === this.remove);
-            if (index === -1)
+            if (index !== -1)
                 this.informatique.splice(index, 1);
             else {
                 index = this.general.findIndex((element) => element.id === this.remove);
