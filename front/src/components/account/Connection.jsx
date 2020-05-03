@@ -31,10 +31,11 @@ class Connection extends React.Component {
         }).then((data) => {
             if (data.requestStatus === RequestStatus.Success) {
                 account.token(this.username);
+                this.props.ws(this.username, 2);
                 this.props.history.push('/home');
             }
             else
-            this.setState({ requestStatus: data.requestStatus });
+                this.setState({ requestStatus: data.requestStatus });
         });
     }
 
@@ -57,11 +58,6 @@ class Connection extends React.Component {
             document.title = `Charlinfo | Inscription`;
     }
     render() {
-        if (this.state.requestStatus1 === RequestStatus.Success) {
-            account.token(this.state.username);
-            this.props.history.push('/home');
-        }
-
         return (
             <div className="d-flex justify-content-center mt-5">
                 {this.props.register && (

@@ -42,7 +42,7 @@ class App extends Component {
         // on connecting, do nothing but log it to the console
         console.log('connected');
 
-        this.webSocketConnection(this.state.userState);
+        this.webSocketConnection(this.state.userState, 1);
       }
 
       this.ws.onmessage = evt => {
@@ -79,11 +79,11 @@ class App extends Component {
     }
   }
 
-  webSocketConnection(user) {
-    if (user) {
+  webSocketConnection(user, type) {
+    if (user && (type === 1 || !type))
       this.ws.send(user);
+    if (type)
       this.setState({ userState: user })
-    }
   }
 
   NoJSXPage() {
@@ -131,7 +131,7 @@ class App extends Component {
         <Navigation />
         <Switch>
           <Route path='/connexion' component={(props) => <Connection  {...props} register="responsive-register" ws={this.webSocketConnection} />} />
-          <Route path='/register' component={() => <Connection ws={this.webSocketConnection} />} />
+          <Route path='/register' component={() => <Connection ws={this.ws} />} />
           <Route path='/NoPageFound' component={this.NoJSXPage} />
 
           {this.state.userState ? (
