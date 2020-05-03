@@ -62,11 +62,14 @@ class SemesterPage extends React.Component {
 
     async removeChild() {
         const { requestStatus } = await fileSemester.delete({}, this.props.location.pathname.replace("S", ""), { id: this.remove });
-        if (requestStatus === RequestStatus.Success){
+        if (requestStatus === RequestStatus.Success) {
             let index = this.informatique.findIndex((element) => element.id === this.remove);
-            this.informatique.splice(index, 1);
-            index = this.general.findIndex((element) => element.id === this.remove);
-            this.general.splice(index, 1);
+            if (index === -1)
+                this.informatique.splice(index, 1);
+            else {
+                index = this.general.findIndex((element) => element.id === this.remove);
+                this.general.splice(index, 1);
+            }
         }
         this.dismissRemove();
     }
