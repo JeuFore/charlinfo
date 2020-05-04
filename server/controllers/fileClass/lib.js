@@ -11,6 +11,7 @@ async function getClass(req, res) {
             let value = {};
             value = (await request("select nom as title from COURS where id like $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]))[0]
             value.data = await request("select id, idauteur as creator, description, datefich as release_date, nom as title, typecours as type, path from fichier where idcours = $1 and idsemestre = $2 and idformation = $3", [idclass, semester, req.session.idformation]);
+            value.permission = await user.permissions(req, undefined, 4);
             return res.status(200).send(value);
         } catch (e) {
             console.log(e);

@@ -30,10 +30,12 @@ class Home extends React.Component {
                     </div>
                 )}
 
-                <div className="adding-zone">
-                    <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
-                    <small className="text-center mb-3">Ajouter un changelog</small>
-                </div>
+                {this.state.data.permission && (
+                    <div className="adding-zone">
+                        <Link to={`${this.props.match.url}/add`} className="add-icon"><img src={add_icon} alt="add icon" /></Link>
+                        <small className="text-center mb-3">Ajouter un changelog</small>
+                    </div>
+                )}
 
                 {this.state.requestStatus === RequestStatus.Error && (
                     <h3 className="text-center">Erreur de chargement</h3>
@@ -41,8 +43,8 @@ class Home extends React.Component {
 
                 <h2 className="my-4">Changelog</h2>
 
-                {this.state.requestStatus === "Success" && this.state.data.length > 0 && (
-                    this.state.data.map((data) => (
+                {this.state.requestStatus === "Success" && this.state.data.changelog.length > 0 && (
+                    this.state.data.changelog.map((data) => (
                         <div key={data.nom} className="changelog p-4">
                             <h4 className="border-bottom pb-2">{data.nom} ({(new Date(data.date)).toLocaleDateString("fr-FR")})</h4>
                             <ul className="changelog_list">

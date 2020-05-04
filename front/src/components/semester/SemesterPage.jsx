@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import DisplayCategorie from './DisplayCategorie'
 import fileSemester from '../../actions/fileSemester'
-import { RequestStatus, UserPerm } from '../../utils/consts'
-import user from '../../actions/user'
+import { RequestStatus } from '../../utils/consts'
 
 import add_icon from '../../assets/icons/add-icon.png'
 import alert from '../../assets/icons/alert-circle.svg'
@@ -13,7 +12,8 @@ class SemesterPage extends React.Component {
         super(props);
         this.state = {
             requestStatus: RequestStatus.Getting,
-            deleteStatus: RequestStatus.Success
+            deleteStatus: RequestStatus.Success,
+            data: []
         }
         this.informatique = [];
         this.general = [];
@@ -26,16 +26,13 @@ class SemesterPage extends React.Component {
 
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.url.replace('/', '')}`;
-        fileSemester.get(this.state, this.props.match.url).then((data) => {
-            if (data.requestStatus === RequestStatus.Success) {
-                this.informatique = data.data.filter(data => data.type === 1);
-                this.general = data.data.filter(data => data.type === 2);
+        fileSemester.get(this.state, this.props.match.url).then((value) => {
+            if (value.requestStatus === RequestStatus.Success) {
+                this.informatique = value.data.data.filter(data => data.type === 1);
+                this.general = value.data.data.filter(data => data.type === 2);
             }
             this.setState({ requestStatus: RequestStatus.Success });
         });
-        user.permission({}, {
-            grade: UserPerm.Admininstrator
-        }).then(({ data }) => this.setState({ perm: data }));
     }
 
     sortChange(event) {
@@ -79,12 +76,12 @@ class SemesterPage extends React.Component {
             <div className="container mt-3">
                 <h1 className="text-center mb-3">{this.props.match.url.replace('/', '')}</h1>
 
-                {this.state.perm && (
+                {this.state.data.permission && (
                     <div className="adding-zone">
                         <Link className="add-icon" to={{
                             pathname: `${this.props.match.url}/add`,
                             state: {
-                                Perm: this.state.perm
+                                Perm: this.state.data.permission
                             }
                         }}><img src={add_icon} alt="add icon" /></Link>
                         <small className="text-center mb-3">Ajouter des cours</small>
@@ -120,7 +117,7 @@ class SemesterPage extends React.Component {
                         <h3 className="mb-3 font-weight-bold">UE Informatique</h3>
                         {this.informatique.map((data) => (
                             <div className="displaycat" key={data.id}>
-                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
+                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.data.permission} remove={this.validateRemove} />
                             </div>
                         ))}
                     </div>
@@ -128,7 +125,7 @@ class SemesterPage extends React.Component {
                         <h3 className="mb-3 mt-5 font-weight-bold">UE Générale</h3>
                         {this.general.map((data) => (
                             <div className="displaycat" key={data.id}>
-                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.perm} remove={this.validateRemove} />
+                                <DisplayCategorie data={data} id={`${this.props.match.url}/${data.id}`} grade={this.state.data.permission} remove={this.validateRemove} />
                             </div>
                         ))}
                     </div>

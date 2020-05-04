@@ -6,12 +6,14 @@ async function getSemester(req, res) {
     const { semester } = req.params;
     if (user.connected(req, res))
         try {
-            let data = await request("select id, nom as title, description, color, type, (select count(*) as number from FICHIER where idCours like COURS.id and idsemestre = $1 and idFormation = $2) from cours where idsemestre = $1 and idformation = $2", [semester.replace("S", ""), req.session.idformation]);
-            for (let index = 0; index < data.length; index++) {
-                let temp = await request("select nom || ' ' || prenom as label from ASSURER_COURS inner join PROFESSEUR P on ASSURER_COURS.idProf = P.id where idCours like $1", [data[index].id]);
-                data[index].professor = temp;
+            let value = {};
+            value.permission = await user.permissions(req, undefined, 4);
+            value.data = await request("select id, nom as title, description, color, type, (select count(*) as number from FICHIER where idCours like COURS.id and idsemestre = $1 and idFormation = $2) from cours where idsemestre = $1 and idformation = $2", [semester.replace("S", ""), 1]);
+            for (let index = 0; index < value.data.length; index++) {
+                let temp = await request("select nom || ' ' || prenom as label from ASSURER_COURS inner join PROFESSEUR P on ASSURER_COURS.idProf = P.id where idCours like $1", [value.data[index].id]);
+                value.data[index].professor = temp;
             }
-            return res.status(200).send(data);
+            return res.status(200).send(value);
         } catch (e) {
             console.log(e);
             return res.status(500).send("Server Error");
