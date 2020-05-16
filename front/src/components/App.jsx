@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import user from '../actions/user'
 import { RequestStatus } from '../utils/consts'
+import account from '../actions/account'
 
 import Home from './router/Home'
 import AddChangelog from './router/AddChangelog'
@@ -28,8 +29,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      requestStatus: RequestStatus.Getting,
-      userState: user.isConnected
+      userState: user.isConnected()
     }
     this.webSocketConnection = this.webSocketConnection.bind(this);
   }
@@ -37,12 +37,17 @@ class App extends Component {
   ws = new WebSocket(URL)
 
   componentDidMount() {
+    this.createWebsocket();
+  }
+
+  createWebsocket() {
     try {
       this.ws.onopen = () => {
         // on connecting, do nothing but log it to the console
         console.log('connected');
 
-        this.webSocketConnection(this.state.userState, 1);
+        if (this.state.userState)
+          this.webSocketConnection(this.state.userState, 1);
       }
 
       this.ws.onmessage = evt => {
@@ -54,7 +59,7 @@ class App extends Component {
           title: data.message.title,
           duration: 10000,
           description: (
-            <div>
+            <div className="mr-3">
               <p style={{ whiteSpace: 'pre-line', marginBottom: 0 }} >{data.message.description}</p>
               {data.id === 1 && (
                 <div>
@@ -72,6 +77,21 @@ class App extends Component {
 
       this.ws.onclose = () => {
         console.log('disconnected');
+        Notification.error({
+          title: 'Vous avez été déconnecté du server',
+          duration: 0,
+          description: (
+            <div>
+              <p>Une erreur est survenu lors de la tentative de d'échange au serveur.</p>
+              <br />
+              <p>
+                Tentative de reconnexion
+                <span className="spinner-border spinner-border-sm ml-3" role="status" />
+              </p>
+            </div>
+          )
+        });
+        this.webSocketReconnect();
       }
 
     } catch (error) {
@@ -79,11 +99,31 @@ class App extends Component {
     }
   }
 
-  webSocketConnection(user, type) {
-    if (user && (type === 1 || !type))
-      this.ws.send(user);
+  webSocketReconnect(retry = 0) {
+    if (retry === 10)
+      return false;
+    if (this.ws.readyState !== 3) {
+      Notification.close();
+      this.webSocketConnection(this.state.userState);
+      account.login({}, {
+        username: this.state.userState.user,
+        password: this.state.userState.password
+      }).then((data) => {
+        if (data.requestStatus === RequestStatus.Success) {
+          this.webSocketConnection(this.state.userState, 2);
+        }
+      });
+      return this.createWebsocket();
+    }
+    this.ws = new WebSocket(URL);
+    setTimeout(() => this.webSocketReconnect(retry + 1), 5000);
+  }
+
+  webSocketConnection(value, type) {
+    if (value.user && (type === 1 || !type))
+      this.ws.send(value.user);
     if (type)
-      this.setState({ userState: user })
+      this.setState({ userState: value });
   }
 
   NoJSXPage() {
@@ -91,7 +131,7 @@ class App extends Component {
     return (
       <div className="text-center">
         <div className="fixed-center">
-          <img src={require('../assets/icons/error.png')} alt="Icon error" style={{ width: 256 }} />
+          <img src={require('../assets/icons/error.webp')} alt="Icon error" style={{ width: 256 }} />
         </div>
         <h2 className="fixed-center">Page Not Found</h2>
       </div>
@@ -111,7 +151,7 @@ class App extends Component {
           </div>
         )
       });
-    this.setState({ userState: undefined })
+    this.setState({ userState: undefined });
     props.history.push('/connexion');
   }
 
@@ -140,10 +180,10 @@ class App extends Component {
               <Route path='/home' component={Home} />
               <Route path='/disconnect' component={(props) => this.DisconnectPage(props)} />
               <Route path='/notification' component={NotificationPage} />
-              <Route path='/profile/:user' component={Profile} />
-              <Route path={`/:s1/:class/add`} component={AddClass} />
+              <Route path='/profile/:user' component={() => <Profile {...this.props} user={this.state.userState.user} />} />
+              <Route path={`/:s1/:class/add`} component={(props) => <AddClass {...props} user={this.state.userState.user} />} />
               <Route path={`/:s1/add`} component={AddSemester} />
-              <Route path={`/:s1/:class`} component={(props) => <ClassPage {...props} user={this.state.userState} />} />
+              <Route path={`/:s1/:class`} component={(props) => <ClassPage {...props} user={this.state.userState.user} />} />
 
               <React.Fragment>
                 <Route path={`/S1`} component={SemesterPage} />
@@ -154,7 +194,7 @@ class App extends Component {
 
             </Switch>
           )
-            : <Redirect path='' to='/connexion' />
+            : <h1>de</h1>
           }
 
         </Switch>

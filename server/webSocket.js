@@ -78,7 +78,6 @@ function userConnected(user, client) {
         this.connections[user] = {};
     }
     this.connections[user] = { user, client };
-
     this.verificationNotification(user);
 
     return null;
