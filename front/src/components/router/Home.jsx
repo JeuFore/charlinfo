@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import changelog from '../../actions/changelog'
 import { RequestStatus } from '../../utils/consts'
 
-import add_icon from '../../assets/icons/add-icon.png'
+import add_icon from '../../assets/icons/add-icon.webp'
 
 class Home extends React.Component {
     constructor(props) {

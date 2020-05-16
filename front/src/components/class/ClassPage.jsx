@@ -4,7 +4,7 @@ import DisplayUploadingFile from './DisplayUploadingFile'
 import fileClass from '../../actions/fileClass'
 import { RequestStatus, Color } from '../../utils/consts'
 
-import add_icon from '../../assets/icons/add-icon.png';
+import add_icon from '../../assets/icons/add-icon.webp';
 import alert from '../../assets/icons/alert-circle.svg';
 
 class DisplayClass extends React.Component {
@@ -27,7 +27,8 @@ class DisplayClass extends React.Component {
     componentDidMount() {
         document.title = `Charlinfo | ${this.props.match.params.class}`;
         fileClass.get(this.state, this.props.location.pathname.replace("S", "")).then((res) => {
-            this.title = res.data.title;
+            if (res.requestStatus === RequestStatus.Success)
+                this.title = res.data.title;
             this.setState(res.data);
         });
     }
@@ -80,7 +81,7 @@ class DisplayClass extends React.Component {
             aide = this.state.data.filter(data => data.type === 4);
             DM = this.state.data.filter(data => data.type === 5);
         }
-        
+
         return (
             <div className="d-flex flex-column">
                 <h1 className="text-center m-3">{this.title}</h1>

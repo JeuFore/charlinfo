@@ -24,14 +24,14 @@ class Connection extends React.Component {
 
     loginSubmit(event) {
         event.preventDefault();
-        this.props.ws(this.username);
+        this.props.ws({ user: this.username });
         account.login({}, {
             username: this.username,
             password: this.password
         }).then((data) => {
             if (data.requestStatus === RequestStatus.Success) {
-                account.token(this.username);
-                this.props.ws(this.username, 2);
+                account.token(this.username, this.password);
+                this.props.ws({ user: this.username, password: this.password }, 2);
                 this.props.history.push('/home');
             }
             else

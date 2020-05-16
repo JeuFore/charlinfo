@@ -17,5 +17,10 @@ export default {
     permission: function (store, params) {
         return httpRequest('/user/permission', 'post', store, params);
     },
-    isConnected: localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2')
+    isConnected: function () {
+        let value = {};
+        value.user = localStorage.getItem('eK#*iZ#Am5nqfo@Xk36&2');
+        value.password = localStorage.getItem('ZkuW8nAwQZ5G%2yHP7&@3');
+        return value;
+    }
 }

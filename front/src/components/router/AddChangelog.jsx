@@ -2,7 +2,7 @@ import React from 'react'
 import { RequestStatus } from '../../utils/consts'
 import fileClass from '../../actions/fileClass'
 
-import plus_icon from '../../assets/icons/plus.png'
+import plus_icon from '../../assets/icons/plus.webp'
 
 class AddClass extends React.Component {
     constructor(props) {

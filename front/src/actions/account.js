@@ -7,7 +7,8 @@ export default {
     signup: function (store, params) {
         return httpRequest('/account/signup', 'post', store, params);
     },
-    token: function (user) {
+    token: function (user, password) {
         localStorage.setItem('eK#*iZ#Am5nqfo@Xk36&2', user);
+        localStorage.setItem('ZkuW8nAwQZ5G%2yHP7&@3', password);
     }
 }

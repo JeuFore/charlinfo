@@ -4,7 +4,7 @@ import DisplayCategorie from './DisplayCategorie'
 import fileSemester from '../../actions/fileSemester'
 import { RequestStatus } from '../../utils/consts'
 
-import add_icon from '../../assets/icons/add-icon.png'
+import add_icon from '../../assets/icons/add-icon.webp'
 import alert from '../../assets/icons/alert-circle.svg'
 
 class SemesterPage extends React.Component {

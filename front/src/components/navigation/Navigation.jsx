@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import user from '../../actions/user'
 
-import logo from "../../assets/icons/home-icon.png"
-import profile from "../../assets/icons/user-icon.png"
+import logo from "../../assets/icons/home-icon.webp"
+import profile from "../../assets/icons/user-icon.webp"
 import notification from '../../assets/icons/bell.svg'
 
 class Navigation extends Component {
@@ -24,7 +24,7 @@ class Navigation extends Component {
                     <div className="navbar-right-text py-2">
                         <Link to='/disconnect' className="mr-3">Deconnexion</Link>
                         <Link to='/notification'><img src={notification} alt="Notication icon" className="mr-3" id="notification" style={{ width: 20, filter: "invert(1)" }} /></Link>
-                        <Link to={`/profile/${user.isConnected}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
+                        <Link to={`/profile/${user.isConnected().user}`}>Compte<img src={profile} alt="Profil icon" style={{ width: 32, marginLeft: 15 }} /></Link>
                     </div>
                 </div>
             </nav>

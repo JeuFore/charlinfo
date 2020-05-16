@@ -5,7 +5,7 @@ import { Color } from '../../utils/consts'
 
 import { SelectPicker } from 'rsuite';
 
-import plus_icon from '../../assets/icons/plus.png'
+import plus_icon from '../../assets/icons/plus.webp'
 
 class AddSemester extends React.Component {
     constructor(props) {

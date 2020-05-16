@@ -1,8 +1,8 @@
 import React from 'react'
 import config from '../../utils/config'
 
-import remove_icon from '../../assets/icons/cancel.png'
-import arrow from '../../assets/icons/arrow-pointing-to-right.png'
+import remove_icon from '../../assets/icons/cancel.webp'
+import arrow from '../../assets/icons/arrow-pointing-to-right.webp'
 
 class DisplayUploadingFile extends React.Component {
     constructor(props) {

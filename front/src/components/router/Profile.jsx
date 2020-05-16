@@ -3,11 +3,11 @@ import user from '../../actions/user'
 import { RequestStatus } from '../../utils/consts'
 import { Link } from 'react-router-dom'
 
-import profile from "../../assets/icons/user-icon.png"
-import register_icon from "../../assets/icons/id-card.png"
-import uploading_icon from "../../assets/icons/uploading.png"
-import support_icon from "../../assets/icons/support.png"
-import logout_icon from "../../assets/icons/logout.png"
+import profile from "../../assets/icons/user-icon.webp"
+import register_icon from "../../assets/icons/id-card.webp"
+import uploading_icon from "../../assets/icons/uploading.webp"
+import support_icon from "../../assets/icons/support.webp"
+import logout_icon from "../../assets/icons/logout.webp"
 
 class Profile extends React.Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class Profile extends React.Component {
 
     componentDidMount() {
         document.title = 'Charlinfo | Profile';
-        user.get(this.state, this.props.match.params.user).then(({ requestStatus }) => this.setState({ requestStatus }));
+        user.get(this.state, this.props.user).then(({ requestStatus }) => this.setState({ requestStatus }));
     }
 
     render() {
