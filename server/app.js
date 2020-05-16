@@ -20,7 +20,6 @@ const wss = new WebSocket.Server({ port: 3030 });
 const websocketManager = new WebsocketManager(wss);
 websocketManager.init();
 
-
 //Body Parser
 const urlencodedParser = bodyParser.urlencoded({
   extended: true

@@ -194,7 +194,7 @@
     border-color: #fff;
 }
 
-.rs-picker-select-menu{
+.fade.in {
     opacity: 1!important;
 }
 
@@ -234,9 +234,6 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         transition: all 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    }
-    .rs-notification > div{
-        width: 300px;
     }
   }
 
