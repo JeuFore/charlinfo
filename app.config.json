@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "charlinfo",
+      "script": "npm run test"
+    }
+  ]
+}

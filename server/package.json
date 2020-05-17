@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start-dev": "node ./bin/www",
-    "start": "pm2 start ./bin/www --name='server'",
+    "start": "node ./bin/www",
     "restart": "pm2 restart server",
     "stop": "pm2 stop server"
   },

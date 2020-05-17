@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "pm2 start app.config.json",
+    "start": "serve -s build",
     "stop": "pm2 stop front",
     "restart": "pm2 restart front"
   },
